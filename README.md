@@ -45,7 +45,8 @@ ladok3.password=
 
 The image can be started with 
 
-```docker run \
+```
+docker run \
     --env-file environment\
     -v /Users/username/some/dir:/opt/data
     kthse/integral-mecenat-integration:latest
@@ -84,7 +85,7 @@ mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file\
 
 ### Building
 
-Complete build and testing is run with maven: ```mvn clean install docker:build```
+Complete build and testing is run with maven: `mvn clean install docker:build`
 
 Pre built docker images are available on public docker hub as kthse/integral-mecenat-integration.
 
