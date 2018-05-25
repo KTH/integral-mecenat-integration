@@ -1,0 +1,10 @@
+/target
+/bin
+/.settings
+/.classpath
+/application.properties
+/pom.xml.versionsBackup
+/*.log
+/*.log.*
+*~
+/environment
