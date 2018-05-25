@@ -48,7 +48,8 @@ The image can be started with
 ```docker run \
     --env-file environment\
     -v /Users/username/some/dir:/opt/data
-    kthse/integral-mecenat-integration:latest```
+    kthse/integral-mecenat-integration:latest
+```
 
 using an environment file for the above settings. There is a skeleton available in environment.in.
 
