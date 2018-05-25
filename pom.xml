@@ -15,6 +15,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <spring.boot-version>1.5.12.RELEASE</spring.boot-version>
+    <build>dev</build>
   </properties>
 
   <dependencyManagement>
@@ -163,8 +164,7 @@
           <image>kthse/${project.artifactId}</image>
           <newName>kthse/${project.artifactId}</newName>
           <useConfigFile>true</useConfigFile>
-<!--      <noCache>true</noCache>-->
-      <pullOnBuild>true</pullOnBuild>
+          <pullOnBuild>true</pullOnBuild>
           <imageTags>
             <imageTag>latest</imageTag>
             <imageTag>${project.version}-${build}</imageTag>
