@@ -52,10 +52,14 @@ public class MecenatRouter extends RouteBuilder {
             .setHeader("startDatum").constant("2017-08-28")
             .setHeader("slutDatum").constant("2018-01-14")
 
+            // TODO: reda ut exakta frågor, eventuellt aggregera flera frågor.
             .to("sql:classpath:sql/mecenat.sql")
             .to("log:se.kth.integral.mecenat?level=DEBUG")
 
+            // TODO: hur ska formatet exakt vara?
             .marshal().csv()
+
+            // TODO: var ska vi stoppa filen?
             .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&bufferSize=128000000");
             ;
     }

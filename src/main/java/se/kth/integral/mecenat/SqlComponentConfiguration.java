@@ -45,7 +45,7 @@ public class SqlComponentConfiguration {
     private String url;
     private String driver;
 
-    // Configurations with defaults.s
+    // Configurations with defaults.
     private int timeBetweenEvitionRunsMillis = 10000;
     private int minEvictableIdleTimeMillis = 30000;
     private int maxWaitMillis = 60000;
