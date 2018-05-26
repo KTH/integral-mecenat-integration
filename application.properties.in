@@ -13,5 +13,9 @@ ladok3.username=
 ladok3.password=
 
 # Optional:
-# A cron-lile expression for the 
+# A cron-like expression for the quartz trigger.
 # ladok3.cron=*/10 * * * * ?
+
+# Optional:
+# The directory to write files to
+# ladok3.output.dir=/opt/data/mecenat

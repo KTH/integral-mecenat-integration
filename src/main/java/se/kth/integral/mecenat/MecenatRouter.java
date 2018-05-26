@@ -56,7 +56,7 @@ public class MecenatRouter extends RouteBuilder {
             .to("log:se.kth.integral.mecenat?level=DEBUG")
 
             .marshal().csv()
-            .to("file:///Users/fjo/tmp/mecenat?fileName=mecenat-${date:now:yyyyMMdd}.txt&bufferSize=128000000");
+            .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&bufferSize=128000000");
             ;
     }
 }

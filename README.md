@@ -29,6 +29,7 @@ files needs to be amended using either properties or environment variables.
 | ladok3.username | LADOK3_USERNAME   | The ladok3 database user, required | |
 | ladok3.password | LADOK3_PASSWORD   | The ladok3 database password, required | |
 | ladok3.cron | LADOK3_CRON   | A cron-like quartz trigger expression, optional | \*/10+\*+\*+\*+\*+? |
+| ladok3.output.dir | LADOK3_OUTPUT_DIR | The directory to write files to, optional | /opt/data/mecenat |
 | ladok3.cert | LADOK3_CERT   | Path of file containing the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
 | ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate, optional | /run/secrets/ladok3-user.crt |
 | ladok3.ca | LADOK3_CA   | Path of file containing chain information for server verification (currently unused), optional | /run/secrets/ca-chain.crt |
