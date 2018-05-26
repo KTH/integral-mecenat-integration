@@ -60,6 +60,8 @@ can be configured at runtime with properties in application.properties. Note tha
 Properties are of standard log4j like type, with the package name and level, prefixed by
 `logging.level`, e.g., `logging.level.se.kth.integral=DEBUG`. See example above.
 
+This application uses [Bunyan JSON](https://github.com/trentm/node-bunyan) formatting for
+logs. To change this you need to remove the logback-spring.xml file and build yourself.
 
 ### Running the container without a swarm
 
