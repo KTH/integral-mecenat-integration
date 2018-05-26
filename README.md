@@ -63,7 +63,13 @@ Properties are of standard log4j like type, with the package name and level, pre
 This application uses [Bunyan JSON](https://github.com/trentm/node-bunyan) formatting for
 logs. To change this you need to remove the logback-spring.xml file and build yourself.
 
-### Running the container without a swarm
+### Certificate
+
+Certificate is assumed to be generated according to the instructions used by Ladok3 as of
+this writing. Note that the key has to be unencrypted. In case it is, the password can be
+removed with openssl `openssl rsa -in [file1.key] -out [file2.key]`.
+
+## Running the container without a swarm
 
 The image can be started with 
 
