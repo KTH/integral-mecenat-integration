@@ -55,8 +55,8 @@ public class MecenatRouter extends RouteBuilder {
             .to("sql:classpath:sql/mecenat.sql")
             .to("log:se.kth.integral.mecenat?level=DEBUG")
 
-            // transform to text
-            // .to("file:///Users/fjo/tmp/mecenat?fileName=mecenat-${date:now:yyyyMMdd}.txt&bufferSize=128000000");
+            .marshal().csv()
+            .to("file:///Users/fjo/tmp/mecenat?fileName=mecenat-${date:now:yyyyMMdd}.txt&bufferSize=128000000");
             ;
     }
 }
