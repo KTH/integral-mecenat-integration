@@ -23,6 +23,7 @@
  */
 package se.kth.integral.mecenat;
 
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -37,10 +38,25 @@ public class MecenatRouter extends RouteBuilder {
 
         from("quartz://mecenat?cron={{ladok3.cron}}&trigger.timeZone=Europe/Stockholm")
             .routeId("se.kth.integral.mecenat")
+
+            .errorHandler(
+                    defaultErrorHandler()
+                    .redeliveryDelay(1000)
+                    .maximumRedeliveries(6)
+                    .retryAttemptedLogLevel(LoggingLevel.WARN))
+
             .setHeader("today").simple("${date:now:yyyy-MM-dd}")
+
+            // TODO: hur räknar vi ut de här?
+            .setHeader("termin").constant("20172")
             .setHeader("startDatum").constant("2017-08-28")
             .setHeader("slutDatum").constant("2018-01-14")
-            .to("sql:classpath:sql/students.sql")
-            .to("log:se.kth.integral.mecenat");
+
+            .to("sql:classpath:sql/mecenat.sql")
+            .to("log:se.kth.integral.mecenat?level=DEBUG")
+
+            // transform to text
+            // .to("file:///Users/fjo/tmp/mecenat?fileName=mecenat-${date:now:yyyyMMdd}.txt&bufferSize=128000000");
+            ;
     }
 }

@@ -1,3 +1,6 @@
+--
+-- Hämtar studieperioder.
+--
 select distinct 
     min(FORSTA_UNDERVISNINGSDATUM) as START_DATUM,
     max(SISTA_UNDERVISNINGSDATUM) as SLUT_DATUM
