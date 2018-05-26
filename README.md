@@ -29,9 +29,9 @@ files needs to be amended using either properties or environment variables.
 | ladok3.username | LADOK3_USERNAME   | The ladok3 database user, required | |
 | ladok3.password | LADOK3_PASSWORD   | The ladok3 database password, required | |
 | ladok3.cron | LADOK3_CRON   | A cron-like quartz trigger expression, optional | \*/10+\*+\*+\*+\*+? |
-| ladok3.cert | LADOK3_CERT   | Path of file containing the ladok3 user certificate | /run/secrets/ladok3-user.crt |
-| ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate | /run/secrets/ladok3-user.crt |
-| ladok3.ca | LADOK3_CA   | Path of file containing chain information for server verification (currently unused) | /run/secrets/ca-chain.crt |
+| ladok3.cert | LADOK3_CERT   | Path of file containing the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
+| ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate, optional | /run/secrets/ladok3-user.crt |
+| ladok3.ca | LADOK3_CA   | Path of file containing chain information for server verification (currently unused), optional | /run/secrets/ca-chain.crt |
 
 ### Example
 
@@ -41,12 +41,9 @@ A skeleton is available in application.properties.in.
 ```
 # application.properties
 #
-
-# Ladok3 upppföljningsdatabas
-
-ladok3.database=
-ladok3.username=
-ladok3.password=
+ladok3.database=ufliusd
+ladok3.username=lkasjda
+ladok3.password=lSAJasdkASDD
 
 # Log configuration, examples
 # logging.level.org.apache.camel=DEBUG
