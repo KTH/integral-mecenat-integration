@@ -2,13 +2,12 @@ FROM openjdk:8-jre-alpine
 
 RUN apk --no-cache add stunnel
 
-# Jolokia management and discovery, and application ports
-# EXPOSE 8181 24884 8080 4443
-
+# Configurations without defaults.
 #ENV LADOK3_DATABASE
 #ENV LADOK3_USERNAME
 #ENV LADOK3_PASSWORD
 
+# Configurations with defaults.
 ENV LADOK3_CERT=/run/secrets/ladok3-user.crt
 ENV LADOK3_CERT_KEY=/run/secrets/ladok3-user.key
 ENV LADOK3_CA=/run/secrets/ca-chain.pem

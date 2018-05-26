@@ -33,9 +33,14 @@ import org.springframework.stereotype.Component;
 public class MecenatRouter extends RouteBuilder {
     @Override
     public void configure() {
-        from("quartz://mecenat?cron={{ladok3.cron}}&trigger.timeZone={{quartz.timezone}}")
+        System.setProperty("user.timezone", "Europe/Stockholm");
+
+        from("quartz://mecenat?cron={{ladok3.cron}}&trigger.timeZone=Europe/Stockholm")
             .routeId("se.kth.integral.mecenat")
-            .to("sql:select * from UPPFOLJNING.IO_STUDENTUPPGIFTER where PERSONNUMMER = '197103210170'")
+            .setHeader("today").simple("${date:now:yyyy-MM-dd}")
+            .setHeader("startDatum").constant("2017-08-28")
+            .setHeader("slutDatum").constant("2018-01-14")
+            .to("sql:classpath:sql/students.sql")
             .to("log:out");
     }
 }
