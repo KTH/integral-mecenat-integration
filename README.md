@@ -33,11 +33,6 @@ files needs to be amended using either properties or environment variables.
 | ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate | /run/secrets/ladok3-user.crt |
 | ladok3.ca | LADOK3_CA   | Path of file containing chain information for server verification (currently unused) | /run/secrets/ca-chain.crt |
 
-ENV LADOK3_CERT=/run/secrets/ladok3-user.crt
-ENV LADOK3_CERT_KEY=/run/secrets/ladok3-user.key
-ENV LADOK3_CA=/run/secrets/ca-chain.pem
-
-
 ### Example
 
 Below are the settings required for the application to work. Additional settings can be made.
