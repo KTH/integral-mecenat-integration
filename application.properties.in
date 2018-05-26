@@ -1,0 +1,17 @@
+# Ladok3 configuration.
+
+# Required:
+# The database name
+ladok3.database=
+
+# Required:
+# The username for the database
+ladok3.username=
+
+# Required:
+# The password of the user
+ladok3.password=
+
+# Optional:
+# A cron-lile expression for the 
+# ladok3.cron=*/10 * * * * ?

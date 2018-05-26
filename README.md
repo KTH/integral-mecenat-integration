@@ -13,18 +13,35 @@ The configuration can (mostly) also be specified as environment variables, where
 sql.database is expressed as the environment variable SQL_DATABASE. You can use combinations
 of properties and environment.
 
-### Logging
+In a docker swarm environment it is suggested to supply application.properties and certificate
+files using the docker secret mechanism, which means that they will be visible in /run/secrets
+from the container.
 
-Logging is done with spring-boot default logger, [logback](https://logback.qos.ch/), and
-can be configured at runtime with properties in application.properties. Note that it is
-not possible to set these with environment variables due to case mangling issues.
+If you are not using docker swarm the certificate files and configuration can instead 
+be exposed by a volume mounted at /opt/data in the container. Paths to the certificate
+files needs to be amended using either properties or environment variables.
 
-Properties are of standard log4j like type, with the package name and level, prefixed by
-`logging.level`, e.g., `logging.level.se.kth.integral=DEBUG`. See example below.
+### Settings reference
+
+| property     | environment   | description    | default          |
+|--------------|---------------|----------------|------------------|
+| ladok3.database | LADOK3_DATABASE   | The ladok3 database name, required | |
+| ladok3.username | LADOK3_USERNAME   | The ladok3 database user, required | |
+| ladok3.password | LADOK3_PASSWORD   | The ladok3 database password, required | |
+| ladok3.cron | LADOK3_CRON   | A cron-like quartz trigger expression, optional | */10+*+*+*+*+? |
+| ladok3.cert | LADOK3_CERT   | Path of file containing the ladok3 user certificate | /run/secrets/ladok3-user.crt |
+| ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate | /run/secrets/ladok3-user.crt |
+| ladok3.ca | LADOK3_CA   | Path of file containing chain information for server verification (currently unused) | /run/secrets/ca-chain.crt |
+
+ENV LADOK3_CERT=/run/secrets/ladok3-user.crt
+ENV LADOK3_CERT_KEY=/run/secrets/ladok3-user.key
+ENV LADOK3_CA=/run/secrets/ca-chain.pem
+
 
 ### Example
 
 Below are the settings required for the application to work. Additional settings can be made.
+A skeleton is available in application.properties.in.
 
 ```
 # application.properties
@@ -41,7 +58,17 @@ ladok3.password=
 # logging.level.se.kth.integral=DEBUG
 ```
 
-### Docker environment
+### Logging
+
+Logging is done with spring-boot default logger, [logback](https://logback.qos.ch/), and
+can be configured at runtime with properties in application.properties. Note that it is
+*not* possible to set these with environment variables due to case mangling issues.
+
+Properties are of standard log4j like type, with the package name and level, prefixed by
+`logging.level`, e.g., `logging.level.se.kth.integral=DEBUG`. See example above.
+
+
+### Running the container without a swarm
 
 The image can be started with 
 

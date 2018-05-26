@@ -41,6 +41,6 @@ public class MecenatRouter extends RouteBuilder {
             .setHeader("startDatum").constant("2017-08-28")
             .setHeader("slutDatum").constant("2018-01-14")
             .to("sql:classpath:sql/students.sql")
-            .to("log:out");
+            .to("log:se.kth.integral.mecenat");
     }
 }
