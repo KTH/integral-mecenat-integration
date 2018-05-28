@@ -10,7 +10,6 @@ RUN apk --no-cache add stunnel
 # Configurations with defaults.
 ENV LADOK3_CERT=/run/secrets/ladok3-user.crt
 ENV LADOK3_CERT_KEY=/run/secrets/ladok3-user.key
-ENV LADOK3_CA=/run/secrets/ca-chain.pem
 ENV LADOK3_CRON=*/10+*+*+*+*+?
 ENV LADOK3_OUTPUT_DIR=/opt/data/mecenat
 

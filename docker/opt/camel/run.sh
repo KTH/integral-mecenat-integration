@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
 
-cp -f "${LADOK3_CA:?}" /opt/camel/etc/ca-chain.pem && chmod 600 /opt/camel/etc/ca-chain.pem
 cp -f "${LADOK3_CERT:?}" /opt/camel/etc/ladok3-user.crt && chmod 600 /opt/camel/etc/ladok3-user.crt
 cp -f "${LADOK3_CERT_KEY:?}" /opt/camel/etc/ladok3-user.key && chmod 600 /opt/camel/etc/ladok3-user.key
 

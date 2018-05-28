@@ -32,7 +32,6 @@ files needs to be amended using either properties or environment variables.
 | ladok3.output.dir | LADOK3_OUTPUT_DIR | The directory to write files to, optional | /opt/data/mecenat |
 | ladok3.cert | LADOK3_CERT   | Path of file containing the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
 | ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate, optional | /run/secrets/ladok3-user.crt |
-| ladok3.ca | LADOK3_CA   | Path of file containing chain information for server verification (currently unused), optional | /run/secrets/ca-chain.crt |
 
 ### Example
 
@@ -68,6 +67,8 @@ logs. To change this you need to remove the logback-spring.xml file and build yo
 Certificate is assumed to be generated according to the instructions used by Ladok3 as of
 this writing. Note that the key has to be unencrypted. In case it is, the password can be
 removed with openssl `openssl rsa -in [file1.key] -out [file2.key]`.
+
+Certificate of server is verified by stunnel against included public CA chain for Terena 3 CA.
 
 ## Running the container without a swarm
 

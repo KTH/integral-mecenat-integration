@@ -24,7 +24,3 @@ LADOK3_CERT=
 # Optional:
 # The path to a file containing the certificate key (unencrypted).
 LADOK3_CERT_KEY=
-
-# Optional:
-# The path to a file containing CA chain for the server.
-LADOK3_CA=
