@@ -1,5 +1,11 @@
 --
--- Hämtar studie perioder.
+-- Hämtar studie perioder, plockad från Ladok3 wiki och parametriserad
+-- https://confluence.its.umu.se/confluence/display/LDSV/Generera+fil+till+Mecenat
+--
+-- Behöver headrar:
+-- 'termin' = '20172'
+-- 'startDatum' = '2017-08-28'
+-- 'slutDatum' = '2018-01-14'
 --
 SELECT
   DISTINCT

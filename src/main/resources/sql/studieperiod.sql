@@ -1,5 +1,5 @@
 --
--- Hämtar studieperioder.
+-- Hämtar studieperioder. Är det användbart?
 --
 select distinct 
     min(FORSTA_UNDERVISNINGSDATUM) as START_DATUM,
