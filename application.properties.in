@@ -1,0 +1,21 @@
+# Ladok3 configuration.
+
+# Required:
+# The database name
+ladok3.database=
+
+# Required:
+# The username for the database
+ladok3.username=
+
+# Required:
+# The password of the user
+ladok3.password=
+
+# Optional:
+# A cron-like expression for the quartz trigger.
+# ladok3.cron=*/10 * * * * ?
+
+# Optional:
+# The directory to write files to
+# ladok3.output.dir=/opt/data/mecenat

@@ -1,11 +1,26 @@
 # Ladok3 configuration
 # 
+
+# Required:
+# Ladok3 database name
 LADOK3_DATABASE=
+
+# Required:
+# Ladok3 database user
 LADOK3_USERNAME=
+
+# Required:
+# Ladok3 password of the user
 LADOK3_PASSWORD=
 
-LADOK3_CERT=
-LADOK3_CERT_KEY=
-LADOK3_CA=
+# Optional:
+# A cron-like quartz time trigger expression.
+# LADOK3_CRON=*/10+*+*+*+*+?
 
-LADOK3_CRON=*/10+*+*+*+*+?
+# Optional:
+# The path to a file containing the user certificate for ladok3.
+LADOK3_CERT=
+
+# Optional:
+# The path to a file containing the certificate key (unencrypted).
+LADOK3_CERT_KEY=
