@@ -53,15 +53,15 @@ public class MecenatRouter extends RouteBuilder {
             .setHeader("today").simple("${date:now:yyyy-MM-dd}")
 
             .log(LoggingLevel.DEBUG, "Hämtar termin, start- och slutdatum från Ladok3.")
-            .to("sql:classpath:sql/nuvarande_termin.sql")
+            .to("sql:classpath:sql/nuvarande_termin.sql?dataSource=uppfoljningsDB")
             .process(startDateProcessor)
 
-            .to("sql:classpath:sql/nasta_termin.sql")
+            .to("sql:classpath:sql/nasta_termin.sql?dataSource=uppfoljningsDB")
             .process(endDateProcessor )
 
             // TODO: reda ut exakta frågor, eventuellt aggregera flera frågor.
             .log(LoggingLevel.DEBUG, "Hämtar data från Ladok3 för ${header.startDatum} - ${header.slutDatum}.")
-            .to("sql:classpath:sql/mecenat.sql")
+            .to("sql:classpath:sql/mecenat.sql?dataSource=uppfoljningsDB")
 
             // TODO: hur ska formatet exakt vara?
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
