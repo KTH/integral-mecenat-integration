@@ -49,11 +49,9 @@ public class MecenatRouter extends RouteBuilder {
                     .maximumRedeliveries(6)
                     .retryAttemptedLogLevel(LoggingLevel.WARN))
 
+            .log("Påbörjar Mecenat filexport.")
             .setHeader("today").simple("${date:now:yyyy-MM-dd}")
 
-            .log("Påbörjar Mecenat filexport.")
-
-            // TODO: hur räknar vi ut de här?
             .log(LoggingLevel.DEBUG, "Hämtar termin, start- och slutdatum från Ladok3.")
             .to("sql:classpath:sql/nuvarande_termin.sql")
             .process(startDateProcessor)
@@ -61,20 +59,16 @@ public class MecenatRouter extends RouteBuilder {
             .to("sql:classpath:sql/nasta_termin.sql")
             .process(endDateProcessor )
 
-            .log(LoggingLevel.DEBUG,
-                    "Hämtar data från Ladok3 uppföljningsdatabas for ${header.termin}: ${header.startDatum} - ${header.slutDatum}.")
-
             // TODO: reda ut exakta frågor, eventuellt aggregera flera frågor.
+            .log(LoggingLevel.DEBUG, "Hämtar data från Ladok3 för ${header.startDatum} - ${header.slutDatum}.")
             .to("sql:classpath:sql/mecenat.sql")
 
-            .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
-
             // TODO: hur ska formatet exakt vara?
+            .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
             .marshal().csv()
 
-            .log(LoggingLevel.DEBUG, "Skriver exportfil.")
-
             // TODO: var ska vi stoppa filen? Vad ska den heta?
+            .log(LoggingLevel.DEBUG, "Skriver exportfil.")
             .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt")
 
             .log("Mecenat fil export klar.");
