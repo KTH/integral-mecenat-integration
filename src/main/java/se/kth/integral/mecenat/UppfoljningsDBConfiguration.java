@@ -25,21 +25,19 @@ package se.kth.integral.mecenat;
 
 import javax.sql.DataSource;
 
-import org.apache.camel.component.sql.SqlComponent;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 /**
- * Configuration class for an SQL component connection to an SQL database source.
- * Uses properties prefixed with sql.
+ * Configuration class for an SQL database source.
+ * Uses properties prefixed with jdbc.
  */
 @Configuration
-@ConfigurationProperties(prefix = "sql")
-public class SqlComponentConfiguration {
+@ConfigurationProperties(prefix = "jdbc")
+public class UppfoljningsDBConfiguration {
     private String username;
     private String password;
     private String url;
@@ -51,17 +49,7 @@ public class SqlComponentConfiguration {
     private int maxWaitMillis = 60000;
 
     @Primary
-    @Bean(name = "sql")
-    public SqlComponent sql(
-        @Qualifier("datasource") DataSource datasource) {
-
-        SqlComponent sql = new SqlComponent();
-        sql.setDataSource(datasource);
-        return sql;
-    }
-
-    @Primary
-    @Bean(name = "datasource")
+    @Bean(name = "uppfoljningsDB")
     public DataSource dataSource() {
         BasicDataSource datasource = new BasicDataSource();
         datasource.setUrl(url);

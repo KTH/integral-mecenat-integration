@@ -24,6 +24,7 @@
 package se.kth.integral.mecenat;
 
 import org.apache.camel.LoggingLevel;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MecenatRouter extends RouteBuilder {
+    private Processor startDateProcessor = new StartDateProcessor();
+    private Processor endDateProcessor = new EndDateProcessor();
+
     @Override
     public void configure() {
         System.setProperty("user.timezone", "Europe/Stockholm");
@@ -45,22 +49,28 @@ public class MecenatRouter extends RouteBuilder {
                     .maximumRedeliveries(6)
                     .retryAttemptedLogLevel(LoggingLevel.WARN))
 
+            .log("Påbörjar Mecenat filexport.")
             .setHeader("today").simple("${date:now:yyyy-MM-dd}")
 
-            // TODO: hur räknar vi ut de här?
-            .setHeader("termin").constant("20172")
-            .setHeader("startDatum").constant("2017-08-28")
-            .setHeader("slutDatum").constant("2018-01-14")
+            .log(LoggingLevel.DEBUG, "Hämtar termin, start- och slutdatum från Ladok3.")
+            .to("sql:classpath:sql/nuvarande_termin.sql?dataSource=uppfoljningsDB")
+            .process(startDateProcessor)
+
+            .to("sql:classpath:sql/nasta_termin.sql?dataSource=uppfoljningsDB")
+            .process(endDateProcessor )
 
             // TODO: reda ut exakta frågor, eventuellt aggregera flera frågor.
-            .to("sql:classpath:sql/mecenat.sql")
-            .to("log:se.kth.integral.mecenat?level=DEBUG")
+            .log(LoggingLevel.DEBUG, "Hämtar data från Ladok3 för ${header.startDatum} - ${header.slutDatum}.")
+            .to("sql:classpath:sql/mecenat.sql?dataSource=uppfoljningsDB")
 
             // TODO: hur ska formatet exakt vara?
+            .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
             .marshal().csv()
 
-            // TODO: var ska vi stoppa filen?
-            .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&bufferSize=128000000");
-            ;
+            // TODO: var ska vi stoppa filen? Vad ska den heta?
+            .log(LoggingLevel.DEBUG, "Skriver exportfil.")
+            .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt")
+
+            .log("Mecenat fil export klar.");
     }
 }
