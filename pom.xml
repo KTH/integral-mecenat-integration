@@ -30,7 +30,7 @@
   <groupId>se.kth.integral</groupId>
   <artifactId>integral-mecenat-integration</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
 
   <name>A Camel Spring Boot Route</name>
 
