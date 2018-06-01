@@ -33,8 +33,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MecenatRouter extends RouteBuilder {
-    private Processor startDateProcessor = new StartDateProcessor();
-    private Processor endDateProcessor = new EndDateProcessor();
+    private Processor termStartDateProcessor = new TermStartDateProcessor();
+    private Processor termEndDateProcessor = new TermEndDateProcessor();
+    private Processor halfyearDateProcessor = new HalfYearDateProcessor();
 
     @Override
     public void configure() {
@@ -54,13 +55,17 @@ public class MecenatRouter extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Hämtar termin, start- och slutdatum från Ladok3.")
             .to("sql:classpath:sql/nuvarande_termin.sql?dataSource=uppfoljningsDB")
-            .process(startDateProcessor)
+            .process(termStartDateProcessor)
 
             .to("sql:classpath:sql/nasta_termin.sql?dataSource=uppfoljningsDB")
-            .process(endDateProcessor )
+            .process(termEndDateProcessor)
+
+            .log(LoggingLevel.DEBUG, "Hämtar halvår, start- och slutdatum från Ladok3.")
+            .to("sql:classpath:sql/nuvarande_halvar.sql?dataSource=uppfoljningsDB")
+            .process(halfyearDateProcessor)
 
             // TODO: reda ut exakta frågor, eventuellt aggregera flera frågor.
-            .log(LoggingLevel.DEBUG, "Hämtar data från Ladok3 för ${header.startDatum} - ${header.slutDatum}.")
+            .log("Hämtar registreringar för ${header.terminText} ${header.terminStartDatum}:${header.terminSlutDatum}.")
             .to("sql:classpath:sql/mecenat.sql?dataSource=uppfoljningsDB")
 
             // TODO: hur ska formatet exakt vara?

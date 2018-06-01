@@ -10,7 +10,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 
-public class StartDateProcessor implements Processor {
+public class TermStartDateProcessor implements Processor {
     private SimpleDateFormat ladokDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @SuppressWarnings("unchecked")
@@ -25,9 +25,11 @@ public class StartDateProcessor implements Processor {
 
         String periodKod = ((String) result.get(0).get("PERIOD_KOD")).trim();
 
-        in.setHeader("termin", StartDateProcessor.ladok2Termin(periodKod));
+        in.setHeader("termin", TermStartDateProcessor.ladok2Termin(periodKod));
         Date startDate = (Date) result.get(0).get("STARTDATUM");
-        in.setHeader("startDatum", ladokDateFormat.format(startDate));
+        in.setHeader("terminStartDatum", ladokDateFormat.format(startDate));
+
+        in.setHeader("terminText", ((String) result.get(0).get("PERIOD_SV")).trim());
     }
 
     public static String ladok2Termin(String ladok3Termin) throws IllegalArgumentException {

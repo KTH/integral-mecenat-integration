@@ -11,7 +11,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 
-public class EndDateProcessor implements Processor {
+public class TermEndDateProcessor implements Processor {
     private SimpleDateFormat LADOK_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private Calendar calendar = Calendar.getInstance();
 
@@ -28,6 +28,6 @@ public class EndDateProcessor implements Processor {
         Date endDate = (Date) result.get(0).get("STARTDATUM");
         calendar.setTime(endDate);
         calendar.add(Calendar.DAY_OF_MONTH, -1);
-        in.setHeader("slutDatum", LADOK_DATE_FORMAT.format(calendar.getTime()));
+        in.setHeader("terminSlutDatum", LADOK_DATE_FORMAT.format(calendar.getTime()));
     }
 }
