@@ -1,5 +1,12 @@
 # Release notes
 
+## 0.0.3
+
+No hard coded data.
+
+* Hard coded values for term and intervals are removed.
+* Configure data source rather than sql component.
+
 ## 0.0.2
 
 Somewhat more complete working skeleton for workshop 2018-05-31.
