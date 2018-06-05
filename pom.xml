@@ -93,7 +93,7 @@
 <!--     </dependency> -->
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-csv</artifactId>
+      <artifactId>camel-bindy</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>

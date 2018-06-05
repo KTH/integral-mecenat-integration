@@ -23,9 +23,14 @@
  */
 package se.kth.integral.mecenat;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
+import org.apache.camel.util.toolbox.AggregationStrategies;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,11 +40,14 @@ import org.springframework.stereotype.Component;
 public class MecenatRouter extends RouteBuilder {
     private Processor termStartDateProcessor = new TermStartDateProcessor();
     private Processor termEndDateProcessor = new TermEndDateProcessor();
-    private Processor halfyearDateProcessor = new HalfYearDateProcessor();
+    private Processor halfYearDateProcessor = new HalfYearDateProcessor();
 
     @Override
     public void configure() {
         System.setProperty("user.timezone", "Europe/Stockholm");
+
+        BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.MecenatCSVRecord.class);
+        mecenatCsvFormat.setLocale("sv_SE");
 
         from("quartz://mecenat?cron={{ladok3.cron}}&trigger.timeZone=Europe/Stockholm")
             .routeId("se.kth.integral.mecenat")
@@ -62,20 +70,26 @@ public class MecenatRouter extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Hämtar halvår, start- och slutdatum från Ladok3.")
             .to("sql:classpath:sql/nuvarande_halvar.sql?dataSource=uppfoljningsDB")
-            .process(halfyearDateProcessor)
+            .process(halfYearDateProcessor)
 
             // TODO: reda ut exakta frågor, eventuellt aggregera flera frågor.
             .log("Hämtar registreringar för ${header.terminText} ${header.terminStartDatum}:${header.terminSlutDatum}.")
             .to("sql:classpath:sql/mecenat.sql?dataSource=uppfoljningsDB")
+            .split(body())
+                .process(new SqlToMecenatRecordProcessor())
+            .aggregate(AggregationStrategies.flexible(MecenatCSVRecord.class)
+                .accumulateInCollection(ArrayList.class)
+                .pick(simple("${body}")))
+                .constant(true).completionSize(simple("${header.CamelSqlRowCount}"))
 
-            // TODO: hur ska formatet exakt vara?
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
-            .marshal().csv()
+            .marshal(mecenatCsvFormat)
 
             // TODO: var ska vi stoppa filen? Vad ska den heta?
             .log(LoggingLevel.DEBUG, "Skriver exportfil.")
-            .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt")
+            .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&charset=Windows-1252")
 
-            .log("Mecenat fil export klar.");
+            .log("Mecenat fil export klar.")
+            .end();
     }
 }
