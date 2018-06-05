@@ -29,7 +29,7 @@ public class SqlToMecenatRecordProcessor implements Processor {
         }
 
         mecenatRecord.setOrt((String) sqlResult.get("postort"));
-
+        mecenatRecord.setPostnummer((String) sqlResult.get("postnummer"));
         mecenatRecord.setStudieomfattning((BigDecimal) sqlResult.get("REGISTRERING_OMFATTNING_PROCENT"));
         mecenatRecord.setTermin(ExchangeHelper.getMandatoryHeader(exchange, "termin", String.class));
         mecenatRecord.setStudieperiodStart((Date) sqlResult.get("STUDIEPERIOD_STARTDATUM"));

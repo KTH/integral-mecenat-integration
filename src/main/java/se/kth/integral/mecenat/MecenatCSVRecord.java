@@ -26,41 +26,44 @@ public class MecenatCSVRecord {
     @DataField(pos = 5, trim = true, length = 50, clip = true)
     private String gatuadress;
 
-    @DataField(pos = 6, trim = true, length = 50, clip = true)
+    @DataField(pos = 6, trim = true, length = 10, clip = true)
+    private String postnummer;
+
+    @DataField(pos = 7, trim = true, length = 50, clip = true)
     private String ort;
 
     // Ska vara tom om land är Sverige.
-    @DataField(pos = 7, trim = true, length = 50, clip = true)
+    @DataField(pos = 8, trim = true, length = 50, clip = true)
     private String land;
 
-    @DataField(pos = 8, trim = true, length = 50, clip = true)
+    @DataField(pos = 9, trim = true, length = 50, clip = true)
     private String epost;
 
-    @DataField(pos = 9, length = 10, pattern = "yyyy-MM-dd", required = true)
+    @DataField(pos = 10, length = 10, pattern = "yyyy-MM-dd", required = true)
     private Date studieperiodStart;
 
-    @DataField(pos = 10, length = 10, pattern = "yyyy-MM-dd", required = true)
+    @DataField(pos = 11, length = 10, pattern = "yyyy-MM-dd", required = true)
     private Date studiePeriodSlut;
 
-    @DataField(pos = 11, length = 3, required = true, precision = 0)
+    @DataField(pos = 12, length = 3, required = true, precision = 0)
     private BigDecimal studieomfattning;
 
-    @DataField(pos = 12, length = 1, defaultValue = "0", required = true)
+    @DataField(pos = 13, length = 1, defaultValue = "0", required = true)
     private int karmedlem;
 
-    @DataField(pos = 13, length = 30, trim = true, clip = true)
+    @DataField(pos = 14, length = 30, trim = true, clip = true)
     private String sektion;
 
-    @DataField(pos = 14, length = 30, trim = true, clip = true)
+    @DataField(pos = 15, length = 30, trim = true, clip = true)
     private String fritext1;
 
-    @DataField(pos = 15, length = 30, trim = true, clip = true)
+    @DataField(pos = 16, length = 30, trim = true, clip = true)
     private String fritext2;
 
-    @DataField(pos = 16, length = 30, trim = true, clip = true)
+    @DataField(pos = 17, length = 30, trim = true, clip = true)
     private String fritext3;
 
-    @DataField(pos = 17, length = 5, required = true)
+    @DataField(pos = 18, length = 5, required = true)
     private String termin;
 
     public String getPersonnummer() {
@@ -101,6 +104,14 @@ public class MecenatCSVRecord {
 
     public void setGatuadress(String gatuadress) {
         this.gatuadress = gatuadress;
+    }
+
+    public String getPostnummer() {
+        return postnummer;
+    }
+
+    public void setPostnummer(String postnummer) {
+        this.postnummer = postnummer;
     }
 
     public String getOrt() {
