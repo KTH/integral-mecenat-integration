@@ -7,8 +7,7 @@
 -- 'startDatum' = '2017-08-28'
 -- 'slutDatum' = '2018-01-14'
 --
-SELECT
-  DISTINCT
+select distinct
   stud.personnummer
   ,substr(stud.efternamn, 1, 50)          AS efternamn
   ,substr(stud.fornamn, 1, 50)            AS fornamn
@@ -45,10 +44,15 @@ FROM (
      MAX(r.STUDIEPERIOD_SLUTDATUM)        AS STUDIEPERIOD_SLUTDATUM
    FROM UPPFOLJNING.IO_REGISTRERING r
    WHERE
-     r.STUDIEPERIOD_STARTDATUM >= :#${header.terminStartDatum} AND r.STUDIEPERIOD_SLUTDATUM <= :#${header.terminSlutDatum} AND r.ENHET_KOD = 'HP'
+     r.STUDIEPERIOD_STARTDATUM >= :#${header.terminStartDatum} 
+     AND r.STUDIEPERIOD_SLUTDATUM <= :#${header.terminSlutDatum}
+     AND r.ENHET_KOD = 'HP'
      AND r.REGTYP <> 'OM'
-   GROUP BY r.STUDENT_UID, r.enhet_kod, r.YTTERSTA_KURSPAKETERING_KOD,
-     r.YTTERSTA_KURSPAKETERING_SV, r.YTTERSTA_KURSPAKETERINGSTYP_KOD
+   GROUP BY
+    r.STUDENT_UID, r.enhet_kod
+    ,r.YTTERSTA_KURSPAKETERING_KOD
+    ,r.YTTERSTA_KURSPAKETERING_SV
+    ,r.YTTERSTA_KURSPAKETERINGSTYP_KOD
   ) reg
   INNER JOIN UPPFOLJNING.IO_STUDENTUPPGIFTER stud ON stud.STUDENT_UID = reg.STUDENT_UID
 ORDER BY personnummer ASC
