@@ -1,3 +1,8 @@
+-- Hämta data för Mecenat för alla kurser med antagning.
+-- OBS: En brist här är att vi inte tar hänsyn till antagningar som studenten
+-- har lämnat återbud till. Det saknas information i uppföljningsdatabasen för
+-- att kunna ta hänsyn till detta och det åtgärdas tidigast 2019.
+-- Se: https://jira.its.umu.se/browse/LADOKSUPP-3657
 select
     stud.personnummer
     ,stud.fornamn
