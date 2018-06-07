@@ -73,7 +73,6 @@ public class MecenatRouter extends RouteBuilder {
             .to("sql:classpath:sql/nuvarande_halvar.sql?dataSource=uppfoljningsDB")
             .process(halfYearDateProcessor)
 
-            // TODO: reda ut exakta frågor, eventuellt aggregera flera frågor.
             .log("Hämtar förväntat deltagande för ${header.terminText} ${header.terminStartDatum}:${header.terminSlutDatum}.")
             .to("sql:classpath:sql/antagningar.sql?dataSource=uppfoljningsDB")
 
@@ -84,6 +83,10 @@ public class MecenatRouter extends RouteBuilder {
                 .accumulateInCollection(ArrayList.class)
                 .pick(simple("${body}")))
                 .constant(true).completionSize(simple("${header.CamelSqlRowCount}"))
+
+            // TODO: hämta ut forskarstuderande och aggregera till CSV.
+            // TODO: hämta ut in-/utresande och aggregera till CSV.
+
             .marshal(mecenatCsvFormat)
 
             // TODO: var ska vi stoppa filen? Vad ska den heta?
