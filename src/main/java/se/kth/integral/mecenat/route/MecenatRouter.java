@@ -75,7 +75,7 @@ public class MecenatRouter extends RouteBuilder {
 
             // TODO: reda ut exakta frågor, eventuellt aggregera flera frågor.
             .log("Hämtar registreringar för ${header.terminText} ${header.terminStartDatum}:${header.terminSlutDatum}.")
-            .to("sql:classpath:sql/mecenat.sql?dataSource=uppfoljningsDB")
+            .to("sql:classpath:sql/antagningar-ny.sql?dataSource=uppfoljningsDB")
 
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
             .split(body())

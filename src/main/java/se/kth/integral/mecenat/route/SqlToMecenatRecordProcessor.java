@@ -42,7 +42,7 @@ public class SqlToMecenatRecordProcessor implements Processor {
 
         MecenatCSVRecord mecenatRecord = new MecenatCSVRecord();
         mecenatRecord.setPersonnummer((String) sqlResult.get("personnummer"));
-        mecenatRecord.setConamn((String) sqlResult.get("COaddress"));
+        mecenatRecord.setConamn((String) sqlResult.get("careof"));
         mecenatRecord.setEfternamn((String) sqlResult.get("efternamn"));
         mecenatRecord.setEpost((String) sqlResult.get("epostadress"));
         mecenatRecord.setFornamn((String) sqlResult.get("fornamn"));
@@ -55,10 +55,10 @@ public class SqlToMecenatRecordProcessor implements Processor {
 
         mecenatRecord.setOrt((String) sqlResult.get("postort"));
         mecenatRecord.setPostnummer((String) sqlResult.get("postnummer"));
-        mecenatRecord.setStudieomfattning((BigDecimal) sqlResult.get("REGISTRERING_OMFATTNING_PROCENT"));
+        mecenatRecord.setStudieomfattning((BigDecimal) sqlResult.get("OMFATTNING_PROCENT"));
         mecenatRecord.setTermin(ExchangeHelper.getMandatoryHeader(exchange, "termin", String.class));
-        mecenatRecord.setStudieperiodStart((Date) sqlResult.get("STUDIEPERIOD_STARTDATUM"));
-        mecenatRecord.setStudieperiodSlut((Date) sqlResult.get("STUDIEPERIOD_SLUTDATUM"));
+        mecenatRecord.setStudieperiodStart((Date) sqlResult.get("STARTDATUM"));
+        mecenatRecord.setStudieperiodSlut((Date) sqlResult.get("SLUTDATUM"));
 
         exchange.getIn().setBody(mecenatRecord);
     }

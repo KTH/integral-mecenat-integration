@@ -182,7 +182,7 @@ public class MecenatCSVRecord {
     }
 
     public void setStudieomfattning(BigDecimal studieomfattning) {
-        this.studieomfattning = studieomfattning;
+        this.studieomfattning = BigDecimal.valueOf(Math.min(100, studieomfattning.doubleValue()));
     }
 
     public int getKarmedlem() {
