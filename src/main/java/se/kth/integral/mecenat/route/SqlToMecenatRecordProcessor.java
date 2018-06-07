@@ -46,13 +46,8 @@ public class SqlToMecenatRecordProcessor implements Processor {
         mecenatRecord.setEfternamn((String) sqlResult.get("efternamn"));
         mecenatRecord.setEpost((String) sqlResult.get("epostadress"));
         mecenatRecord.setFornamn((String) sqlResult.get("fornamn"));
-        mecenatRecord.setGatuadress((String) sqlResult.get("gatuadress"));
-
-        String land = (String) sqlResult.get("land");
-        if (! (land.equalsIgnoreCase("SVERIGE") || land.equalsIgnoreCase("SE"))) {
-            mecenatRecord.setLand(land);
-        }
-
+        mecenatRecord.setGatuadress((String) sqlResult.get("utdelningsadress"));
+        mecenatRecord.setLand((String) sqlResult.get("land"));
         mecenatRecord.setOrt((String) sqlResult.get("postort"));
         mecenatRecord.setPostnummer((String) sqlResult.get("postnummer"));
         mecenatRecord.setStudieomfattning((BigDecimal) sqlResult.get("OMFATTNING_PROCENT"));

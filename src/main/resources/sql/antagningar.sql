@@ -1,53 +1,39 @@
---
--- Hämtar studie perioder, plockad från Ladok3 wiki och parametriserad
--- https://confluence.its.umu.se/confluence/display/LDSV/Generera+fil+till+Mecenat
---
--- Behöver headrar:
--- 'termin' = '20172'
--- 'startDatum' = '2017-08-28'
--- 'slutDatum' = '2018-01-14'
---
-
 select
-    s.personnummer
-    ,s.fornamn
-    ,s.careof
-    ,s.utdelningsadress
-    ,s.postnummer
-    ,s.postort
-    ,s.land
-    ,s.telefonnummer
-    ,s.epostadress
-    ,a.STUDENT_UID
-    ,a.enhet_kod
-    ,a.YTTERSTA_KURSPAKETERING_KOD
-    ,a.YTTERSTA_KURSPAKETERING_SV
-    ,a.YTTERSTA_KURSPAKETERINGSTYP_KOD
-    ,SUM(a.OMFATTNINGVARDE) AS OMFATTNING
-    ,MIN(a.UTBILDNINGSTILLFALLE_STARTDATUM)  AS STARTDATUM
-    ,MAX(a.UTBILDNINGSTILLFALLE_SLUTDATUM)    AS SLUTDATUM
+    stud.personnummer
+    ,stud.fornamn
+    ,stud.efternamn
+    ,stud.careof
+    ,stud.utdelningsadress
+    ,stud.postnummer
+    ,stud.postort
+    ,stud.land
+    ,stud.epostadress
+    ,sum(tper.OMFATTNINGSVARDE) AS OMFATTNING
+    ,cast(cast(SUM(tper.OMFATTNINGSVARDE) as decimal(8,2)) / 30 * 100 as decimal(8,2)) as OMFATTNING_PROCENT
+    ,min(tper.FORSTA_UNDERVISNINGSDATUM) as STARTDATUM
+    ,max(tper.SISTA_UNDERVISNINGSDATUM) as SLUTDATUM
 from
-    UPPFOLJNING.IO_STUDIEDELTAGANDE_ANTAGNING a
-    inner join UPPFOLJNING.IO_STUDENTUPPGIFTER s on s.STUDENT_UID = a.STUDENT_UID
-    inner join UPPFOLJNING.BI_UTBILDNINGSTYPER t on a.UTBILDNINGSTYP_KOD = t.UTBILDNINGSTYP_KOD
- where
-    a.UTBILDNINGSTILLFALLE_STARTDATUM >= :#${header.terminStartDatum} and
-    a.UTBILDNINGSTILLFALLE_STARTDATUM <= :#${header.terminSlutDatum} and
-    a.ENHET_KOD = 'HP'
+    UPPFOLJNING.BI_FORVANTATTILLFALLESDELTAGANDEN ftf
+    inner join UPPFOLJNING.BI_UTBILDNINGSTILLFALLEN utf on utf.UTBILDNINGSTILLFALLE_UID = ftf.UTBILDNINGSTILLFALLE_UID
+    inner join UPPFOLJNING.BI_UTBILDNINGSTYPER utt on utt.UTBILDNINGSTYP_ID = utf.UTBILDNINGSTYP_ID
+    inner join UPPFOLJNING.BI_UTBILDNINGSINSTANSER uti on uti.UTBILDNINGSINSTANS_UID = utf.UTBILDNINGSINSTANS_UID
+    inner join UPPFOLJNING.BI_ENHETER enh on enh.ENHET_ID = uti.ENHET_ID
+    inner join UPPFOLJNING.BI_UTBILDNINGSTILLFALLEN_TILLFALLESPERIODER utper on utper.UTBILDNINGSTILLFALLE_UID = utf.UTBILDNINGSTILLFALLE_UID
+    inner join UPPFOLJNING.BI_TILLFALLESPERIODER tper on utper.TILLFALLESPERIOD_UID = tper.TILLFALLESPERIOD_UID
+    inner join UPPFOLJNING.IO_STUDENTUPPGIFTER stud on stud.STUDENT_UID = ftf.STUDENT_UID   
+where
+    utt.GRUNDTYP = 'KURS'
+    and (enh.ENHET_KOD = 'HP' or enh.ENHET_KOD = 'HP-K' or enh.ENHET_KOD = 'FUP')
+    and tper.FORSTA_UNDERVISNINGSDATUM >= :#${header.terminStartDatum}
+    and tper.SISTA_UNDERVISNINGSDATUM < :#${header.terminSlutDatum}
 group by
-    s.personnummer
-    ,s.fornamn
-    ,s.careof
-    ,s.utdelningsadress
-    ,s.postnummer
-    ,s.postort
-    ,s.land
-    ,s.telefonnummer
-    ,s.epostadress
-    ,a.STUDENT_UID
-    ,a.enhet_kod
-    ,a.YTTERSTA_KURSPAKETERING_KOD
-    ,a.YTTERSTA_KURSPAKETERING_SV
-    ,a.YTTERSTA_KURSPAKETERINGSTYP_KOD
-order by
-    s.personnummer desc
+    stud.personnummer
+    ,stud.fornamn
+    ,stud.efternamn
+    ,stud.careof
+    ,stud.utdelningsadress
+    ,stud.postnummer
+    ,stud.postort
+    ,stud.land
+    ,stud.epostadress
+order by stud.personnummer asc

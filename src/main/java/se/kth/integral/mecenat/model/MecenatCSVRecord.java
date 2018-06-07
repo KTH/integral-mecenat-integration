@@ -55,7 +55,9 @@ public class MecenatCSVRecord {
     @DataField(pos = 7, trim = true, length = 50, clip = true)
     private String ort;
 
-    // Ska vara tom om land är Sverige.
+    /**
+     *  Ska vara tom om land är Sverige, se setLand().
+     */
     @DataField(pos = 8, trim = true, length = 50, clip = true)
     private String land;
 
@@ -68,6 +70,9 @@ public class MecenatCSVRecord {
     @DataField(pos = 11, length = 10, pattern = "yyyy-MM-dd", required = true)
     private Date studiePeriodSlut;
 
+    /**
+     *  Siffra 0-100, man kan inte ha mer än 100, se setStudieomfattning().
+     */
     @DataField(pos = 12, length = 3, required = true, precision = 0)
     private BigDecimal studieomfattning;
 
@@ -150,7 +155,9 @@ public class MecenatCSVRecord {
     }
 
     public void setLand(String land) {
-        this.land = land;
+        if (! land.trim().equalsIgnoreCase("SVERIGE")) {
+            this.land = land;
+        }
     }
 
     public String getEpost() {
