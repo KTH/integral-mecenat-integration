@@ -9,7 +9,7 @@ select
     ,stud.land
     ,stud.epostadress
     ,sum(tper.OMFATTNINGSVARDE) AS OMFATTNING
-    ,min(100, cast(cast(SUM(tper.OMFATTNINGSVARDE) as decimal(8,2)) / 30 * 100 as decimal(6,0))) as OMFATTNING_PROCENT
+    ,cast(cast(SUM(tper.OMFATTNINGSVARDE) as decimal(8,2)) / 30 * 100 as decimal(8,2)) as OMFATTNING_PROCENT
     ,min(tper.FORSTA_UNDERVISNINGSDATUM) as STARTDATUM
     ,max(tper.SISTA_UNDERVISNINGSDATUM) as SLUTDATUM
 from
@@ -36,4 +36,4 @@ group by
     ,stud.postort
     ,stud.land
     ,stud.epostadress
-order by stud.personnummer desc
+order by stud.personnummer asc
