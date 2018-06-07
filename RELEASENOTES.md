@@ -1,5 +1,14 @@
 # Release notes
 
+## 0.0.4
+
+Real and proper output.
+
+* Proper implementation of Mecenat CSV file format.
+* New working query to fetch expected attendency for students.
+
+Remains: research students, erasmus and upload data somewhere.
+
 ## 0.0.3
 
 No hard coded data.
