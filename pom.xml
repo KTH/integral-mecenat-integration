@@ -30,7 +30,7 @@
   <groupId>se.kth.integral</groupId>
   <artifactId>integral-mecenat-integration</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
 
   <name>A Camel Spring Boot Route</name>
 
@@ -93,7 +93,7 @@
 <!--     </dependency> -->
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-csv</artifactId>
+      <artifactId>camel-bindy</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
