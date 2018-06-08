@@ -23,19 +23,31 @@
  */
 package se.kth.integral.mecenat.route;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
  * Camel route to run sql queries against ladok3 database on a schedule.
  */
 @Component
-public class MecenatRouter extends RouteBuilder {
+public class MainRoute extends RouteBuilder {
     private Processor termStartDateProcessor = new TermStartDateProcessor();
     private Processor termEndDateProcessor = new TermEndDateProcessor();
     private Processor halfYearDateProcessor = new HalfYearDateProcessor();
+
+    @Value("${redelivery.retries}")
+    private int maxRetries;
+
+    @Value("${redelivery.delay}")
+    private int delay;
+
+    @Value("${redelivery.maxdelay}")
+    private int maxDelay;
 
     @Override
     public void configure() {
@@ -44,8 +56,10 @@ public class MecenatRouter extends RouteBuilder {
 
             .errorHandler(
                     defaultErrorHandler()
-                    .redeliveryDelay(1000)
-                    .maximumRedeliveries(6)
+                    .redeliveryDelay(delay)
+                    .maximumRedeliveryDelay(maxDelay)
+                    .maximumRedeliveries(maxRetries)
+                    .useExponentialBackOff()
                     .retryAttemptedLogLevel(LoggingLevel.WARN))
 
             .onCompletion()

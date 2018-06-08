@@ -14,11 +14,20 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
             return newExchange;
         }
 
+        ArrayList<MecenatCSVRecord> oldRecords, newRecords;
+
         try {
-            ArrayList<MecenatCSVRecord> oldRecords = oldExchange.getIn().getMandatoryBody(ArrayList.class);
-            ArrayList<MecenatCSVRecord> newRecords = newExchange.getIn().getMandatoryBody(ArrayList.class);
+            oldRecords = oldExchange.getIn().getMandatoryBody(ArrayList.class);
+        } catch (InvalidPayloadException e) {
+            return newExchange;
+        }
+
+        try {
+            newRecords = newExchange.getIn().getMandatoryBody(ArrayList.class);
+            // TODO: Aggregera på smartare sätt för att undvika flera rader för samma person.
             newRecords.addAll(oldRecords);
         } catch (InvalidPayloadException e) {
+            return oldExchange;
         }
         return newExchange;
     }

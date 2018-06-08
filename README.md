@@ -32,6 +32,9 @@ files needs to be amended using either properties or environment variables.
 | ladok3.output.dir | LADOK3_OUTPUT_DIR | The directory to write files to, optional | /opt/data/mecenat |
 | ladok3.cert | LADOK3_CERT   | Path of file containing the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
 | ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate, optional | /run/secrets/ladok3-user.crt |
+| redelivery.retries | REDELIVERY_RETRIES | Max number of retries on failure, optional | 6 |
+| redelivery.delay | REDELIVERY_DELAY | Initial delay in ms, doubled on each retry up to max delay, optional | 1000 |
+| redelivery.maxdelay | REDELIVERY_MAXDELAY | Max delay in ms, optional | 60000 |
 
 ### Example
 
