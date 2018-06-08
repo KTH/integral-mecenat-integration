@@ -23,16 +23,10 @@
  */
 package se.kth.integral.mecenat.route;
 
-import java.util.ArrayList;
-
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
-import org.apache.camel.util.toolbox.AggregationStrategies;
 import org.springframework.stereotype.Component;
-
-import se.kth.integral.mecenat.model.MecenatCSVRecord;
 
 /**
  * Camel route to run sql queries against ladok3 database on a schedule.
@@ -45,11 +39,6 @@ public class MecenatRouter extends RouteBuilder {
 
     @Override
     public void configure() {
-        System.setProperty("user.timezone", "Europe/Stockholm");
-
-        BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
-        mecenatCsvFormat.setLocale("sv_SE");
-
         from("quartz://mecenat?cron={{ladok3.cron}}&trigger.timeZone=Europe/Stockholm")
             .routeId("se.kth.integral.mecenat")
 
@@ -58,6 +47,15 @@ public class MecenatRouter extends RouteBuilder {
                     .redeliveryDelay(1000)
                     .maximumRedeliveries(6)
                     .retryAttemptedLogLevel(LoggingLevel.WARN))
+
+            .onCompletion()
+                .onFailureOnly()
+                .log("Kunde inte skicka information till Mecenat.")
+                .end()
+            .onCompletion()
+                .onCompleteOnly()
+                .log("Information skickades framgångsrikt till Mecenat.")
+                .end()
 
             .log("Påbörjar Mecenat filexport.")
             .setHeader("today").simple("${date:now:yyyy-MM-dd}")
@@ -73,40 +71,8 @@ public class MecenatRouter extends RouteBuilder {
             .to("sql:classpath:sql/nuvarande_halvar.sql?dataSource=uppfoljningsDB")
             .process(halfYearDateProcessor)
 
-            .log("Hämtar förväntat deltagande för ${header.terminText} ${header.terminStartDatum}:${header.terminSlutDatum}.")
-            .to("sql:classpath:sql/antagningar.sql?dataSource=uppfoljningsDB")
-
-            .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
-            .split(body())
-                .process(new SqlToMecenatRecordProcessor())
-            .aggregate(AggregationStrategies.flexible(MecenatCSVRecord.class)
-                .accumulateInCollection(ArrayList.class)
-                .pick(simple("${body}")))
-                .constant(true).completionSize(simple("${header.CamelSqlRowCount}"))
-
-            .marshal(mecenatCsvFormat)
-
-            // TODO: var ska vi stoppa filen? Vad ska den heta?
-            .log(LoggingLevel.DEBUG, "Skriver exportfil.")
-            .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&charset=Windows-1252")
-
-            .log("Hämtar forskarstuderande ${header.terminText} ${header.halvarStartDatum}:${header.halvarSlutDatum}.")
-            .to("sql:classpath:sql/forskarstuderande.sql?dataSource=uppfoljningsDB")
-
-            .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
-            .split(body())
-                .process(new SqlToMecenatRecordProcessor())
-            .aggregate(AggregationStrategies.flexible(MecenatCSVRecord.class)
-                .accumulateInCollection(ArrayList.class)
-                .pick(simple("${body}")))
-                .constant(true).completionSize(simple("${header.CamelSqlRowCount}"))
-
-            .marshal(mecenatCsvFormat)
-
-            .log(LoggingLevel.DEBUG, "Skriver exportfil.")
-            .to("file://{{ladok3.output.dir}}?fileName=mecenat-forskare-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&charset=Windows-1252")
-
-            .log("Mecenat filexport klar.")
+            .multicast()
+                .to("direct:forvantadeDeltagare", "direct:forskarStuderande")
             .end();
     }
 }

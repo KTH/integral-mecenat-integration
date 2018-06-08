@@ -21,19 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.kth.integral.mecenat;
+package se.kth.integral.mecenat.route;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.apache.camel.LoggingLevel;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
+import org.springframework.stereotype.Component;
 
-@SpringBootApplication
-public class MecenatApplication {
+import se.kth.integral.mecenat.model.MecenatCSVRecordAggregationStrategy;
 
-    /**
-     * A main method to start this application.
-     */
-    public static void main(String[] args) {
-        System.setProperty("user.timezone", "Europe/Stockholm");
-        SpringApplication.run(MecenatApplication.class, args);
+/**
+ * Camel route to run sql queries against ladok3 database on a schedule.
+ */
+@Component
+public class MecenatTransferRoute extends RouteBuilder {
+    @Override
+    public void configure() {
+        BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
+        mecenatCsvFormat.setLocale("sv_SE");
+
+        from("direct:sendToMecenat")
+            .routeId("se.kth.integral.mecenat.sender")
+
+            .aggregate(new MecenatCSVRecordAggregationStrategy()).constant(true).completionSize(2)
+            .marshal(mecenatCsvFormat)
+
+            .log(LoggingLevel.DEBUG, "Skriver exportfil.")
+            .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&charset=Windows-1252");
     }
 }
