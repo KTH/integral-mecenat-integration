@@ -84,14 +84,27 @@ public class MecenatRouter extends RouteBuilder {
                 .pick(simple("${body}")))
                 .constant(true).completionSize(simple("${header.CamelSqlRowCount}"))
 
-            // TODO: hämta ut forskarstuderande och aggregera till CSV.
-            // TODO: hämta ut in-/utresande och aggregera till CSV.
-
             .marshal(mecenatCsvFormat)
 
             // TODO: var ska vi stoppa filen? Vad ska den heta?
             .log(LoggingLevel.DEBUG, "Skriver exportfil.")
             .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&charset=Windows-1252")
+
+            .log("Hämtar forskarstuderande ${header.terminText} ${header.halvarStartDatum}:${header.halvarSlutDatum}.")
+            .to("sql:classpath:sql/forskarstuderande.sql?dataSource=uppfoljningsDB")
+
+            .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
+            .split(body())
+                .process(new SqlToMecenatRecordProcessor())
+            .aggregate(AggregationStrategies.flexible(MecenatCSVRecord.class)
+                .accumulateInCollection(ArrayList.class)
+                .pick(simple("${body}")))
+                .constant(true).completionSize(simple("${header.CamelSqlRowCount}"))
+
+            .marshal(mecenatCsvFormat)
+
+            .log(LoggingLevel.DEBUG, "Skriver exportfil.")
+            .to("file://{{ladok3.output.dir}}?fileName=mecenat-forskare-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&charset=Windows-1252")
 
             .log("Mecenat filexport klar.")
             .end();

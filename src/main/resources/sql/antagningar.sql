@@ -13,7 +13,7 @@ select
     ,stud.postort
     ,stud.land
     ,stud.epostadress
-    ,sum(tper.OMFATTNINGSVARDE) AS OMFATTNING
+--    ,sum(tper.OMFATTNINGSVARDE) AS OMFATTNING
     ,cast(cast(SUM(tper.OMFATTNINGSVARDE) as decimal(8,2)) / 30 * 100 as decimal(8,2)) as OMFATTNING_PROCENT
     ,min(tper.FORSTA_UNDERVISNINGSDATUM) as STARTDATUM
     ,max(tper.SISTA_UNDERVISNINGSDATUM) as SLUTDATUM
@@ -28,6 +28,7 @@ from
     inner join UPPFOLJNING.IO_STUDENTUPPGIFTER stud on stud.STUDENT_UID = ftf.STUDENT_UID   
 where
     utt.GRUNDTYP = 'KURS'
+    -- Vilka kurser är studiemedelsberättigade?
     and (enh.ENHET_KOD = 'HP' or enh.ENHET_KOD = 'HP-K' or enh.ENHET_KOD = 'FUP')
     and tper.FORSTA_UNDERVISNINGSDATUM >= :#${header.terminStartDatum}
     and tper.SISTA_UNDERVISNINGSDATUM < :#${header.terminSlutDatum}
