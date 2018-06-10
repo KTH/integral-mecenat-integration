@@ -88,6 +88,11 @@ public class MecenatCSVRecord {
     @DataField(pos = 18, length = 5, required = true)
     private String termin;
 
+    @Override
+    public int hashCode() {
+        return getPersonnummer().hashCode();
+    }
+
     public String getPersonnummer() {
         return personnummer;
     }

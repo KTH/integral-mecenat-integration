@@ -2,15 +2,18 @@ package se.kth.integral.mecenat.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy {
+    final Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Override
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
         if (oldExchange == null) {
@@ -33,8 +36,10 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
 
         final Map<String, MecenatCSVRecord> uniqueRecords = new HashMap<String, MecenatCSVRecord>();
 
-        oldRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.toList());
-        newRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.toList());
+        Long count = oldRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.counting());
+        count += newRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.counting());
+
+        log.debug("Aggregated {} records into {} unique records", count, uniqueRecords.size());
 
         newExchange.getIn().setBody(uniqueRecords.values());;
         return newExchange;
@@ -51,5 +56,4 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
         oldRecord.setStudieomfattning(oldRecord.getStudieomfattning().add(record.getStudieomfattning()));
         return oldRecord;
     }
-
 }
