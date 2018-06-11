@@ -50,17 +50,13 @@ public class MecenatTransferRoute extends RouteBuilder {
             .aggregate(new MecenatCSVRecordAggregationStrategy()).constant(true).completionSize(2)
             .marshal(mecenatCsvFormat)
 
-            .log(LoggingLevel.DEBUG, "Skriver exportfil.")
-            
+            .log(LoggingLevel.DEBUG, "Skickar fil till mecenat.")
             .to("ftps://{{mecenat.host}}/mecenat-upload"
-                    + "?ftpClient.trustStore.file=" + keyStore
+                    + "?charset=Windows-1252"
+                    + "&fileName=TEST_{{mecenat.customernr}}_${date:now:yyMMdd}_Mecenat_${date:now:HHmmss}_${header.termin}.txt"
+                    + "&ftpClient.trustStore.file=" + keyStore
                     + "&ftpClient.trustStore.password=changeit"
-                    + "&fileName=kth-ladok3-test-${date:now:yyyy-MM-dd-HH-mm-ss}.txt"
-                    + "&charset=Windows-1252"
-                    + "&soTimeout=10000"
-//                    + "&synchronous=true"
-//                    + "&sendNoop=false"
-//                    + "&disconnect=true"
+                    + "&soTimeout=30000"
                     + "&maximumReconnectAttempts=0"
                     + "&username={{mecenat.username}}"
                     + "&password={{mecenat.password}}"
