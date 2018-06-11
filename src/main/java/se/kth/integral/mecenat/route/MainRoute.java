@@ -23,8 +23,6 @@
  */
 package se.kth.integral.mecenat.route;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -51,25 +49,15 @@ public class MainRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("quartz://mecenat?cron={{ladok3.cron}}&trigger.timeZone=Europe/Stockholm")
+        getContext().setErrorHandlerBuilder(defaultErrorHandler()
+                .redeliveryDelay(delay)
+                .maximumRedeliveryDelay(maxDelay)
+                .maximumRedeliveries(maxRetries)
+                .useExponentialBackOff()
+                .retryAttemptedLogLevel(LoggingLevel.WARN));
+
+        from("{{ladok3.endpoint.timer}}")
             .routeId("se.kth.integral.mecenat")
-
-            .errorHandler(
-                    defaultErrorHandler()
-                    .redeliveryDelay(delay)
-                    .maximumRedeliveryDelay(maxDelay)
-                    .maximumRedeliveries(maxRetries)
-                    .useExponentialBackOff()
-                    .retryAttemptedLogLevel(LoggingLevel.WARN))
-
-            .onCompletion()
-                .onFailureOnly()
-                .log("Kunde inte skicka information till Mecenat.")
-                .end()
-            .onCompletion()
-                .onCompleteOnly()
-                .log("Information skickades framgångsrikt till Mecenat.")
-                .end()
 
             .log("Påbörjar Mecenat filexport.")
             .setHeader("today").simple("${date:now:yyyy-MM-dd}")

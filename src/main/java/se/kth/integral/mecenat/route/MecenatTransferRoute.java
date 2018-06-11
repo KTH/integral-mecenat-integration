@@ -23,6 +23,8 @@
  */
 package se.kth.integral.mecenat.route;
 
+import java.io.UnsupportedEncodingException;
+
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
@@ -36,9 +38,11 @@ import se.kth.integral.mecenat.model.MecenatCSVRecordAggregationStrategy;
 @Component
 public class MecenatTransferRoute extends RouteBuilder {
     @Override
-    public void configure() {
+    public void configure() throws UnsupportedEncodingException {
         BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
         mecenatCsvFormat.setLocale("sv_SE");
+
+        String keyStore = getClass().getClassLoader().getResource("ftp.mecenat.se.keystore").getPath();
 
         from("direct:sendToMecenat")
             .routeId("se.kth.integral.mecenat.sender")
@@ -47,6 +51,21 @@ public class MecenatTransferRoute extends RouteBuilder {
             .marshal(mecenatCsvFormat)
 
             .log(LoggingLevel.DEBUG, "Skriver exportfil.")
-            .to("file://{{ladok3.output.dir}}?fileName=mecenat-${date:now:yyyy-MM-dd-HH-mm-ss}.txt&charset=Windows-1252");
+            
+            .to("ftps://{{mecenat.host}}/mecenat-upload"
+                    + "?ftpClient.trustStore.file=" + keyStore
+                    + "&ftpClient.trustStore.password=changeit"
+                    + "&fileName=kth-ladok3-test-${date:now:yyyy-MM-dd-HH-mm-ss}.txt"
+                    + "&charset=Windows-1252"
+                    + "&soTimeout=10000"
+//                    + "&synchronous=true"
+//                    + "&sendNoop=false"
+//                    + "&disconnect=true"
+                    + "&maximumReconnectAttempts=0"
+                    + "&username={{mecenat.username}}"
+                    + "&password={{mecenat.password}}"
+                    )
+
+            .log("Information skickad till Mecenat.");
     }
 }
