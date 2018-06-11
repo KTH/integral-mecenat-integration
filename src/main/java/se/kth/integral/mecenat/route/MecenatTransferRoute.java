@@ -41,7 +41,6 @@ public class MecenatTransferRoute extends RouteBuilder {
     public void configure() throws UnsupportedEncodingException {
         BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
         mecenatCsvFormat.setLocale("sv_SE");
-
         String keyStore = getClass().getClassLoader().getResource("ftp.mecenat.se.keystore").getPath();
 
         from("direct:sendToMecenat")
@@ -52,10 +51,12 @@ public class MecenatTransferRoute extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Skickar fil till mecenat.")
             .to("ftps://{{mecenat.host}}/mecenat-upload"
-                    + "?charset=Windows-1252"
-                    + "&fileName=TEST_{{mecenat.customernr}}_${date:now:yyMMdd}_Mecenat_${date:now:HHmmss}_${header.termin}.txt"
+                    + "?fileName={{mecenat.customernr}}_${date:now:yyMMdd}_Mecenat_${date:now:HHmmss}_${header.termin}.txt"
+                    + "&charset=Windows-1252"
                     + "&ftpClient.trustStore.file=" + keyStore
-                    + "&ftpClient.trustStore.password=changeit"
+                    + "&ftpClient.trustStore.password=46D5HQ8dkY"
+                    + "&isImplicit=true"
+                    + "&passiveMode=true"
                     + "&soTimeout=30000"
                     + "&maximumReconnectAttempts=0"
                     + "&username={{mecenat.username}}"

@@ -28,7 +28,7 @@ files needs to be amended using either properties or environment variables.
 | ladok3.database | LADOK3_DATABASE   | The ladok3 database name, required | |
 | ladok3.username | LADOK3_USERNAME   | The ladok3 database user, required | |
 | ladok3.password | LADOK3_PASSWORD   | The ladok3 database password, required | |
-| ladok3.cron | LADOK3_CRON   | A cron-like quartz trigger expression, optional | \*/10+\*+\*+\*+\*+? |
+| ladok3.cron | LADOK3_CRON   | A cron-like quartz trigger expression, optional | 0 0 6-22 ? \* MON-FRI |
 | ladok3.output.dir | LADOK3_OUTPUT_DIR | The directory to write files to, optional | /opt/data/mecenat |
 | ladok3.cert | LADOK3_CERT   | Path of file containing the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
 | ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate, optional | /run/secrets/ladok3-user.crt |
@@ -69,13 +69,22 @@ Properties are of standard log4j like type, with the package name and level, pre
 This application uses [Bunyan JSON](https://github.com/trentm/node-bunyan) formatting for
 logs. To change this you need to remove the logback-spring.xml file and build yourself.
 
-### Certificate
+### Certificate for Ladok3
 
 Certificate is assumed to be generated according to the instructions used by Ladok3 as of
 this writing. Note that the key has to be unencrypted. In case it is, the password can be
 removed with openssl `openssl rsa -in [file1.key] -out [file2.key]`.
 
 Certificate of server is verified by stunnel against included public CA chain for Terena 3 CA.
+
+### Trust store for mecenat server
+
+```
+keytool -importcert -noprompt -alias mecenat \
+    -keystore src/main/resources/ftp.mecenat.se.keystore2\
+    -file docker/opt/camel/etc/ftp.mecenat.se.pem\
+    -storepass 46D5HQ8dkY 
+```
 
 ## Running the container without a swarm
 

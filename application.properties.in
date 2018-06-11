@@ -1,21 +1,23 @@
-# Ladok3 configuration.
+# Required Ladok3 configuration.
+#
 
-# Required:
 # The database name
 ladok3.database=
 
-# Required:
 # The username for the database
 ladok3.username=
 
-# Required:
 # The password of the user
 ladok3.password=
 
-# Optional:
-# A cron-like expression for the quartz trigger.
-# ladok3.cron=*/10 * * * * ?
+# Required Mecenat configuration
+#
 
-# Optional:
-# The directory to write files to
-# ladok3.output.dir=/opt/data/mecenat
+# The username for the Mecenat SFTP server
+mecenat.username=
+
+# The password of the Mecenat user
+mecenat.password=
+
+# The Mecenat customer number
+mecenat.customernr=
