@@ -7,6 +7,9 @@ kontinuerligt.
 I dagsläget hämtas för enkelhets skull hela utdraget en gång per timme under dagtid och skickas
 till Mecenat.
 
+### Övergripande programlogik uttryckt som EIP
+
+![Enterprise Integration Pattern](integral-mecenat-eip.png)
 
 ## Information från Ladok
 
@@ -56,6 +59,8 @@ Uppkopplingen mot Uppföljningsdatabasen är en DB2-koppling tunnlad över SSL. 
 i sig saknar särskilt stöd för SSL måste det implementeras särskilt. I containern görs detta f.n.
 genom att använda stunnel enligt dokumentation från Ladok-konsortiet, 
 [Uppkoppling mot Uppföljningsdatabasen (Windows)](https://confluence.its.umu.se/confluence/display/LDSV/Uppkoppling+mot+UppfoljningsDB+Windows)
+
+![Program struktur](integral-mecenat-integration.png)
 
 En potentiell förbättring med minskade beroenden här är att istället etablera SSL-förbindelsen mot
 Ladok med Java och göra sig av med beroendet mot stunnel.
