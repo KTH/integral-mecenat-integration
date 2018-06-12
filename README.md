@@ -31,7 +31,7 @@ files needs to be amended using either properties or environment variables.
 | ladok3.username          | LADOK3_USERNAME   | The ladok3 database user, required | |
 | ladok3.password          | LADOK3_PASSWORD   | The ladok3 database password, required | |
 | ladok3.cron              | LADOK3_CRON   | A cron-like quartz trigger expression, optional | 0 0 6-22 ? \* MON-FRI |
-| mecenat.host             | MECENAT_HOST | Hostname of Mecenat ftp server, optional. | ftp.mecenat.se |
+| mecenat.host             | MECENAT_HOST | Hostname of Mecenat ftp server, optional. | ftp.mecenat.se:990 |
 | mecenat.username         | MECENAT_USERNAME | Username for Mecenat ftp server, required. | |
 | mecenat.password         | MECENAT_PASSWORD | Password for Mecenat ftp user, required. | |
 | mecenat.customernr       | MECENAT_CUSTOMERNR | Mecenat customer number, required | |
