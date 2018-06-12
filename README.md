@@ -1,7 +1,8 @@
 # integral-mecenat-integration
 
 A docker container to generate information from Ladok3 Uppföljningsdatabas to Mecenat, a company
-for student benefits and cards.
+for student benefits and cards. See the document [Designval](doc/Designval.md) for more information
+about how student records are selected and transfered.
 
 It is provided publically in the hope that someone else might find it useful. Improvements and
 suggestions are always welcome. Please file an issue or a pull request here.
