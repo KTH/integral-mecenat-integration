@@ -22,8 +22,12 @@ men avvikelser kan säkert förekomma.
 
 Vi tittar i dagsläget enbart på antagningar, eller s.k. förväntat deltagande, se 
 `src/main/resources/sql/antagningar.sql`.
-En brist här är att uppföljningsdatabasen i dagsläget inte innehåller information om återbud.
 
+Antagningar och poäng under terminen filtreras ut per studieperiod under den aktiva terminen i
+meningen att studieperioden startar under terminen och avslutas före nästa termin. Detta kommer
+att behöva anpassas, se not om *utresande studenter* nedan.
+
+En brist här är att uppföljningsdatabasen i dagsläget inte innehåller information om återbud.
 Detta finns noterat i Ladok JIRA, https://jira.its.umu.se/browse/LADOKSUPP-3657 och bedöms att man
 kan åtgärda tidigast våren 2019. Till dess kommer vi alltså att överskatta studiedeltagandet något.
 
@@ -40,7 +44,8 @@ i dessa fall är studieperioden på det andra universitetet som kan ha en helt a
 ### Forskarstuderande
 
 För forskarstuderande registreras en särskild studieaktivitet i procent i Ladok som används
-som studieomfattning, se `src/main/resources/sql/forskarstuderande.sql`.
+som studieomfattning, se `src/main/resources/sql/forskarstuderande.sql`. Studieperioden är
+kalenderhalvår.
 
 ### Aggregering av information
 
