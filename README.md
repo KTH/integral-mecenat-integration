@@ -83,8 +83,8 @@ for logs using the [bunyan-layout](https://github.com/KTH/bunyan-layout) package
 to log information to an indexing service such as Microsoft OMS, Greylog or Kibana in a structured
 manner where multi-line content (stack traces) are kept together.
 
-However, the JSON is not very human readable. You can use the `bunyan` filter tool to translate
-the log to a more readable format.
+However, the JSON is not very human readable. You can use the `bunyan` filter tool from the Node
+Bunyan repository to translate the log to a more readable format.
 
 You can set the `spring.profiles.active` property to "nobunyan" to turn on a more normal text log
 output. See the settings reference.
