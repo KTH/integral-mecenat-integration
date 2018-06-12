@@ -154,6 +154,8 @@ The application is a spring-boot application and can be run from maven as `mvn s
 You will have to configure an application.properties file in the current director and set
 `wiretap.output.dir` to point to some writeable directory.
 
+![Overview](doc/integral-mecenat-integration.png)
+
 ### Connecting to the Ladok3 database
 
 The Camel/Spring Boot application connects to a port on localhost. The connection
