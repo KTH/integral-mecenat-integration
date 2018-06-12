@@ -1,26 +1,26 @@
-# Ladok3 configuration
+# Required Ladok3 configuration
 # 
 
-# Required:
 # Ladok3 database name
 LADOK3_DATABASE=
 
-# Required:
 # Ladok3 database user
 LADOK3_USERNAME=
 
-# Required:
 # Ladok3 password of the user
 LADOK3_PASSWORD=
 
-# Optional:
-# A cron-like quartz time trigger expression.
-# LADOK3_CRON=*/10+*+*+*+*+?
+# Required Mecenat configuration
+#
 
-# Optional:
-# The path to a file containing the user certificate for ladok3.
-LADOK3_CERT=
+# The username for the Mecenat SFTP server
+MECENAT_USERNAME=
 
-# Optional:
-# The path to a file containing the certificate key (unencrypted).
-LADOK3_CERT_KEY=
+# The password of the Mecenat user
+MECENAT_PASSWORD=
+
+# The Mecenat customer number
+MECENAT_CUSTOMERNR=
+
+# Optional configuration of where to put copy of latest mecenat file.
+# WIRETAP_OUTPUT_DIR=/opt/data/mecenat

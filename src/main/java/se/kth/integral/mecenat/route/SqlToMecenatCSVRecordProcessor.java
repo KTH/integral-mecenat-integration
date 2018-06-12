@@ -33,7 +33,7 @@ import org.apache.camel.util.ExchangeHelper;
 
 import se.kth.integral.mecenat.model.MecenatCSVRecord;
 
-public class SqlToMecenatRecordProcessor implements Processor {
+public class SqlToMecenatCSVRecordProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {

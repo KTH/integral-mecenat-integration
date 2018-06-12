@@ -34,6 +34,10 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 
+/**
+ * Sub route which fetches start and end dates for half years from the database
+ * and add to the headers.
+ */
 public class TermEndDateProcessor implements Processor {
     private SimpleDateFormat LADOK_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private Calendar calendar = Calendar.getInstance();

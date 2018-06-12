@@ -33,6 +33,7 @@ public class MecenatApplication {
      * A main method to start this application.
      */
     public static void main(String[] args) {
+        System.setProperty("user.timezone", "Europe/Stockholm");
         SpringApplication.run(MecenatApplication.class, args);
     }
 }
