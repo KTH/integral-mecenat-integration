@@ -37,7 +37,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <spring.boot-version>1.5.12.RELEASE</spring.boot-version>
+    <spring.boot-version>1.5.13.RELEASE</spring.boot-version>
     <build>dev</build>
   </properties>
 
@@ -113,6 +113,15 @@
       <version>2.2.1</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-dbcp2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>3.6</version>
+    </dependency>
 
     <!-- Local IBM DB2 dependency, see README.md -->
     <dependency>
@@ -142,10 +151,6 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-test-spring</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-dbcp2</artifactId>
     </dependency>
   </dependencies>
 

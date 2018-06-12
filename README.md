@@ -42,7 +42,7 @@ files needs to be amended using either properties or environment variables.
 | redelivery.delay         | REDELIVERY_DELAY | Initial delay in ms, doubled on each retry up to max delay, optional | 1000 |
 | redelivery.maxdelay      | REDELIVERY_MAXDELAY | Max delay in ms, optional | 60000 |
 | spring.profiles.active   | SPRING_PROFILES_ACTIVE | Active Spring profiles, optional | bunyan |
-| wiretap.output.dir       | WIRETAP_OUTPUT_DIR | Where to dump latest mecenat file to, optional | /opt/data/mecenat |
+| mecenat.wiretap.dir      | MECENAT_WIRETAP_DIR | Where to dump latest mecenat file to, optional | /opt/data/mecenat |
 | *none*                   | LADOK3_CERT     | Path to the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
 | *none*                   | LADOK3_CERT_KEY | Path to the the certificate key (unencrypted), optional | /run/secrets/ladok3-user.key |
 
@@ -196,8 +196,8 @@ is sought for on the classpath. When it expires you have three options:
 1. Create a new keystore and put in on the classpath by mounting a volume in /opt/data or
    if using docker swarm, use the secrets mechanism.
 2. Build a new container with the updated keystore.
-3. Disable certificate verification by removing the ftpClient.trustStore arguments
-   to the ftp component in MecenatTransferRoute.java
+3. Disable certificate verification by removing the ftpClient argument
+   to the ftps component in MecenatTransferRoute.java
 
 A new keystore can be created by grabbing the new public key from the server using openssl,
 
@@ -215,9 +215,9 @@ keytool -importcert -noprompt -alias mecenat \
     -storepass 46D5HQ8dkY 
 ```
 
-Note, the keystore password serves no real purpose in this case, it only contains a public
-key, and the password is hard-coded into the route itself in MecenatTransferRoute.java. If you
-should use a different password, you also need to update the source in MecenatTransferRoute.java.
+Note, the keystore password serves no real purpose in this case, the keystore only
+contains a public key, and the password is set in application.properties. If you
+should use a different password, you also need to update application.properties.
 
 ### Building
 
