@@ -27,20 +27,20 @@ files needs to be amended using either properties or environment variables.
 
 | property     | environment   | description    | default          |
 |--------------|---------------|----------------|------------------|
-| ladok3.database | LADOK3_DATABASE   | The ladok3 database name, required | |
-| ladok3.username | LADOK3_USERNAME   | The ladok3 database user, required | |
-| ladok3.password | LADOK3_PASSWORD   | The ladok3 database password, required | |
-| ladok3.cron | LADOK3_CRON   | A cron-like quartz trigger expression, optional | 0 0 6-22 ? \* MON-FRI |
-| ladok3.cert | LADOK3_CERT   | Path of file containing the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
-| ladok3.cert.key | LADOK3_CERT_KEY   | Path of file containing the key (unencrypted) for certificate, optional | /run/secrets/ladok3-user.crt |
-| mecenat.host | MECENAT_HOST | Hostname of Mecenat ftp server, optional. | ftp.mecenat.se |
-| mecenat.username | MECENAT_USERNAME | Username for Mecenat ftp server, required. | |
-| mecenat.password | MECENAT_PASSWORD | Password for Mecenat ftp user, required. | |
-| mecenat.customernr | MECENAT_CUSTOMERNR | Mecenat customer numner, required | |
-| redelivery.retries | REDELIVERY_RETRIES | Max number of retries on failure, optional | 6 |
-| redelivery.delay | REDELIVERY_DELAY | Initial delay in ms, doubled on each retry up to max delay, optional | 1000 |
-| redelivery.maxdelay | REDELIVERY_MAXDELAY | Max delay in ms, optional | 60000 |
-| spring.profiles.active | SPRING_PROFILES_ACTIVE | Active Spring profiles, optional | bunyan |
+| ladok3.database          | LADOK3_DATABASE   | The ladok3 database name, required | |
+| ladok3.username          | LADOK3_USERNAME   | The ladok3 database user, required | |
+| ladok3.password          | LADOK3_PASSWORD   | The ladok3 database password, required | |
+| ladok3.cron              | LADOK3_CRON   | A cron-like quartz trigger expression, optional | 0 0 6-22 ? \* MON-FRI |
+| mecenat.host             | MECENAT_HOST | Hostname of Mecenat ftp server, optional. | ftp.mecenat.se |
+| mecenat.username         | MECENAT_USERNAME | Username for Mecenat ftp server, required. | |
+| mecenat.password         | MECENAT_PASSWORD | Password for Mecenat ftp user, required. | |
+| mecenat.customernr       | MECENAT_CUSTOMERNR | Mecenat customer numner, required | |
+| redelivery.retries       | REDELIVERY_RETRIES | Max number of retries on failure, optional | 6 |
+| redelivery.delay         | REDELIVERY_DELAY | Initial delay in ms, doubled on each retry up to max delay, optional | 1000 |
+| redelivery.maxdelay      | REDELIVERY_MAXDELAY | Max delay in ms, optional | 60000 |
+| spring.profiles.active   | SPRING_PROFILES_ACTIVE | Active Spring profiles, optional | bunyan |
+| *none*                   | LADOK3_CERT     | Path to the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
+| *none*                   | LADOK3_CERT_KEY | Path to the the certificate key (unencrypted), optional | /run/secrets/ladok3-user.key |
 
 ### Example
 
@@ -99,6 +99,11 @@ this writing. Note that the key has to be unencrypted. In case it is, the passwo
 removed with openssl `openssl rsa -in [file1.key] -out [file2.key]`.
 
 Certificate of server is verified by stunnel against included public CA chain for Terena 3 CA.
+
+The certificate and key are expected to be found in /run/secrets/ladok3-user.crt and
+/run/secrets/ladok3-user.key respectively. If you supply them from some other path, e.g. /opt/data,
+you have to amend the environment variables LADOK3_CERT and LADOK3_CERT_KEY accordingly.
+Note that it is *not* possible to set these with application.properties.
 
 ## Running
 
