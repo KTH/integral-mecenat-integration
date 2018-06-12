@@ -34,7 +34,7 @@ files needs to be amended using either properties or environment variables.
 | mecenat.host             | MECENAT_HOST | Hostname of Mecenat ftp server, optional. | ftp.mecenat.se |
 | mecenat.username         | MECENAT_USERNAME | Username for Mecenat ftp server, required. | |
 | mecenat.password         | MECENAT_PASSWORD | Password for Mecenat ftp user, required. | |
-| mecenat.customernr       | MECENAT_CUSTOMERNR | Mecenat customer numner, required | |
+| mecenat.customernr       | MECENAT_CUSTOMERNR | Mecenat customer number, required | |
 | redelivery.retries       | REDELIVERY_RETRIES | Max number of retries on failure, optional | 6 |
 | redelivery.delay         | REDELIVERY_DELAY | Initial delay in ms, doubled on each retry up to max delay, optional | 1000 |
 | redelivery.maxdelay      | REDELIVERY_MAXDELAY | Max delay in ms, optional | 60000 |
@@ -98,7 +98,7 @@ Certificate is assumed to be generated according to the instructions used by Lad
 this writing. Note that the key has to be unencrypted. In case it is, the password can be
 removed with openssl `openssl rsa -in [file1.key] -out [file2.key]`.
 
-Certificate of server is verified by stunnel against included public CA chain for Terena 3 CA.
+Certificate of the server is verified by stunnel against included public CA chain for Terena 3 CA.
 
 The certificate and key are expected to be found in /run/secrets/ladok3-user.crt and
 /run/secrets/ladok3-user.key respectively. If you supply them from some other path, e.g. /opt/data,
@@ -144,7 +144,7 @@ The project uses git-flow branch strategy, see
 [introduction](http://nvie.com/posts/a-successful-git-branching-model/)
 and the [git-flow tool](https://github.com/nvie/gitflow). Mainly all
 development goes into development branch and via releases into master
-which is built and pushed to docker hub continously by Jenkins.
+which is built and pushed to docker hub by our internal Jenkins.
 
 Set the version in all components with `mvn versions:set` from project root.
 
@@ -155,7 +155,7 @@ to the database itself is done by stunnel using the configuration in docker/opt/
 It is hard coded to connect to Ladok3 production database host.
 
 For development you can run the application using maven as mentioned above, and
-run stunnel manually to provide the connection to Ladok. Use the stunnel.conf as a sceleton,
+run stunnel manually to provide the connection to Ladok. Use the stunnel.conf as a skeleton,
 and adjust it to your needs.
 
 ### Updating the IBM DB2 driver
@@ -206,7 +206,7 @@ keytool -importcert -noprompt -alias mecenat \
 ```
 
 Note, the keystore password serves no real purpose in this case, it only contains a public
-key, and the password is hardcoded into the route itself in MecenatTransferRoute.java. If you
+key, and the password is hard-coded into the route itself in MecenatTransferRoute.java. If you
 should use a different password, you also need to update the source in MecenatTransferRoute.java.
 
 ### Building
@@ -215,8 +215,8 @@ Complete build and testing is run with maven: `mvn clean install docker:build`
 
 Pre built docker images are available on public docker hub as kthse/integral-mecenat-integration.
 
-See the jenkins job at:
-https://jenkins.sys.kth.se/view/Integral/job/integral-mecenat-integration/
+See the Jenkins job at:
+https://jenkins.sys.kth.se/view/Integral/job/integral-mecenat-integration/ (the server is not public).
 
 ### Release process with git flow
 
