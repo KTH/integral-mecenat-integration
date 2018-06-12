@@ -33,7 +33,8 @@ import org.springframework.stereotype.Component;
 import se.kth.integral.mecenat.model.MecenatCSVRecord;
 
 /**
- * Camel route to run sql queries against ladok3 database on a schedule.
+ * Sub route which fetches information about student participation from the database
+ * as a list of MecenatCSVRecord:s.
  */
 @Component
 public class ForvantadeDeltagareRoute extends RouteBuilder {
@@ -47,7 +48,7 @@ public class ForvantadeDeltagareRoute extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
             .split(body())
-                .process(new SqlToMecenatRecordProcessor())
+                .process(new SqlToMecenatCSVRecordProcessor())
             .aggregate(AggregationStrategies.flexible(MecenatCSVRecord.class)
                 .accumulateInCollection(ArrayList.class)
                 .pick(simple("${body}")))
