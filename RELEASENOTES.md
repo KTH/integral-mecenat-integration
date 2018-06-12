@@ -2,6 +2,10 @@
 
 ## 0.1.0
 
+* Bugfix: make FTPS truststore configuration work in container.
+
+## 0.1.0
+
 Getting closer to release candidate.
 
 * Fetches data for all categories of students.
