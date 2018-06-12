@@ -1,6 +1,6 @@
 # Release notes
 
-## 0.1.0
+## 0.1.1
 
 * Bugfix: make FTPS truststore configuration work in container.
 
