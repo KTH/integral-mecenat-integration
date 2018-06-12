@@ -41,7 +41,6 @@ public class MecenatTransferRoute extends RouteBuilder {
     public void configure() throws UnsupportedEncodingException {
         BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
         mecenatCsvFormat.setLocale("sv_SE");
-        String keyStore = getClass().getClassLoader().getResource("ftp.mecenat.se.keystore").getPath();
 
         from("direct:sendToMecenat")
             .routeId("se.kth.integral.mecenat.sender")
@@ -51,20 +50,16 @@ public class MecenatTransferRoute extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Skickar fil till mecenat.")
 
-            .wireTap("file:{{wiretap.output.dir}}" 
+            .wireTap("file:{{mecenat.wiretap.dir}}" 
                     + "?fileName=latest.txt"
                     + "&charset=Windows-1252")
-            .to("ftps://{{mecenat.host}}/mecenat-upload"
+            .to("ftps://{{mecenat.username}}:{{mecenat.password}}@{{mecenat.host}}/mecenat-upload"
                     + "?fileName={{mecenat.customernr}}_${date:now:yyMMdd}_Mecenat_${date:now:HHmmss}_${header.termin}.txt"
                     + "&charset=Windows-1252"
-                    + "&ftpClient.trustStore.file=" + keyStore
-                    + "&ftpClient.trustStore.password=46D5HQ8dkY"
-                    + "&isImplicit=true"
+                    + "&ftpClient=#mecenatFtpClient"
                     + "&passiveMode=true"
                     + "&soTimeout=30000"
-                    + "&maximumReconnectAttempts=0"
-                    + "&username={{mecenat.username}}"
-                    + "&password={{mecenat.password}}")
+                    + "&maximumReconnectAttempts=0")
 
             .log("Information skickad till Mecenat.");
     }
