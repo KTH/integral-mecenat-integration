@@ -2,18 +2,16 @@
 <configuration>
   <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
-<!--   <include resource="org/springframework/boot/logging/logback/base.xml"/> -->
-
   <springProfile name="bunyan">
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-      <layout class="se.kth.infosys.logback.BunyanLayout" />
-    </encoder>
-  </appender>
-
-  <root level="INFO">
-    <appender-ref ref="STDOUT" />
-  </root>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+        <layout class="se.kth.infosys.logback.BunyanLayout" />
+      </encoder>
+    </appender>
+  
+    <root level="INFO">
+      <appender-ref ref="STDOUT" />
+    </root>
   </springProfile>
 
   <springProfile name="nobunyan">
@@ -23,8 +21,8 @@
       </encoder>
     </appender>
 
-  <root level="INFO">
-    <appender-ref ref="STDOUT" />
-  </root>
+    <root level="INFO">
+      <appender-ref ref="STDOUT" />
+    </root>
   </springProfile>
 </configuration>
