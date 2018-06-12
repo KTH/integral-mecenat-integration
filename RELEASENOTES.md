@@ -1,5 +1,17 @@
 # Release notes
 
+## 0.1.0
+
+Getting closer to release candidate.
+
+* Fetches data for all categories of students.
+* Working file upload.
+* Store last file in container for debug.
+* Make bunyan logging configurable.
+* Updated documentation.
+
+Remains: tweak study periods for exchange programme students.
+
 ## 0.0.4
 
 Real and proper output.
