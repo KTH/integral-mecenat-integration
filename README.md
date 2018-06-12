@@ -5,7 +5,9 @@ for student benefits and cards.
 
 ## Configuration
 
-The application is based on [spring-boot](https://projects.spring.io/spring-boot/).
+The application is based on the frameworks [Apache Camel](https://camel.apache.org/) 
+and [Spring Boot](https://projects.spring.io/spring-boot/).
+
 The default properties file `application.properties` is loaded from the path
 `/run/secrets,/opt/data,/opt/camel`. See example of application.properties below.
 
