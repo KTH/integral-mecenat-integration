@@ -156,7 +156,7 @@ You will have to configure an application.properties file in the current directo
 
 ![Overview](doc/integral-mecenat-integration.png)
 
-More general information about the softeware design is available in Swedish: [Designval](doc/Designval.md).
+More general information about the software design is available in [Designval](doc/Designval.md).
 
 ### Connecting to the Ladok3 database
 
