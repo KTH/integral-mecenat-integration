@@ -2,6 +2,9 @@
 <configuration>
   <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
+<!--   <include resource="org/springframework/boot/logging/logback/base.xml"/> -->
+
+  <springProfile name="bunyan">
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
       <layout class="se.kth.infosys.logback.BunyanLayout" />
@@ -11,4 +14,17 @@
   <root level="INFO">
     <appender-ref ref="STDOUT" />
   </root>
+  </springProfile>
+
+  <springProfile name="nobunyan">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+  </springProfile>
 </configuration>

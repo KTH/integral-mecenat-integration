@@ -40,6 +40,7 @@ files needs to be amended using either properties or environment variables.
 | redelivery.retries | REDELIVERY_RETRIES | Max number of retries on failure, optional | 6 |
 | redelivery.delay | REDELIVERY_DELAY | Initial delay in ms, doubled on each retry up to max delay, optional | 1000 |
 | redelivery.maxdelay | REDELIVERY_MAXDELAY | Max delay in ms, optional | 60000 |
+| spring.profiles.active | SPRING_PROFILES_ACTIVE | Active Spring profiles, optional | bunyan |
 
 ### Example
 
@@ -71,8 +72,25 @@ can be configured at runtime with properties in application.properties. Note tha
 Properties are of standard log4j like type, with the package name and level, prefixed by
 `logging.level`, e.g., `logging.level.se.kth.integral=DEBUG`. See example above.
 
-This application uses [Bunyan JSON](https://github.com/trentm/node-bunyan) formatting for
-logs. To change this you need to remove the logback-spring.xml file and build yourself.
+Logging from the container is done to stdout, and it is assumed that the logs are handled
+further with configuration of docker logging,
+[Configure logging drivers](https://docs.docker.com/config/containers/logging/configure/)
+
+#### Format
+
+By default this application uses [Bunyan JSON](https://github.com/trentm/node-bunyan) formatting
+for logs using the [bunyan-layout](https://github.com/KTH/bunyan-layout) package. This is a way
+to log information to an indexing service such as Microsoft OMS, Greylog or Kibana in a structured
+manner where multi-line content (stack traces) are kept together.
+
+However, the JSON is not very human readable. You can use the `bunyan` filter tool to translate
+the log to a more readable format.
+
+You can set the `spring.profiles.active` property to "nobunyan" to turn on a more normal text log
+output. See the settings reference.
+
+For more advanced configuration you need to adjust the file logback-spring.xml and put it on 
+the classpath, or build your own container.
 
 ### Certificate for Ladok3
 
