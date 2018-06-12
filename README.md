@@ -53,6 +53,10 @@ ladok3.database=ufliusd
 ladok3.username=lkasjda
 ladok3.password=lSAJasdkASDD
 
+mecenat.username=XYZ
+mecenat.password=kajhsdkjahdjk
+mecenat.customernr=00
+
 # Log configuration, examples
 # logging.level.org.apache.camel=DEBUG
 # logging.level.se.kth.integral=DEBUG
@@ -120,6 +124,16 @@ development goes into development branch and via releases into master
 which is built and pushed to docker hub continously by Jenkins.
 
 Set the version in all components with `mvn versions:set` from project root.
+
+### Connecting to the Ladok3 database
+
+The Camel/Spring Boot application connects to a port on localhost. The connection
+to the database itself is done by stunnel using the configuration in docker/opt/camel/etc/stunnel.conf.
+It is hard coded to connect to Ladok3 production database host.
+
+For development you can run the application using maven as mentioned above, and
+run stunnel manually to provide the connection to Ladok. Use the stunnel.conf as a sceleton,
+and adjust it to your needs.
 
 ### Updating the IBM DB2 driver
 
