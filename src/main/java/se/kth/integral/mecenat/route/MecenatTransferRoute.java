@@ -50,8 +50,11 @@ public class MecenatTransferRoute extends RouteBuilder {
             .marshal(mecenatCsvFormat)
 
             .log(LoggingLevel.DEBUG, "Skickar fil till mecenat.")
+            .wireTap("file:{{wiretap.output.dir}}" 
+                    + "?fileName=latest.txt"
+                    + "&charset=Windows-1252")
             .to("ftps://{{mecenat.host}}/mecenat-upload"
-                    + "?fileName={{mecenat.customernr}}_${date:now:yyMMdd}_Mecenat_${date:now:HHmmss}_${header.termin}.txt"
+                    + "?fileName=TEST_{{mecenat.customernr}}_${date:now:yyMMdd}_Mecenat_${date:now:HHmmss}_${header.termin}.txt"
                     + "&charset=Windows-1252"
                     + "&ftpClient.trustStore.file=" + keyStore
                     + "&ftpClient.trustStore.password=46D5HQ8dkY"
@@ -62,7 +65,6 @@ public class MecenatTransferRoute extends RouteBuilder {
                     + "&username={{mecenat.username}}"
                     + "&password={{mecenat.password}}"
                     )
-
             .log("Information skickad till Mecenat.");
     }
 }

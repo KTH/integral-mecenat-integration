@@ -3,6 +3,9 @@
 A docker container to generate information from Ladok3 Uppföljningsdatabas to Mecenat, a company
 for student benefits and cards.
 
+It is provided publically in the hope that someone else might find it useful. Improvements and
+suggestions are always welcome. Please file an issue or a pull request here.
+
 ## Configuration
 
 The application is based on the frameworks [Apache Camel](https://camel.apache.org/) 
@@ -39,6 +42,7 @@ files needs to be amended using either properties or environment variables.
 | redelivery.delay         | REDELIVERY_DELAY | Initial delay in ms, doubled on each retry up to max delay, optional | 1000 |
 | redelivery.maxdelay      | REDELIVERY_MAXDELAY | Max delay in ms, optional | 60000 |
 | spring.profiles.active   | SPRING_PROFILES_ACTIVE | Active Spring profiles, optional | bunyan |
+| wiretap.output.dir       | WIRETAP_OUTPUT_DIR | Where to dump latest mecenat file to, optional | /opt/data/mecenat |
 | *none*                   | LADOK3_CERT     | Path to the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
 | *none*                   | LADOK3_CERT_KEY | Path to the the certificate key (unencrypted), optional | /run/secrets/ladok3-user.key |
 
@@ -75,6 +79,13 @@ Properties are of standard log4j like type, with the package name and level, pre
 Logging from the container is done to stdout, and it is assumed that the logs are handled
 further with configuration of docker logging,
 [Configure logging drivers](https://docs.docker.com/config/containers/logging/configure/)
+
+### Debug Mecenat output
+
+The latest generated file to be sent to Mecenat is written to a file using a wire tap, default
+`/opt/data/mecenat/latest.txt`. You can capture this be either mounting a writeable volume
+to `/opt/data`, or by connecting to the running container with `docker exec` and 
+investigate the file within the container itself. Se documentation of Docker.
 
 #### Format
 
@@ -138,15 +149,10 @@ docker run \
 
 ## Development
 
-The application is a spring-boot application and can be run from maven as `mvn spring-boot:run`
+The application is a spring-boot application and can be run from maven as `mvn spring-boot:run`.
 
-The project uses git-flow branch strategy, see
-[introduction](http://nvie.com/posts/a-successful-git-branching-model/)
-and the [git-flow tool](https://github.com/nvie/gitflow). Mainly all
-development goes into development branch and via releases into master
-which is built and pushed to docker hub by our internal Jenkins.
-
-Set the version in all components with `mvn versions:set` from project root.
+You will have to configure an application.properties file in the current director and set
+`wiretap.output.dir` to point to some writeable directory.
 
 ### Connecting to the Ladok3 database
 
@@ -219,6 +225,14 @@ See the Jenkins job at:
 https://jenkins.sys.kth.se/view/Integral/job/integral-mecenat-integration/ (the server is not public).
 
 ### Release process with git flow
+
+The project uses git-flow branch strategy, see
+[introduction](http://nvie.com/posts/a-successful-git-branching-model/)
+and the [git-flow tool](https://github.com/nvie/gitflow). Mainly all
+development goes into development branch and via releases into master
+which is built and pushed to docker hub by our internal Jenkins.
+
+Set the version in all components with `mvn versions:set` from project root.
 
 ```
 git flow release start x.y.z

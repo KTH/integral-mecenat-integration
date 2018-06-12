@@ -10,12 +10,10 @@ till Mecenat.
 
 ## Information från Ladok
 
-Informationen hämtas enligt nedan beskrivning från uppföljningsdatabasen. Detta är vad vi har
-kommit fram till på KTH, det är oklart för mig exakt hur generellt tillämpbart detta är för
-andra lärosäten. Bilden är att det borde vara relativt generellt, men avvikelser kan säkert
-förekomma.
-
-Som källa används uppföljningsdatabasen.
+Informationen hämtas periodiskt enligt nedan beskrivning från *Uppföljningsdatabasen* med SQL. 
+Detta är vad vi har kommit fram till på KTH, det är oklart för mig exakt hur generellt
+tillämpbart detta är för andra lärosäten. Bilden är att det borde vara relativt generellt,
+men avvikelser kan säkert förekomma.
 
 ### Studenter i allmänhet
 

@@ -21,3 +21,6 @@ mecenat.password=
 
 # The Mecenat customer number
 mecenat.customernr=
+
+# Optional configuration of where to put copy of latest mecenat file.
+# wiretap.output.dir=/opt/data/mecenat
