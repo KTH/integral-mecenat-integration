@@ -77,15 +77,6 @@ removed with openssl `openssl rsa -in [file1.key] -out [file2.key]`.
 
 Certificate of server is verified by stunnel against included public CA chain for Terena 3 CA.
 
-### Trust store for mecenat server
-
-```
-keytool -importcert -noprompt -alias mecenat \
-    -keystore src/main/resources/ftp.mecenat.se.keystore2\
-    -file docker/opt/camel/etc/ftp.mecenat.se.pem\
-    -storepass 46D5HQ8dkY 
-```
-
 ## Running the container without a swarm
 
 The image can be started with 
@@ -126,6 +117,34 @@ mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file\
     -Dversion=11.1.3.3\
     -Dpackaging=jar\
     -DlocalRepositoryPath=/path/to/the/project/root/repo
+```
+
+### Updating the trust store for the Mecenat FTP server
+
+The Mecenat FTP server uses a self-signed certificate. The public key is kept in a JKS
+keystore in the container and used to verify the server when uploading files. The keystore 
+is sought for on the classpath. When it expires you have three options:
+
+1. Create a new keystore and put in on the classpath by mounting a volume in /opt/data or
+   if using docker swarm, use the secrets mechanism.
+2. Build a new container with the updated keystore.
+3. Disable certificate verification by removing the ftpClient.trustStore arguments
+   to the ftp component in MecenatTransferRoute.java
+
+A new keystore can be created by grabbing the new public key from the server using openssl,
+
+```
+openssl s_client -connect ftp.mecenat.se:990 </dev/null |\
+    openssl x509 -text > ftp.mecenat.se.pem
+```
+
+The keystore is then generated with keytool in your Java distribution.
+
+```
+keytool -importcert -noprompt -alias mecenat \
+    -keystore src/main/resources/ftp.mecenat.se.keystore \
+    -file ftp.mecenat.se.pem \
+    -storepass 46D5HQ8dkY 
 ```
 
 ### Building
