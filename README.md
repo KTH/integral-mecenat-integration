@@ -77,9 +77,29 @@ removed with openssl `openssl rsa -in [file1.key] -out [file2.key]`.
 
 Certificate of server is verified by stunnel against included public CA chain for Terena 3 CA.
 
-## Running the container without a swarm
+## Running
 
-The image can be started with 
+### Using the container with docker swarm
+
+Create an application.properties file with the configuration.
+Then create a docker secret and the service itself. Note that you can use
+swarm mode on a single host, you don't need a cluster.
+
+```
+docker secrets create mecenat.properties application.properties
+docker service create \
+    --name mecenat \
+    --secret mecenat.properties:application.properties \
+    --network bridge \
+    kthse/integral-mecenat-integration:latest
+```
+
+### Using the container without docker swarm
+
+The image can be also be run without docker swarm as a simple container
+using an environment file for the settings. There is a skeleton available
+in environment.in. Alternatively you can put the configuration in a application.properties
+file in the directory exposed as /opt/data to the container.
 
 ```
 docker run \
@@ -87,8 +107,6 @@ docker run \
     -v /Users/username/some/dir:/opt/data
     kthse/integral-mecenat-integration:latest
 ```
-
-using an environment file for the above settings. There is a skeleton available in environment.in.
 
 ## Development
 
@@ -102,7 +120,7 @@ which is built and pushed to docker hub continously by Jenkins.
 
 Set the version in all components with `mvn versions:set` from project root.
 
-### IBM DB2 driver
+### Updating the IBM DB2 driver
 
 The IBM DB2 JDBC driver required for connecting to the database is not distributed in a public maven
 repo. In order to work reasonably well during build it is instead installed manually to a local
@@ -118,6 +136,8 @@ mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file\
     -Dpackaging=jar\
     -DlocalRepositoryPath=/path/to/the/project/root/repo
 ```
+
+Update the version information of the dependency in pom.xml accordingly.
 
 ### Updating the trust store for the Mecenat FTP server
 
