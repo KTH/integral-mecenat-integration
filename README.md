@@ -182,6 +182,10 @@ keytool -importcert -noprompt -alias mecenat \
     -storepass 46D5HQ8dkY 
 ```
 
+Note, the keystore password serves no real purpose in this case, it only contains a public
+key, and the password is hardcoded into the route itself in MecenatTransferRoute.java. If you
+should use a different password, you also need to update the source in MecenatTransferRoute.java.
+
 ### Building
 
 Complete build and testing is run with maven: `mvn clean install docker:build`
