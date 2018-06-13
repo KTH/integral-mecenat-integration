@@ -1,5 +1,12 @@
 # Release notes
 
+## 0.2.0
+
+Release candidate.
+
+* Filter students to include only students who are registered on
+  some activity in the period.
+
 ## 0.1.1
 
 * Bugfix: make FTPS truststore configuration work in container.
