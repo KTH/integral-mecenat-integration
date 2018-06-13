@@ -43,7 +43,7 @@ public class ForskarstuderandeRoute extends RouteBuilder {
         from("direct:forskarStuderande")
             .routeId("se.kth.integral.mecenat.forskar_studerande")
 
-            .log("Hämtar forskarstuderande.")
+            .log("Hämtar studieaktivitet för forskarstuderande.")
             .to("sql:classpath:sql/forskarstuderande.sql?dataSource=uppfoljningsDB")
 
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")

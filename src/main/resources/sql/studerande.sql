@@ -13,7 +13,6 @@ select
     ,stud.postort
     ,stud.land
     ,stud.epostadress
---    ,sum(tper.OMFATTNINGSVARDE) AS OMFATTNING
     ,cast(cast(SUM(tper.OMFATTNINGSVARDE) as decimal(8,2)) / 30 * 100 as decimal(8,2)) as OMFATTNING_PROCENT
     ,min(tper.FORSTA_UNDERVISNINGSDATUM) as STARTDATUM
     ,max(tper.SISTA_UNDERVISNINGSDATUM) as SLUTDATUM
@@ -32,6 +31,22 @@ where
     and (enh.ENHET_KOD = 'HP' or enh.ENHET_KOD = 'HP-K' or enh.ENHET_KOD = 'FUP')
     and tper.FORSTA_UNDERVISNINGSDATUM >= :#${header.periodStartDatum}
     and tper.FORSTA_UNDERVISNINGSDATUM < :#${header.periodSlutDatum}
+    -- Filtrera på studenter som har någon registrering under perioden.
+    and stud.student_uid in (
+        select unique reg.student_uid
+        from
+            UPPFOLJNING.BI_REGISTRERINGAR reg
+            inner join UPPFOLJNING.BI_UTBILDNINGSTILLFALLEN utfx on utfx.UTBILDNINGSTILLFALLE_UID = reg.KURSTILLFALLE_UID
+            inner join UPPFOLJNING.BI_UTBILDNINGSTYPER uttx on uttx.UTBILDNINGSTYP_ID = utfx.UTBILDNINGSTYP_ID
+            inner join UPPFOLJNING.BI_UTBILDNINGSINSTANSER utix on utix.UTBILDNINGSINSTANS_UID = reg.UTBILDNINGSINSTANS_UID
+            inner join UPPFOLJNING.BI_ENHETER enhx on enhx.ENHET_ID = utix.ENHET_ID
+            inner join UPPFOLJNING.BI_UTBILDNINGSTILLFALLEN_TILLFALLESPERIODER utperx on utperx.UTBILDNINGSTILLFALLE_UID = utfx.UTBILDNINGSTILLFALLE_UID
+            inner join UPPFOLJNING.BI_TILLFALLESPERIODER tperx on utperx.TILLFALLESPERIOD_UID = tperx.TILLFALLESPERIOD_UID
+        where
+            uttx.GRUNDTYP = 'KURS'
+            and (enhx.ENHET_KOD = 'HP' or enhx.ENHET_KOD = 'HP-K' or enhx.ENHET_KOD = 'FUP')
+            and tperx.FORSTA_UNDERVISNINGSDATUM >= :#${header.periodStartDatum}
+            and tperx.FORSTA_UNDERVISNINGSDATUM < :#${header.periodSlutDatum})
 group by
     stud.personnummer
     ,stud.fornamn

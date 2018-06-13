@@ -37,14 +37,14 @@ import se.kth.integral.mecenat.model.MecenatCSVRecord;
  * as a list of MecenatCSVRecord:s.
  */
 @Component
-public class ForvantadeDeltagareRoute extends RouteBuilder {
+public class StuderandeRoute extends RouteBuilder {
     @Override
     public void configure() {
         from("direct:forvantadeDeltagare")
             .routeId("se.kth.integral.mecenat.forvantade_deltagare")
 
-            .log("Hämtar förväntat deltagande.")
-            .to("sql:classpath:sql/antagningar.sql?dataSource=uppfoljningsDB")
+            .log("Hämtar förväntat deltagande för studerande med någon registrering.")
+            .to("sql:classpath:sql/studerande.sql?dataSource=uppfoljningsDB")
 
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
             .split(body())
