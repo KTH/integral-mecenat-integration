@@ -1,7 +1,8 @@
 # integral-mecenat-integration
 
 A docker container to generate information from Ladok3 Uppföljningsdatabas to Mecenat, a company
-for student benefits and cards.
+for student benefits and cards. See the document [Designval](doc/Designval.md) for more information
+about how student records are selected and transfered.
 
 It is provided publically in the hope that someone else might find it useful. Improvements and
 suggestions are always welcome. Please file an issue or a pull request here.
@@ -80,13 +81,6 @@ Logging from the container is done to stdout, and it is assumed that the logs ar
 further with configuration of docker logging,
 [Configure logging drivers](https://docs.docker.com/config/containers/logging/configure/)
 
-### Debug Mecenat output
-
-The latest generated file to be sent to Mecenat is written to a file using a wire tap, default
-`/opt/data/mecenat/latest.txt`. You can capture this be either mounting a writeable volume
-to `/opt/data`, or by connecting to the running container with `docker exec` and 
-investigate the file within the container itself. Se documentation of Docker.
-
 #### Format
 
 By default this application uses [Bunyan JSON](https://github.com/trentm/node-bunyan) formatting
@@ -102,6 +96,13 @@ output. See the settings reference.
 
 For more advanced configuration you need to adjust the file logback-spring.xml and put it on 
 the classpath, or build your own container.
+
+### Debug Mecenat output
+
+The latest generated file to be sent to Mecenat is written to a file using a wire tap, default
+`/opt/data/mecenat/latest.txt`. You can capture this be either mounting a writeable volume
+to `/opt/data`, or by connecting to the running container with `docker exec` and 
+investigate the file within the container itself. Se documentation of Docker.
 
 ### Certificate for Ladok3
 

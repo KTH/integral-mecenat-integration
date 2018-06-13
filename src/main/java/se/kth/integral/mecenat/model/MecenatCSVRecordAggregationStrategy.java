@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy {
     final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @SuppressWarnings("unchecked")
     @Override
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
         if (oldExchange == null) {
