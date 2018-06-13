@@ -60,7 +60,7 @@ public class MecenatTransferRoute extends RouteBuilder {
                     + "&passiveMode=true"
                     + "&soTimeout=30000"
                     + "&maximumReconnectAttempts=0")
-
+//            .to("mock:mecenat")
             .log("Information skickad till Mecenat.");
     }
 }

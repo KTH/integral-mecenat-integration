@@ -30,8 +30,8 @@ where
     utt.GRUNDTYP = 'KURS'
     -- Vilka kurser är studiemedelsberättigade?
     and (enh.ENHET_KOD = 'HP' or enh.ENHET_KOD = 'HP-K' or enh.ENHET_KOD = 'FUP')
-    and tper.FORSTA_UNDERVISNINGSDATUM >= :#${header.terminStartDatum}
-    and tper.SISTA_UNDERVISNINGSDATUM < :#${header.terminSlutDatum}
+    and tper.FORSTA_UNDERVISNINGSDATUM >= :#${header.periodStartDatum}
+    and tper.FORSTA_UNDERVISNINGSDATUM < :#${header.periodSlutDatum}
 group by
     stud.personnummer
     ,stud.fornamn

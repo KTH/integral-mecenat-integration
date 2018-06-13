@@ -43,7 +43,7 @@ public class ForvantadeDeltagareRoute extends RouteBuilder {
         from("direct:forvantadeDeltagare")
             .routeId("se.kth.integral.mecenat.forvantade_deltagare")
 
-            .log("Hämtar förväntat deltagande för ${header.terminText} ${header.terminStartDatum}:${header.terminSlutDatum}.")
+            .log("Hämtar förväntat deltagande.")
             .to("sql:classpath:sql/antagningar.sql?dataSource=uppfoljningsDB")
 
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")

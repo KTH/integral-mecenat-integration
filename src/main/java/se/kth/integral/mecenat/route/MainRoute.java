@@ -34,9 +34,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MainRoute extends RouteBuilder {
-    private Processor termStartDateProcessor = new TermStartDateProcessor();
-    private Processor termEndDateProcessor = new TermEndDateProcessor();
-    private Processor halfYearDateProcessor = new HalfYearDateProcessor();
+    private Processor periodDatesProcessor = new PeriodDatesProcessor();
 
     @Value("${redelivery.retries}")
     private int maxRetries;
@@ -46,7 +44,6 @@ public class MainRoute extends RouteBuilder {
 
     @Value("${redelivery.maxdelay}")
     private int maxDelay;
-
     @Override
     public void configure() {
         getContext().setErrorHandlerBuilder(defaultErrorHandler()
@@ -59,22 +56,10 @@ public class MainRoute extends RouteBuilder {
         from("{{ladok3.endpoint.timer}}")
             .routeId("se.kth.integral.mecenat")
 
-            .log("Påbörjar Mecenat filexport.")
-            .setHeader("today").simple("${date:now:yyyy-MM-dd}")
-
-            .log(LoggingLevel.DEBUG, "Hämtar termin, start- och slutdatum från Ladok3.")
-            .to("sql:classpath:sql/nuvarande_termin.sql?dataSource=uppfoljningsDB")
-            .process(termStartDateProcessor)
-
-            .to("sql:classpath:sql/nasta_termin.sql?dataSource=uppfoljningsDB")
-            .process(termEndDateProcessor)
-
-            .log(LoggingLevel.DEBUG, "Hämtar halvår, start- och slutdatum från Ladok3.")
-            .to("sql:classpath:sql/nuvarande_halvar.sql?dataSource=uppfoljningsDB")
-            .process(halfYearDateProcessor)
+            .process(periodDatesProcessor)
+            .log("Påbörjar filexport för ${header.termin} period ${header.periodStartDatum}:${header.periodSlutDatum}")
 
             .multicast()
-                .to("direct:forvantadeDeltagare", "direct:forskarStuderande")
-            .end();
+                .to("direct:forvantadeDeltagare", "direct:forskarStuderande");
     }
 }
