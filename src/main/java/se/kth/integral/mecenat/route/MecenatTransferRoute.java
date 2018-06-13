@@ -53,14 +53,8 @@ public class MecenatTransferRoute extends RouteBuilder {
             .wireTap("file:{{mecenat.wiretap.dir}}" 
                     + "?fileName=latest.txt"
                     + "&charset=Windows-1252")
-            .to("ftps://{{mecenat.username}}:{{mecenat.password}}@{{mecenat.host}}/mecenat-upload"
-                    + "?fileName={{mecenat.customernr}}_${date:now:yyMMdd}_Mecenat_${date:now:HHmmss}_${header.termin}.txt"
-                    + "&charset=Windows-1252"
-                    + "&ftpClient=#mecenatFtpClient"
-                    + "&passiveMode=true"
-                    + "&soTimeout=30000"
-                    + "&maximumReconnectAttempts=0")
-
+            .to("{{mecenat.endpoint.ftp}}")
+//            .to("mock:mecenat")
             .log("Information skickad till Mecenat.");
     }
 }

@@ -23,43 +23,37 @@
  */
 package se.kth.integral.mecenat.route;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
-import org.apache.camel.CamelExchangeException;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 
-/**
- * Sub route which fetches start and end dates for half years from the database
- * and add to the headers.
- */
-public class HalfYearDateProcessor implements Processor {
-    private final static SimpleDateFormat LADOK_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private final Calendar calendar = Calendar.getInstance();
+public class PeriodDatesProcessor implements Processor {
+    private final static DateTimeFormatter LADOK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    @SuppressWarnings("unchecked")
+    @Override
     public void process(Exchange exchange) throws Exception {
-        Message in = exchange.getIn();
+        LocalDate today = LocalDate.now();
+        LocalDate periodStartDate, periodEndDate;
+        DateTimeFormatter terminFormatter;
 
-        List<Map<String, Object>> result = (List<Map<String, Object>>) in.getBody();
-
-        if (result.size() != 1) {
-            throw new CamelExchangeException("Illegal number of rows in result, should be one.", exchange);
+        if (today.getMonthValue() >= Month.JANUARY.getValue() && today.getMonthValue() <= Month.JUNE.getValue()) {
+            periodStartDate = today.minus(Period.ofYears(1)).withMonth(Month.DECEMBER.getValue()).withDayOfMonth(1);
+            periodEndDate = today.withMonth(Month.MAY.getValue()).withDayOfMonth(31);
+            terminFormatter = DateTimeFormatter.ofPattern("yyyy1");
+        } else {
+            periodStartDate = today.withMonth(Month.JUNE.getValue()).withDayOfMonth(1);
+            periodEndDate = today.withMonth(Month.NOVEMBER.getValue()).withDayOfMonth(30);
+            terminFormatter = DateTimeFormatter.ofPattern("yyyy2");
         }
 
-        Date startDate = (Date) result.get(0).get("STARTDATUM");
-        calendar.setTime(startDate);
-        in.setHeader("halvarStartDatum", LADOK_DATE_FORMAT.format(calendar.getTime()));
-
-        Date endDate = (Date) result.get(0).get("SLUTDATUM");
-        calendar.setTime(endDate);
-        in.setHeader("halvarSlutDatum", LADOK_DATE_FORMAT.format(calendar.getTime()));
-
-        in.setHeader("halvarText", ((String) result.get(0).get("PERIOD_SV")).trim());
+        Message in = exchange.getIn();
+        in.setHeader("periodStartDatum", periodStartDate.format(LADOK_DATE_FORMAT));
+        in.setHeader("periodSlutDatum", periodEndDate.format(LADOK_DATE_FORMAT));
+        in.setHeader("termin", today.format(terminFormatter));
     }
 }

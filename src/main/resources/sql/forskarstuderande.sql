@@ -17,8 +17,8 @@ from UPPFOLJNING.BI_STUDIEAKTIVITETER sta
     inner join UPPFOLJNING.IO_STUDENTUPPGIFTER stud on stud.STUDENT_UID = sta.STUDENT_UID
     inner join UPPFOLJNING.BI_PERIODER stp on stp.PERIOD_ID = sta.PERIOD_ID
 where
-    stp.STARTDATUM >= :#${header.halvarStartDatum}
-    and stp.SLUTDATUM <= :#${header.halvarSlutDatum}
+    stp.STARTDATUM >= :#${header.periodStartDatum}
+    and stp.STARTDATUM < :#${header.periodSlutDatum}
 group by
     stud.personnummer
     ,stud.fornamn
