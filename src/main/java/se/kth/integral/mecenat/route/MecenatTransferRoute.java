@@ -42,7 +42,7 @@ public class MecenatTransferRoute extends RouteBuilder {
         BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
         mecenatCsvFormat.setLocale("sv_SE");
 
-        from("direct:sendToMecenat")
+        from("{{endpoint.mecenattransferroute}}")
             .routeId("se.kth.integral.mecenat.sender")
 
             .aggregate(new MecenatCSVRecordAggregationStrategy()).constant(true).completionSize(2)
@@ -50,10 +50,8 @@ public class MecenatTransferRoute extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Skickar fil till mecenat.")
 
-            .wireTap("file:{{mecenat.wiretap.dir}}" 
-                    + "?fileName=latest.txt"
-                    + "&charset=Windows-1252")
-            .to("{{mecenat.endpoint.ftp}}")
+            .wireTap("{{endpoint.wiretap}}")
+            .to("{{endpoint.mecenat}}")
 //            .to("mock:mecenat")
             .log("Information skickad till Mecenat.");
     }

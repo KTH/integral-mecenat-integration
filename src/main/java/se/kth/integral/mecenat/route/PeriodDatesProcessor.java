@@ -31,14 +31,16 @@ import java.time.format.DateTimeFormatter;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
+import org.apache.camel.util.ExchangeHelper;
 
 public class PeriodDatesProcessor implements Processor {
     private final static DateTimeFormatter LADOK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.parse(ExchangeHelper.getMandatoryHeader(exchange, "today", String.class), LADOK_DATE_FORMAT);
         LocalDate periodStartDate, periodEndDate;
+
         DateTimeFormatter terminFormatter;
 
         if (today.getMonthValue() >= Month.JANUARY.getValue() && today.getMonthValue() <= Month.JUNE.getValue()) {

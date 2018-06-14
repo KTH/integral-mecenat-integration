@@ -40,7 +40,7 @@ import se.kth.integral.mecenat.model.MecenatCSVRecord;
 public class StuderandeRoute extends RouteBuilder {
     @Override
     public void configure() {
-        from("direct:forvantadeDeltagare")
+        from("{{endpoint.studeranderoute}}")
             .routeId("se.kth.integral.mecenat.forvantade_deltagare")
 
             .log("Hämtar förväntat deltagande för studerande med någon registrering.")
@@ -53,6 +53,6 @@ public class StuderandeRoute extends RouteBuilder {
                 .accumulateInCollection(ArrayList.class)
                 .pick(simple("${body}")))
                 .constant(true).completionSize(simple("${header.CamelSqlRowCount}"))
-            .to("direct:sendToMecenat");
+            .to("{{endpoint.mecenattransferroute}}");
     }
 }
