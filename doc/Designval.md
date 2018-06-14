@@ -18,14 +18,35 @@ Detta är vad vi har kommit fram till på KTH, det är oklart för mig exakt hur
 tillämpbart detta är för andra lärosäten. Bilden är att det borde vara relativt generellt,
 men avvikelser kan säkert förekomma.
 
+### Valda perioder
+
+Mecenat delar in året i två terminer, hösttermin och vårtermin. Programmet byter vid halvårsskiftena
+och börjar rapportera för höstterminen från 1 juli och vårterminen 1 januari.
+
+Vald ansats är att de studieperioder som väljs ut att ingå i terminen är de som har ett
+startdatum i ett intervall som är lite förskjutet i förhållande till detta. För höstterminen
+söks de studieperioder ut som börjar mellan 1 juni och 30 november. För vårterminen är det
+istället de perioder som börjar mellan 1 december föregående år och 31 maj.
+
+Anledningen till detta är att utresande studenter registreras på studieperioder som gäller
+för det lärosäte de studerar på och kan skilja ifrån våra egna. Vår vårtermin startar t.ex. i
+allmänhet ett par veckor in i januari, men på andra lärosäten utomlands kan den ha börjat 
+redan i december.
+
+På samma sätt kan inresande studenter påbörja sina studier med en kurs i en studieperiod som
+startar före höstterminens ordinarie början. 
+
+Given algoritm försöker fånga dessa specialfall på ett sätt som ger ett rimligt utfall i den
+information som skickas till Mecenat, men det finns säkert utrymme för förbättringar.
+
 ### Studenter i allmänhet
 
-Vi tittar i dagsläget enbart på antagningar, eller s.k. förväntat deltagande, se 
+När studieomfattning räknas ut tittar vi på antagningar, eller s.k. förväntat deltagande, 
+under perioden, se 
 `src/main/resources/sql/antagningar.sql`.
 
 Antagningar och poäng under terminen filtreras ut per studieperiod under den aktiva terminen i
-meningen att studieperioden startar under terminen och avslutas före nästa termin. Detta kommer
-att behöva anpassas, se not om *utresande studenter* nedan.
+meningen att studieperioden startar under aktuella period (se ovan).
 
 En brist här är att uppföljningsdatabasen i dagsläget inte innehåller information om återbud.
 Detta finns noterat i Ladok JIRA, https://jira.its.umu.se/browse/LADOKSUPP-3657 och bedöms att man

@@ -1,5 +1,12 @@
 # Release notes
 
+## 0.2.2
+
+* Add more regression tests.
+* Fix issue where aggregation did not consider the largest
+  date interval among records.
+* Update documentation about selected study periods.
+
 ## 0.2.1
 
 * Externalize all endpoints and start to add regression tests.
