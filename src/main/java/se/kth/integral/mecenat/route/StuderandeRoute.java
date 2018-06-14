@@ -44,7 +44,7 @@ public class StuderandeRoute extends RouteBuilder {
             .routeId("se.kth.integral.mecenat.forvantade_deltagare")
 
             .log("Hämtar förväntat deltagande för studerande med någon registrering.")
-            .to("sql:classpath:sql/studerande.sql?dataSource=uppfoljningsDB")
+            .to("{{endpoint.studerande.sql}}")
 
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
             .split(body())
