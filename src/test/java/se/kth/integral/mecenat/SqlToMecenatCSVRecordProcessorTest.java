@@ -1,3 +1,4 @@
+package se.kth.integral.mecenat;
 /*
  * MIT License
  *

@@ -178,7 +178,7 @@ public class MecenatCSVRecord {
         this.studieperiodStart = studieperiodStart;
     }
 
-    public Date getStudiePeriodSlut() {
+    public Date getStudieperiodSlut() {
         return studiePeriodSlut;
     }
 

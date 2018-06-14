@@ -1,6 +1,7 @@
 package se.kth.integral.mecenat.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,6 +56,19 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
         }
 
         oldRecord.setStudieomfattning(oldRecord.getStudieomfattning().add(record.getStudieomfattning()));
+
+        Date studieperiodStart = record.getStudieperiodStart();
+        Date oldStudieperiodStart = oldRecord.getStudieperiodStart();
+        if (studieperiodStart.before(oldStudieperiodStart)) {
+            oldRecord.setStudieperiodStart(studieperiodStart);
+        }
+
+        Date studieperiodSlut = record.getStudieperiodSlut();
+        Date oldStudieperiodSlut = oldRecord.getStudieperiodSlut();
+        if (studieperiodSlut.after(oldStudieperiodSlut)) {
+            oldRecord.setStudieperiodSlut(studieperiodSlut);
+        }
+
         return oldRecord;
     }
 }
