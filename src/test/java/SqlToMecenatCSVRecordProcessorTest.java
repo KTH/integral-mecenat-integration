@@ -39,6 +39,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
+import org.junit.Before;
 import org.junit.Test;
 
 import se.kth.integral.mecenat.model.MecenatCSVRecord;
@@ -48,11 +49,15 @@ public class SqlToMecenatCSVRecordProcessorTest {
     private CamelContext context = new DefaultCamelContext();
     private Exchange exchange = new DefaultExchange(context);
     private Processor sqlToMecenatCSVRecordProcessor = new SqlToMecenatCSVRecordProcessor();
+    private BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
+
+    @Before
+    public void initialize() {
+        mecenatCsvFormat.setLocale("sv_SE");
+    }
 
     @Test
     public void testCase() throws Exception {
-        exchange.getIn().setHeader("termin", "20181");
-
         Map<String, Object> sqlResult = new HashMap<String, Object>();
         sqlResult.put("fornamn", "Ture");
         sqlResult.put("efternamn", "Teknolog");
@@ -65,16 +70,17 @@ public class SqlToMecenatCSVRecordProcessorTest {
         sqlResult.put("STARTDATUM", Date.from(LocalDate.parse("2018-01-14").atStartOfDay(ZoneId.systemDefault()).toInstant()));
         sqlResult.put("STARTDATUM", Date.from(LocalDate.parse("2018-06-26").atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
+        exchange.getIn().setHeader("termin", "20181");
         exchange.getIn().setBody(sqlResult);
+
         sqlToMecenatCSVRecordProcessor.process(exchange);
 
         assertTrue(exchange.getIn().getBody() instanceof MecenatCSVRecord);
 
-        BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
-        mecenatCsvFormat.setLocale("sv_SE");
-
         OutputStream outputStream = new ByteArrayOutputStream();
         mecenatCsvFormat.marshal(exchange, exchange.getIn().getBody(), outputStream);
-        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;2018-06-26;;75;0;;;;;20181\r\n", outputStream.toString());
+
+        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;2018-06-26;;75;0;;;;;20181\r\n",
+                outputStream.toString());
     }
 }
