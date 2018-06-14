@@ -52,7 +52,6 @@ public class MecenatTransferRoute extends RouteBuilder {
 
             .wireTap("{{endpoint.wiretap}}")
             .to("{{endpoint.mecenat}}")
-//            .to("mock:mecenat")
             .log("Information skickad till Mecenat.");
     }
 }
