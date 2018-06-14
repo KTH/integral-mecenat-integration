@@ -40,11 +40,11 @@ import se.kth.integral.mecenat.model.MecenatCSVRecord;
 public class ForskarstuderandeRoute extends RouteBuilder {
     @Override
     public void configure() {
-        from("direct:forskarStuderande")
+        from("{{endpoint.forskarstuderanderoute}}")
             .routeId("se.kth.integral.mecenat.forskar_studerande")
 
             .log("Hämtar studieaktivitet för forskarstuderande.")
-            .to("sql:classpath:sql/forskarstuderande.sql?dataSource=uppfoljningsDB")
+            .to("{{endpoint.forskarstuderande.sql}}")
 
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
             .split(body())
@@ -53,6 +53,6 @@ public class ForskarstuderandeRoute extends RouteBuilder {
                 .accumulateInCollection(ArrayList.class)
                 .pick(simple("${body}")))
                 .constant(true).completionSize(simple("${header.CamelSqlRowCount}"))
-            .to("direct:sendToMecenat");
+            .to("{{endpoint.mecenattransferroute}}");
     }
 }

@@ -53,13 +53,15 @@ public class MainRoute extends RouteBuilder {
                 .useExponentialBackOff()
                 .retryAttemptedLogLevel(LoggingLevel.WARN));
 
-        from("{{ladok3.endpoint.timer}}")
+        from("{{endpoint.start}}")
             .routeId("se.kth.integral.mecenat")
 
+            .setHeader("today").simple("${date:now:yyyy-MM-dd}")
+
             .process(periodDatesProcessor)
-            .log("Påbörjar filexport för ${header.termin} period ${header.periodStartDatum}:${header.periodSlutDatum}")
+            .log("Påbörjar filexport för ${header.termin}, perioder som startar ${header.periodStartDatum}:${header.periodSlutDatum}")
 
             .multicast()
-                .to("direct:forvantadeDeltagare", "direct:forskarStuderande");
+                .to("{{endpoint.studeranderoute}}", "{{endpoint.forskarstuderanderoute}}");
     }
 }

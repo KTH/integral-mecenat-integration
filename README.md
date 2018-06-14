@@ -225,8 +225,9 @@ should use a different password, you also need to update application.properties.
 Complete build and testing is run with maven: `mvn clean install docker:build`
 
 Pre built docker images are available on public docker hub as kthse/integral-mecenat-integration.
+See https://hub.docker.com/r/kthse/integral-mecenat-integration/.
 
-See the Jenkins job at:
+Continous integration and build on:
 https://jenkins.sys.kth.se/view/Integral/job/integral-mecenat-integration/ (the server is not public).
 
 ### Release process with git flow

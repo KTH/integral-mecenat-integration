@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.2.1
+
+* Externalize all endpoints and start to add regression tests.
+
 ## 0.2.0
 
 Release candidate.
