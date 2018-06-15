@@ -1,5 +1,9 @@
 # Release notes
 
+## 0.2.3
+
+* Add more regression tests.
+
 ## 0.2.2
 
 * Add more regression tests.
