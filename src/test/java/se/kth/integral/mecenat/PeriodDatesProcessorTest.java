@@ -1,4 +1,3 @@
-package se.kth.integral.mecenat;
 /*
  * MIT License
  *
@@ -22,6 +21,8 @@ package se.kth.integral.mecenat;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package se.kth.integral.mecenat;
+
 import static org.junit.Assert.assertEquals;
 
 import org.apache.camel.CamelContext;

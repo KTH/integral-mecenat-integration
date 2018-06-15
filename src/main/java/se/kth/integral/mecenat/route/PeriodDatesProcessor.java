@@ -26,7 +26,9 @@ package se.kth.integral.mecenat.route;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -34,7 +36,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.util.ExchangeHelper;
 
 public class PeriodDatesProcessor implements Processor {
-    private final static DateTimeFormatter LADOK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public final static DateTimeFormatter LADOK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -57,5 +59,19 @@ public class PeriodDatesProcessor implements Processor {
         in.setHeader("periodStartDatum", periodStartDate.format(LADOK_DATE_FORMAT));
         in.setHeader("periodSlutDatum", periodEndDate.format(LADOK_DATE_FORMAT));
         in.setHeader("termin", today.format(terminFormatter));
+    }
+
+    public static Date dateFromLadokDatum(String datum) {
+        return Date.from(LocalDate.parse(datum, PeriodDatesProcessor.LADOK_DATE_FORMAT)
+                    .atStartOfDay(ZoneId.systemDefault())
+                    .toInstant());
+    }
+
+    public static String ladokDatumFromDate(Date date) {
+        return localDateFromDate(date).format(LADOK_DATE_FORMAT);
+    }
+
+    public static LocalDate localDateFromDate(Date datum) {
+        return datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }
