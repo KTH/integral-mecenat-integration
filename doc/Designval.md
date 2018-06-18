@@ -56,11 +56,19 @@ kan åtgärda tidigast våren 2019. Till dess kommer vi alltså att överskatta 
 
 Registreras på kurser som alla andra och kommer med i resultatet från antagningar.sql.
 
+Ett specialfall är att dessa studenter kan påbörja terminen tidigare än andra studenter med
+en inledande kurs i svenska. För att få med dessa under höstterminen startar tidsintervallet
+vi letar perioder tidigare dessa i datat som rapporteras in för hösten. Se Valda perioder
+ovan.
+
 ### Utresande studenter
 
 Registreras också på kurser som motsvarar deras studier utomlands. En hake här är att studieperioden
 i dessa fall är studieperioden på det andra universitetet som kan ha en helt annan periodindelning
 än vi. Den nuvarande logiken för start- och slutdatum behöver anpassas för att ta hänsyn till det.
+
+Vår ansats är att starta tidsintervallet vi letar efter perioder i lite tidigare för att få med dessa,
+se Valda perioder ovan.
 
 ### Forskarstuderande
 
