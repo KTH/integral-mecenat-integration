@@ -35,7 +35,7 @@ files needs to be amended using either properties or environment variables.
 | ladok3.username          | LADOK3_USERNAME   | The ladok3 database user, required | |
 | ladok3.password          | LADOK3_PASSWORD   | The ladok3 database password, required | |
 | ladok3.cron              | LADOK3_CRON   | A cron-like quartz trigger expression, optional | 0 0 6-22 ? \* MON-FRI |
-| mecenat.host             | MECENAT_HOST | Hostname of Mecenat ftp server, optional. | ftp.mecenat.se:990 |
+| mecenat.host             | MECENAT_HOST | Hostname of Mecenat ftp server, optional. | ftp.mecenat.se |
 | mecenat.username         | MECENAT_USERNAME | Username for Mecenat ftp server, required. | |
 | mecenat.password         | MECENAT_PASSWORD | Password for Mecenat ftp user, required. | |
 | mecenat.customernr       | MECENAT_CUSTOMERNR | Mecenat customer number, required | |
@@ -43,7 +43,6 @@ files needs to be amended using either properties or environment variables.
 | redelivery.delay         | REDELIVERY_DELAY | Initial delay in ms, doubled on each retry up to max delay, optional | 1000 |
 | redelivery.maxdelay      | REDELIVERY_MAXDELAY | Max delay in ms, optional | 60000 |
 | spring.profiles.active   | SPRING_PROFILES_ACTIVE | Active Spring profiles, optional | bunyan |
-| mecenat.wiretap.dir      | MECENAT_WIRETAP_DIR | Where to dump latest mecenat file to, optional | /opt/data/mecenat |
 | *none*                   | LADOK3_CERT     | Path to the ladok3 user certificate, optional | /run/secrets/ladok3-user.crt |
 | *none*                   | LADOK3_CERT_KEY | Path to the the certificate key (unencrypted), optional | /run/secrets/ladok3-user.key |
 
@@ -103,6 +102,9 @@ The latest generated file to be sent to Mecenat is written to a file using a wir
 `/opt/data/mecenat/latest.txt`. You can capture this be either mounting a writeable volume
 to `/opt/data`, or by connecting to the running container with `docker exec` and 
 investigate the file within the container itself. Se documentation of Docker.
+
+Note that the image is based on Alpine Linux and Busybox and has some limitations as a Linux
+environment.
 
 ### Certificate for Ladok3
 

@@ -35,6 +35,12 @@ import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.util.ExchangeHelper;
 
+/**
+ * Sätter headrar termin, periodStartDatum och periodSlutDatum med utgångspunkt från
+ * dagens datum.
+ * 
+ * Se "Valda perioder" i doc/Designval.md för detaljer.
+ */
 public class PeriodDatesProcessor implements Processor {
     public final static DateTimeFormatter LADOK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -46,13 +52,15 @@ public class PeriodDatesProcessor implements Processor {
         DateTimeFormatter terminFormatter;
 
         if (today.getMonthValue() >= Month.JANUARY.getValue() && today.getMonthValue() <= Month.JUNE.getValue()) {
+            // Vårtermin.
+            terminFormatter = DateTimeFormatter.ofPattern("yyyy1");
             periodStartDate = today.minus(Period.ofYears(1)).withMonth(Month.DECEMBER.getValue()).withDayOfMonth(1);
             periodEndDate = today.withMonth(Month.MAY.getValue()).withDayOfMonth(31);
-            terminFormatter = DateTimeFormatter.ofPattern("yyyy1");
         } else {
+            // Hösttermin.
+            terminFormatter = DateTimeFormatter.ofPattern("yyyy2");
             periodStartDate = today.withMonth(Month.JUNE.getValue()).withDayOfMonth(1);
             periodEndDate = today.withMonth(Month.NOVEMBER.getValue()).withDayOfMonth(30);
-            terminFormatter = DateTimeFormatter.ofPattern("yyyy2");
         }
 
         Message in = exchange.getIn();

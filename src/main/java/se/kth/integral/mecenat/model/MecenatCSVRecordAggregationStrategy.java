@@ -12,6 +12,13 @@ import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * AggregationStrategy som aggregerar MecenatCSVRecord.
+ *
+ * Arbetshypotesen är att summera ihop studieomfattningar för en person
+ * som förekommer flera gånger, samt välja det tidigaste startdatumet och det
+ * senaste slutdatumet.
+ */
 public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy {
     final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -43,8 +50,8 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
 
         log.debug("Aggregerade {} rader till {} unika rader", count, uniqueRecords.size());
 
-        newExchange.getIn().setBody(uniqueRecords.values());;
-        return newExchange;
+        oldExchange.getIn().setBody(uniqueRecords.values());;
+        return oldExchange;
     }
 
     private static MecenatCSVRecord mergeRecords(final Map<String, MecenatCSVRecord> records, final MecenatCSVRecord record) {
