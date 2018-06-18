@@ -1,5 +1,12 @@
 # Release notes
 
+## 1.0.0
+
+First major release, will go into production.
+
+* Update documentation.
+* Prefer old exchange in aggregator.
+
 ## 0.2.3
 
 * Add more regression tests.
