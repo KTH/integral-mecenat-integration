@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.0.1
+
+* Fix: courses starting in P0 (beginning of summer) belongs to spring term.
+
 ## 1.0.0
 
 First major release, will go into production.
