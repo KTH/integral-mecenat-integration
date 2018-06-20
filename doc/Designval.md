@@ -25,8 +25,8 @@ och börjar rapportera för höstterminen från 1 juli och vårterminen 1 januar
 
 Vald ansats är att de studieperioder som väljs ut att ingå i terminen är de som har ett
 startdatum i ett intervall som är lite förskjutet i förhållande till detta. För höstterminen
-söks de studieperioder ut som börjar mellan 1 juni och 30 november. För vårterminen är det
-istället de perioder som börjar mellan 1 december föregående år och 31 maj.
+söks de studieperioder ut som börjar mellan 1 juli och 30 november. För vårterminen är det
+istället de perioder som börjar mellan 1 december föregående år och 30 juni.
 
 Anledningen till detta är att utresande studenter registreras på studieperioder som gäller
 för det lärosäte de studerar på och kan skilja ifrån våra egna. Vår vårtermin startar t.ex. i
@@ -35,6 +35,9 @@ redan i december.
 
 På samma sätt kan inresande studenter påbörja sina studier med en kurs i en studieperiod som
 startar före höstterminens ordinarie början. 
+
+Dessutom har vi två _sommarperioder_, en efter vårterminen som åtminstone i någon mening 
+anses höra till våren och en före höstterminen som anses höra till hösten.
 
 Given algoritm försöker fånga dessa specialfall på ett sätt som ger ett rimligt utfall i den
 information som skickas till Mecenat, men det finns säkert utrymme för förbättringar.

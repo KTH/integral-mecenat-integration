@@ -55,11 +55,11 @@ public class PeriodDatesProcessor implements Processor {
             // Vårtermin.
             terminFormatter = DateTimeFormatter.ofPattern("yyyy1");
             periodStartDate = today.minus(Period.ofYears(1)).withMonth(Month.DECEMBER.getValue()).withDayOfMonth(1);
-            periodEndDate = today.withMonth(Month.MAY.getValue()).withDayOfMonth(31);
+            periodEndDate = today.withMonth(Month.JUNE.getValue()).withDayOfMonth(30);
         } else {
             // Hösttermin.
             terminFormatter = DateTimeFormatter.ofPattern("yyyy2");
-            periodStartDate = today.withMonth(Month.JUNE.getValue()).withDayOfMonth(1);
+            periodStartDate = today.withMonth(Month.JULY.getValue()).withDayOfMonth(1);
             periodEndDate = today.withMonth(Month.NOVEMBER.getValue()).withDayOfMonth(30);
         }
 

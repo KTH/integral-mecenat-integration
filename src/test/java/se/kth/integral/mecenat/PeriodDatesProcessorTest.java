@@ -45,7 +45,7 @@ public class PeriodDatesProcessorTest {
         dateProcessor.process(exchange);
         assertEquals("20181", exchange.getIn().getHeader("termin", String.class));
         assertEquals("2017-12-01", exchange.getIn().getHeader("periodStartDatum", String.class));
-        assertEquals("2018-05-31", exchange.getIn().getHeader("periodSlutDatum", String.class));
+        assertEquals("2018-06-30", exchange.getIn().getHeader("periodSlutDatum", String.class));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class PeriodDatesProcessorTest {
         dateProcessor.process(exchange);
         assertEquals("20181", exchange.getIn().getHeader("termin", String.class));
         assertEquals("2017-12-01", exchange.getIn().getHeader("periodStartDatum", String.class));
-        assertEquals("2018-05-31", exchange.getIn().getHeader("periodSlutDatum", String.class));
+        assertEquals("2018-06-30", exchange.getIn().getHeader("periodSlutDatum", String.class));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class PeriodDatesProcessorTest {
         exchange.getIn().setHeader("today", "2018-07-01");
         dateProcessor.process(exchange);
         assertEquals("20182", exchange.getIn().getHeader("termin", String.class));
-        assertEquals("2018-06-01", exchange.getIn().getHeader("periodStartDatum", String.class));
+        assertEquals("2018-07-01", exchange.getIn().getHeader("periodStartDatum", String.class));
         assertEquals("2018-11-30", exchange.getIn().getHeader("periodSlutDatum", String.class));
     }
 
@@ -71,7 +71,7 @@ public class PeriodDatesProcessorTest {
         exchange.getIn().setHeader("today", "2018-12-31");
         dateProcessor.process(exchange);
         assertEquals("20182", exchange.getIn().getHeader("termin", String.class));
-        assertEquals("2018-06-01", exchange.getIn().getHeader("periodStartDatum", String.class));
+        assertEquals("2018-07-01", exchange.getIn().getHeader("periodStartDatum", String.class));
         assertEquals("2018-11-30", exchange.getIn().getHeader("periodSlutDatum", String.class));
     }
 }
