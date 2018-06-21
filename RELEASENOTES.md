@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.0.2
+
+* Ladok3 production environment.
+
 ## 1.0.1
 
 * Fix: courses starting in P0 (beginning of summer) belongs to spring term.
