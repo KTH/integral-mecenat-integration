@@ -86,8 +86,10 @@ som eventuellt finns dubbelt summeras.
 
 ## Konvertering till Mecenat
 
-Informationen konverteras till Mecenats format enligt `Mecenat-Filspec-CSV-2018.pdf` med hjälp av
+Informationen konverteras till Mecenats format enligt `Mecenat-Ladok-2018.xlsx` med hjälp av
 en annoterad modell `MecenatCSVRecord` som ger stöd för konverteringen till CSV.
+
+Se även `Mecenat-Filspec-CSV-2018` för detaljer om vissa fält.
 
 
 ## Programmets struktur
