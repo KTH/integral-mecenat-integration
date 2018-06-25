@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.0
+
+* Amended for new requirements for Mecenat file format.
+
 ## 1.0.2
 
 * Ladok3 production environment.

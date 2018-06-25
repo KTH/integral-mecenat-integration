@@ -74,7 +74,7 @@ public class MainRouteTest extends CamelTestSupport {
 
         mockMecenat.expectedMessageCount(1);
 
-        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;2018-01-01;2018-06-30;100;0;;;;;20181\r\n",
+        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;20181;;\r\n",
                 mockMecenat.getExchanges().get(0).getIn().getBody(String.class));
 
         assertMockEndpointsSatisfied();

@@ -61,32 +61,47 @@ public class MecenatCSVRecord {
     @DataField(pos = 9, trim = true, length = 50, clip = true)
     private String epost;
 
-    @DataField(pos = 10, length = 10, pattern = "yyyy-MM-dd", required = true)
-    private Date studieperiodStart;
+    @DataField(pos = 10, trim = true, length = 50, clip = true)
+    private String telefon;
 
-    @DataField(pos = 11, length = 10, pattern = "yyyy-MM-dd", required = true)
-    private Date studiePeriodSlut;
+    @DataField(pos = 11, length = 30, trim = true, clip = true)
+    private String fritext1;
 
-    @DataField(pos = 12, length = 3, required = true, precision = 0)
-    private BigDecimal studieomfattning;
+    @DataField(pos = 12, length = 30, trim = true, clip = true)
+    private String fritext2;
 
-    @DataField(pos = 13, length = 1, defaultValue = "0", required = true)
-    private int karmedlem;
+    @DataField(pos = 13, length = 30, trim = true, clip = true)
+    private String fritext3;
 
     @DataField(pos = 14, length = 30, trim = true, clip = true)
     private String sektion;
 
-    @DataField(pos = 15, length = 30, trim = true, clip = true)
-    private String fritext1;
+    @DataField(pos = 15, length = 1, defaultValue = "0", required = true)
+    private int karmedlem;
 
-    @DataField(pos = 16, length = 30, trim = true, clip = true)
-    private String fritext2;
+    @DataField(pos = 16, length = 3, required = true, precision = 0)
+    private BigDecimal studieomfattning;
 
-    @DataField(pos = 17, length = 30, trim = true, clip = true)
-    private String fritext3;
+    @DataField(pos = 17, length = 1, defaultValue = "0", required = true)
+    private int distansStudent;
 
-    @DataField(pos = 18, length = 5, required = true)
+    @DataField(pos = 18, length = 1, defaultValue = "0", required = true)
+    private int dublett;
+
+    @DataField(pos = 19, length = 10, pattern = "yyyy-MM-dd", required = true)
+    private Date studieperiodStart;
+
+    @DataField(pos = 20, length = 10, pattern = "yyyy-MM-dd", required = true)
+    private Date studiePeriodSlut;
+
+    @DataField(pos = 21, length = 5, required = true)
     private String termin;
+
+    @DataField(pos = 22, trim = true, length = 50, clip = true)
+    private String programtyp;
+
+    @DataField(pos = 23, trim = true, length = 50, clip = true)
+    private String inriktning;
 
     @Override
     public int hashCode() {
@@ -205,6 +220,18 @@ public class MecenatCSVRecord {
         this.karmedlem = karmedlem;
     }
 
+    public boolean isKarmedlem() {
+        return getKarmedlem() != 0;
+    }
+
+    public void setKarmedlem(boolean medlem) {
+        if (medlem) {
+            setKarmedlem(1);
+        } else {
+            setKarmedlem(0);
+        }
+    }
+
     public String getSektion() {
         return sektion;
     }
@@ -243,5 +270,69 @@ public class MecenatCSVRecord {
 
     public void setTermin(String termin) {
         this.termin = termin;
+    }
+
+    public String getTelefon() {
+        return telefon;
+    }
+
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
+    }
+
+    public int getDistansStudent() {
+        return distansStudent;
+    }
+
+    public void setDistansStudent(int distansStudent) {
+        this.distansStudent = distansStudent;
+    }
+
+    public boolean isDistansStudent() {
+        return getDistansStudent() != 0;
+    }
+
+    public void setDistansStudent(boolean distans) {
+        if (distans) {
+            setDistansStudent(1);
+        } else {
+            setDistansStudent(0);
+        }
+    }
+
+    public int getDublett() {
+        return dublett;
+    }
+
+    public boolean isDublett() {
+        return getDublett() != 0;
+    }
+
+    public void setDublett(boolean dubbel) {
+        if (dubbel) {
+            setDublett(1);
+        } else {
+            setDublett(0);
+        }
+    }
+
+    public void setDublett(int dublett) {
+        this.dublett = dublett;
+    }
+
+    public String getProgramtyp() {
+        return programtyp;
+    }
+
+    public void setProgramtyp(String programtyp) {
+        this.programtyp = programtyp;
+    }
+
+    public String getInriktning() {
+        return inriktning;
+    }
+
+    public void setInriktning(String inriktning) {
+        this.inriktning = inriktning;
     }
 }

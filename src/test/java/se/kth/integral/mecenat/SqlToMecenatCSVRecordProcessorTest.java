@@ -69,7 +69,7 @@ public class SqlToMecenatCSVRecordProcessorTest {
         sqlResult.put("postnummer", "11614");
         sqlResult.put("OMFATTNING_PROCENT", new BigDecimal(75.33));
         sqlResult.put("STARTDATUM", Date.from(LocalDate.parse("2018-01-14").atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        sqlResult.put("STARTDATUM", Date.from(LocalDate.parse("2018-06-26").atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        sqlResult.put("SLUTDATUM", Date.from(LocalDate.parse("2018-06-26").atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
         exchange.getIn().setHeader("termin", "20181");
         exchange.getIn().setBody(sqlResult);
@@ -81,7 +81,7 @@ public class SqlToMecenatCSVRecordProcessorTest {
         OutputStream outputStream = new ByteArrayOutputStream();
         mecenatCsvFormat.marshal(exchange, exchange.getIn().getBody(), outputStream);
 
-        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;2018-06-26;;75;0;;;;;20181\r\n",
+        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-14;2018-06-26;20181;;\r\n",
                 outputStream.toString());
     }
 }
