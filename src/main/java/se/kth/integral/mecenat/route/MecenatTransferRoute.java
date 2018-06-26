@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import se.kth.integral.mecenat.model.MecenatCSVRecordAggregationStrategy;
@@ -37,8 +38,24 @@ import se.kth.integral.mecenat.model.MecenatCSVRecordAggregationStrategy;
  */
 @Component
 public class MecenatTransferRoute extends RouteBuilder {
+    @Value("${redelivery.retries}")
+    private int maxRetries;
+
+    @Value("${redelivery.delay}")
+    private int delay;
+
+    @Value("${redelivery.maxdelay}")
+    private int maxDelay;
+
     @Override
     public void configure() throws UnsupportedEncodingException {
+        errorHandler(defaultErrorHandler()
+                .redeliveryDelay(delay)
+                .maximumRedeliveryDelay(maxDelay)
+                .maximumRedeliveries(maxRetries)
+                .useExponentialBackOff()
+                .retryAttemptedLogLevel(LoggingLevel.WARN));
+
         BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
         mecenatCsvFormat.setLocale("sv_SE");
 

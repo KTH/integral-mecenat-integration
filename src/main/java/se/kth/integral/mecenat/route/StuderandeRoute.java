@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.util.toolbox.AggregationStrategies;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import se.kth.integral.mecenat.model.MecenatCSVRecord;
@@ -38,8 +39,24 @@ import se.kth.integral.mecenat.model.MecenatCSVRecord;
  */
 @Component
 public class StuderandeRoute extends RouteBuilder {
+    @Value("${redelivery.retries}")
+    private int maxRetries;
+
+    @Value("${redelivery.delay}")
+    private int delay;
+
+    @Value("${redelivery.maxdelay}")
+    private int maxDelay;
+
     @Override
     public void configure() {
+        errorHandler(defaultErrorHandler()
+                .redeliveryDelay(delay)
+                .maximumRedeliveryDelay(maxDelay)
+                .maximumRedeliveries(maxRetries)
+                .useExponentialBackOff()
+                .retryAttemptedLogLevel(LoggingLevel.WARN));
+
         from("{{endpoint.studeranderoute}}")
             .routeId("se.kth.integral.mecenat.forvantade_deltagare")
 
