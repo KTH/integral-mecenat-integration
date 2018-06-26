@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.1
+
+* Miscellaneous fixes to error handling.
+
 ## 1.1.0
 
 * Amended for new requirements for Mecenat file format.
