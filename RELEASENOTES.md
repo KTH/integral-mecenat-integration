@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.3
+
+* Add error handler on all routes.
+
 ## 1.1.2
 
 * Miscellaneous fixes to error handling.
