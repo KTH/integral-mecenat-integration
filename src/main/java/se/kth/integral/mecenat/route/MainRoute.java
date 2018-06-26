@@ -23,6 +23,8 @@
  */
 package se.kth.integral.mecenat.route;
 
+import javax.ws.rs.NotFoundException;
+
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -44,14 +46,23 @@ public class MainRoute extends RouteBuilder {
 
     @Value("${redelivery.maxdelay}")
     private int maxDelay;
+
     @Override
     public void configure() {
-        getContext().setErrorHandlerBuilder(defaultErrorHandler()
+        errorHandler(defaultErrorHandler()
                 .redeliveryDelay(delay)
                 .maximumRedeliveryDelay(maxDelay)
                 .maximumRedeliveries(maxRetries)
                 .useExponentialBackOff()
                 .retryAttemptedLogLevel(LoggingLevel.WARN));
+
+        onCompletion()
+            .onFailureOnly()
+            .log(LoggingLevel.ERROR, "Misslyckades med att skicka information till Mecenat.");
+
+        onCompletion()
+            .onCompleteOnly()
+            .log("Information skickad till Mecenat.");
 
         from("{{endpoint.start}}")
             .routeId("se.kth.integral.mecenat")

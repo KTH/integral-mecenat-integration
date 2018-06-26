@@ -71,7 +71,7 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
         Long count = oldRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.counting());
         count += newRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.counting());
 
-        log.debug("Aggregerade {} rader till {} unika rader", count, uniqueRecords.size());
+        log.info("Aggregerade {} rader till {} unika rader", count, uniqueRecords.size());
 
         oldExchange.getIn().setBody(uniqueRecords.values());;
         return oldExchange;
