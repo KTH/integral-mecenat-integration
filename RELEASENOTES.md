@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.4
+
+* Fix issue with $ in propoerties.
+
 ## 1.1.3
 
 * Add error handler on all routes.
