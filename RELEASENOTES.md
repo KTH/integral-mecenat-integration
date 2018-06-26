@@ -1,6 +1,6 @@
 # Release notes
 
-## 1.1.1
+## 1.1.2
 
 * Miscellaneous fixes to error handling.
 
