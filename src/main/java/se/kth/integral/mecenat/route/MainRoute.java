@@ -23,8 +23,6 @@
  */
 package se.kth.integral.mecenat.route;
 
-import javax.ws.rs.NotFoundException;
-
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
