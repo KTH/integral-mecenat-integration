@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.5
+
+* Fix timezone of timestamps in filename.
+
 ## 1.1.4
 
 * Fix issue with $ in propoerties.
