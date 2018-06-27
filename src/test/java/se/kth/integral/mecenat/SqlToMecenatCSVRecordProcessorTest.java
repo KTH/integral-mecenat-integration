@@ -84,4 +84,60 @@ public class SqlToMecenatCSVRecordProcessorTest {
         assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-14;2018-06-26;20181;;\r\n",
                 outputStream.toString());
     }
+
+    @Test
+    public void testSe() throws Exception {
+        Map<String, Object> sqlResult = new HashMap<String, Object>();
+        sqlResult.put("fornamn", "Ture");
+        sqlResult.put("efternamn", "Teknolog");
+        sqlResult.put("personnummer", "19710321xyzu");
+        sqlResult.put("land", "SE");
+        sqlResult.put("utdelningsadress", "Forskarbacken 21");
+        sqlResult.put("postort", "Stockholm");
+        sqlResult.put("postnummer", "11614");
+        sqlResult.put("OMFATTNING_PROCENT", new BigDecimal(75.33));
+        sqlResult.put("STARTDATUM", Date.from(LocalDate.parse("2018-01-14").atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        sqlResult.put("SLUTDATUM", Date.from(LocalDate.parse("2018-06-26").atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+        exchange.getIn().setHeader("termin", "20181");
+        exchange.getIn().setBody(sqlResult);
+
+        sqlToMecenatCSVRecordProcessor.process(exchange);
+
+        assertTrue(exchange.getIn().getBody() instanceof MecenatCSVRecord);
+
+        OutputStream outputStream = new ByteArrayOutputStream();
+        mecenatCsvFormat.marshal(exchange, exchange.getIn().getBody(), outputStream);
+
+        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-14;2018-06-26;20181;;\r\n",
+                outputStream.toString());
+    }
+
+    @Test
+    public void testAnnatLand() throws Exception {
+        Map<String, Object> sqlResult = new HashMap<String, Object>();
+        sqlResult.put("fornamn", "Ture");
+        sqlResult.put("efternamn", "Teknolog");
+        sqlResult.put("personnummer", "19710321xyzu");
+        sqlResult.put("land", "Frankrike");
+        sqlResult.put("utdelningsadress", "Forskarbacken 21");
+        sqlResult.put("postort", "Stockholm");
+        sqlResult.put("postnummer", "11614");
+        sqlResult.put("OMFATTNING_PROCENT", new BigDecimal(75.33));
+        sqlResult.put("STARTDATUM", Date.from(LocalDate.parse("2018-01-14").atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        sqlResult.put("SLUTDATUM", Date.from(LocalDate.parse("2018-06-26").atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+        exchange.getIn().setHeader("termin", "20181");
+        exchange.getIn().setBody(sqlResult);
+
+        sqlToMecenatCSVRecordProcessor.process(exchange);
+
+        assertTrue(exchange.getIn().getBody() instanceof MecenatCSVRecord);
+
+        OutputStream outputStream = new ByteArrayOutputStream();
+        mecenatCsvFormat.marshal(exchange, exchange.getIn().getBody(), outputStream);
+
+        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;Frankrike;;;;;;;0;75;0;0;2018-01-14;2018-06-26;20181;;\r\n",
+                outputStream.toString());
+    }
 }
