@@ -172,7 +172,7 @@ public class MecenatCSVRecord {
      *  Ska vara tom om land är Sverige, se setLand().
      */
     public void setLand(String land) {
-        if (! land.trim().equalsIgnoreCase("SVERIGE")) {
+        if (! (land.trim().equalsIgnoreCase("SVERIGE") || land.trim().equalsIgnoreCase("SE"))) {
             this.land = land;
         }
     }
