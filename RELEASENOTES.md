@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.7
+
+* Change filename and path according to requirement from Mecenat.
+
 ## 1.1.6
 
 * Retry forever on JDBC connection errors.
