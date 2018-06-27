@@ -1,5 +1,10 @@
 # Release notes
 
+## 1.1.6
+
+* Retry forever on JDBC connection errors.
+* Fix issue where country "SE" got propagated to CSV output.
+
 ## 1.1.5
 
 * Fix timezone of timestamps in filename.
