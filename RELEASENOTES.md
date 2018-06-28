@@ -1,5 +1,10 @@
 # Release notes
 
+## 1.1.8
+
+* Reschedule to 09.30 weekday mornings (timezone Europe/Stockholm)
+  as agreed with Mecenat.
+
 ## 1.1.7
 
 * Change filename and path according to requirement from Mecenat.
