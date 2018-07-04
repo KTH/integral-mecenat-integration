@@ -23,6 +23,8 @@ package se.kth.integral.mecenat;
  * SOFTWARE.
  */
 
+import java.time.LocalDate;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
@@ -36,6 +38,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import se.kth.integral.mecenat.route.PeriodDatesProcessor;
 
 @ActiveProfiles("test")
 @RunWith(CamelSpringBootRunner.class)
@@ -70,11 +74,15 @@ public class MainRouteTest extends CamelTestSupport {
 
     @Test
     public void runTest() throws InterruptedException {
+        LocalDate today = LocalDate.now();
         mockStart.sendBody("");
 
         mockMecenat.expectedMessageCount(1);
 
-        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;20181;;\r\n",
+        String term = PeriodDatesProcessor.term(today);
+        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;"
+                + term
+                +";;\r\n",
                 mockMecenat.getExchanges().get(0).getIn().getBody(String.class));
 
         assertMockEndpointsSatisfied();
