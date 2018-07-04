@@ -49,16 +49,12 @@ public class PeriodDatesProcessor implements Processor {
         LocalDate today = LocalDate.parse(ExchangeHelper.getMandatoryHeader(exchange, "today", String.class), LADOK_DATE_FORMAT);
         LocalDate periodStartDate, periodEndDate;
 
-        DateTimeFormatter terminFormatter;
+        String term = term(today);
 
-        if (today.getMonthValue() >= Month.JANUARY.getValue() && today.getMonthValue() <= Month.JUNE.getValue()) {
-            // Vårtermin.
-            terminFormatter = DateTimeFormatter.ofPattern("yyyy1");
+        if (isSpringTerm(today)) {
             periodStartDate = today.minus(Period.ofYears(1)).withMonth(Month.DECEMBER.getValue()).withDayOfMonth(1);
             periodEndDate = today.withMonth(Month.JUNE.getValue()).withDayOfMonth(30);
         } else {
-            // Hösttermin.
-            terminFormatter = DateTimeFormatter.ofPattern("yyyy2");
             periodStartDate = today.withMonth(Month.JULY.getValue()).withDayOfMonth(1);
             periodEndDate = today.withMonth(Month.NOVEMBER.getValue()).withDayOfMonth(30);
         }
@@ -66,7 +62,19 @@ public class PeriodDatesProcessor implements Processor {
         Message in = exchange.getIn();
         in.setHeader("periodStartDatum", periodStartDate.format(LADOK_DATE_FORMAT));
         in.setHeader("periodSlutDatum", periodEndDate.format(LADOK_DATE_FORMAT));
-        in.setHeader("termin", today.format(terminFormatter));
+        in.setHeader("termin", term);
+    }
+
+    private static boolean isSpringTerm(LocalDate today) {
+        return today.getMonthValue() >= Month.JANUARY.getValue() && today.getMonthValue() <= Month.JUNE.getValue();
+    }
+
+    public static String term(LocalDate today) {
+        if (isSpringTerm(today)) {
+            return DateTimeFormatter.ofPattern("yyyy1").format(today);
+        } else {
+            return DateTimeFormatter.ofPattern("yyyy2").format(today);
+        }
     }
 
     public static Date dateFromLadokDatum(String datum) {
