@@ -40,13 +40,11 @@ where
             inner join UPPFOLJNING.BI_UTBILDNINGSTYPER uttx on uttx.UTBILDNINGSTYP_ID = utfx.UTBILDNINGSTYP_ID
             inner join UPPFOLJNING.BI_UTBILDNINGSINSTANSER utix on utix.UTBILDNINGSINSTANS_UID = reg.UTBILDNINGSINSTANS_UID
             inner join UPPFOLJNING.BI_ENHETER enhx on enhx.ENHET_ID = utix.ENHET_ID
-            inner join UPPFOLJNING.BI_UTBILDNINGSTILLFALLEN_TILLFALLESPERIODER utperx on utperx.UTBILDNINGSTILLFALLE_UID = utfx.UTBILDNINGSTILLFALLE_UID
-            inner join UPPFOLJNING.BI_TILLFALLESPERIODER tperx on utperx.TILLFALLESPERIOD_UID = tperx.TILLFALLESPERIOD_UID
         where
             uttx.GRUNDTYP = 'KURS'
             and (enhx.ENHET_KOD = 'HP' or enhx.ENHET_KOD = 'HP-K' or enhx.ENHET_KOD = 'FUP')
-            and tperx.FORSTA_UNDERVISNINGSDATUM >= :#${header.periodStartDatum}
-            and tperx.FORSTA_UNDERVISNINGSDATUM < :#${header.periodSlutDatum})
+            and reg.STUDIEPERIOD_STARTDATUM >= :#${header.periodStartDatum}
+            and reg.STUDIEPERIOD_STARTDATUM < :#${header.periodStartDatum})
 group by
     stud.personnummer
     ,stud.fornamn
