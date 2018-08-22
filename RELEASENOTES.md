@@ -1,5 +1,12 @@
 # Release notes
 
+## 1.1.10
+
+* Fix issue where students where considered active during the period
+  when there was no active registration. Issue being the student was
+  registered on some other study period on a course spanning multiple
+  periods.
+
 ## 1.1.9
 
 * Fix broken test after half year turn date.
