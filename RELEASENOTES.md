@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.12
+
+* Fix bug in SQL introduced in 1.1.10.
+
 ## 1.1.11
 
 * Added a couple of debug logs.
