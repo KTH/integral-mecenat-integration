@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.13
+
+* Fix issue with debug file writing failing in Azure due to encoding issues.
+
 ## 1.1.12
 
 * Fix bug in SQL introduced in 1.1.10.
