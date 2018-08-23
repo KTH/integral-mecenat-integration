@@ -71,7 +71,9 @@ public class StuderandeRoute extends RouteBuilder {
             .log("Hämtar förväntat deltagande för studerande med någon registrering.")
             .to("{{endpoint.studerande.sql}}")
 
+            .log(LoggingLevel.DEBUG, "Hittade ${header.CamelSqlRowCount} förväntade deltaganden.")
             .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
+
             .split(body())
                 .process(new SqlToMecenatCSVRecordProcessor())
             .aggregate(AggregationStrategies.flexible(MecenatCSVRecord.class)

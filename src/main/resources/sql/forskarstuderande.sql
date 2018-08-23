@@ -9,7 +9,6 @@ select
     ,stud.postort
     ,stud.land
     ,stud.epostadress
---    ,cast((sum(sta.PROCENT) * 30 / 100) as DECIMAL(8,2)) as OMFATTNING
     ,cast(sum(sta.PROCENT) as DECIMAL(8,2)) as OMFATTNING_PROCENT
     ,min(stp.STARTDATUM) as STARTDATUM
     ,max(stp.SLUTDATUM) as SLUTDATUM

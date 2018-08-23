@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.11
+
+* Added a couple of debug logs.
+
 ## 1.1.10
 
 * Fix issue where students where considered active during the period
