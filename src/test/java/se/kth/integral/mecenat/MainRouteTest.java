@@ -66,24 +66,31 @@ public class MainRouteTest extends CamelTestSupport {
     @EndpointInject(uri = "mock:forskarstuderandesql")
     protected MockEndpoint mockForskarstuderandeSql;
 
-    @Before
-    public void initialize() {
-        mockStuderandeSql.whenAnyExchangeReceived(new FakeStudentSqlProcessor());
-        mockForskarstuderandeSql.whenAnyExchangeReceived(new FakeResarchstudentSqlProcessor());
-    }
-
     @Test
     public void runTest() throws InterruptedException {
-        LocalDate today = LocalDate.now();
-        mockStart.sendBody("");
+        mockStuderandeSql.whenAnyExchangeReceived(new FakeStudentSqlProcessor());
+        mockForskarstuderandeSql.whenAnyExchangeReceived(new FakeResarchstudentSqlProcessor());
 
+        LocalDate today = LocalDate.now();
+        String term = PeriodDatesProcessor.term(today);
+
+        mockStart.sendBody("");
         mockMecenat.expectedMessageCount(1);
 
-        String term = PeriodDatesProcessor.term(today);
         assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;"
                 + term
                 +";;\r\n",
                 mockMecenat.getExchanges().get(0).getIn().getBody(String.class));
+
+        mockStuderandeSql.whenAnyExchangeReceived(new FakeEmptySqlResultProcessor());
+
+        mockStart.sendBody("");
+        mockMecenat.expectedMessageCount(2);
+
+        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-01;2018-06-30;"
+                + term
+                +";;\r\n",
+                mockMecenat.getExchanges().get(1).getIn().getBody(String.class));
 
         assertMockEndpointsSatisfied();
     }

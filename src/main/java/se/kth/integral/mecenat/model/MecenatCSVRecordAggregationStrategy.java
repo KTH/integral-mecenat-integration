@@ -52,18 +52,14 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
             return newExchange;
         }
 
-        ArrayList<MecenatCSVRecord> oldRecords, newRecords;
+        ArrayList<MecenatCSVRecord> oldRecords = oldExchange.getIn().getBody(ArrayList.class);
+        ArrayList<MecenatCSVRecord> newRecords = newExchange.getIn().getBody(ArrayList.class);
 
-        try {
-            oldRecords = oldExchange.getIn().getMandatoryBody(ArrayList.class);
-        } catch (InvalidPayloadException e) {
-            return newExchange;
+        if (oldRecords == null) {
+            oldRecords = new ArrayList<MecenatCSVRecord>();
         }
-
-        try {
-            newRecords = newExchange.getIn().getMandatoryBody(ArrayList.class);
-        } catch (InvalidPayloadException e) {
-            return oldExchange;
+        if (newRecords == null) {
+            newRecords = new ArrayList<MecenatCSVRecord>();
         }
 
         final Map<String, MecenatCSVRecord> uniqueRecords = new HashMap<String, MecenatCSVRecord>();
