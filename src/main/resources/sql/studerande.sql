@@ -44,7 +44,7 @@ where
             uttx.GRUNDTYP = 'KURS'
             and (enhx.ENHET_KOD = 'HP' or enhx.ENHET_KOD = 'HP-K' or enhx.ENHET_KOD = 'FUP')
             and reg.STUDIEPERIOD_STARTDATUM >= :#${header.periodStartDatum}
-            and reg.STUDIEPERIOD_STARTDATUM < :#${header.periodStartDatum})
+            and reg.STUDIEPERIOD_STARTDATUM < :#${header.periodSlutDatum})
 group by
     stud.personnummer
     ,stud.fornamn
