@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.14
+
+* Fix unlikely issue when there are no study activities or registrations found.
+
 ## 1.1.13
 
 * Fix issue with debug file writing failing in Azure due to encoding issues.

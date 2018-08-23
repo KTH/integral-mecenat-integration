@@ -125,4 +125,44 @@ public class MecenatCSVRecordAggregationStrategyTest {
             }
         }
     }
+
+    @Test
+    public void emptyResultAggregationTest() throws InvalidPayloadException {
+        MecenatCSVRecordAggregationStrategy aggregationStrategy = new MecenatCSVRecordAggregationStrategy();
+        Exchange exchange1 = new DefaultExchange(context);
+        exchange1.getIn().setBody(new ArrayList<MecenatCSVRecord>());
+
+        Exchange exchange2 = new DefaultExchange(context);
+        exchange2.getIn().setBody(list2);
+
+        Exchange result1 = aggregationStrategy.aggregate(null, exchange1);
+        Exchange result2 = aggregationStrategy.aggregate(result1, exchange2);
+
+        @SuppressWarnings("unchecked")
+        Collection<MecenatCSVRecord> records = (Collection<MecenatCSVRecord>) result2.getIn().getMandatoryBody();
+        assertEquals(2, records.size());
+
+        Iterator<MecenatCSVRecord> recordIterator = records.iterator();
+        while (recordIterator.hasNext()) {
+            MecenatCSVRecord record = recordIterator.next();
+
+            if (record.getPersonnummer().equals("19710321xyzu")) {
+                // Should be sum of studieomfattning.
+                assertEquals(50.0, record.getStudieomfattning().longValue(), 0);
+                // Should be first start date.
+                assertEquals("2018-01-01", PeriodDatesProcessor.ladokDatumFromDate(record.getStudieperiodStart()));
+                // Should be last end date.
+                assertEquals("2018-06-30", PeriodDatesProcessor.ladokDatumFromDate(record.getStudieperiodSlut()));
+            }
+
+            if (record.getPersonnummer().equals("19930321xyzu")) {
+                // Should be sum of studieomfattning.
+                assertEquals(100.0, record.getStudieomfattning().longValue(), 0);
+                // Should be first start date.
+                assertEquals("2018-01-14", PeriodDatesProcessor.ladokDatumFromDate(record.getStudieperiodStart()));
+                // Should be last end date.
+                assertEquals("2018-06-26", PeriodDatesProcessor.ladokDatumFromDate(record.getStudieperiodSlut()));
+            }
+        }
+    }
 }

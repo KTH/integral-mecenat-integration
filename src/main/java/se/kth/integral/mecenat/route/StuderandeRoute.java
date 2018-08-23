@@ -72,7 +72,12 @@ public class StuderandeRoute extends RouteBuilder {
             .to("{{endpoint.studerande.sql}}")
 
             .log(LoggingLevel.DEBUG, "Hittade ${header.CamelSqlRowCount} förväntade deltaganden.")
-            .log(LoggingLevel.DEBUG, "Transformerar data till CSV.")
+
+            .filter().simple("${header.CamelSqlRowCount} == 0")
+                .to("{{endpoint.mecenattransferroute}}")
+                .end()
+
+            .log(LoggingLevel.DEBUG, "Transformerar förväntade deltaganden till CSV.")
 
             .split(body())
                 .process(new SqlToMecenatCSVRecordProcessor())
