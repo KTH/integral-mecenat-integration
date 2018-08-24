@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.1.15
+
+* Change default schedule to 09.30 all days of the week.
+
 ## 1.1.14
 
 * Fix unlikely issue when there are no study activities or registrations found.
