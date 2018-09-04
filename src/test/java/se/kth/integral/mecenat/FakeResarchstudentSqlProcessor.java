@@ -32,6 +32,7 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+import se.kth.integral.mecenat.model.MecenatCSVRecord;
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
 
 public class FakeResarchstudentSqlProcessor implements Processor {
@@ -51,6 +52,8 @@ public class FakeResarchstudentSqlProcessor implements Processor {
         row.put("OMFATTNING_PROCENT", new BigDecimal(75.33));
         row.put("STARTDATUM", PeriodDatesProcessor.dateFromLadokDatum("2018-01-01"));
         row.put("SLUTDATUM", PeriodDatesProcessor.dateFromLadokDatum("2018-06-30"));
+
+        row.put("student_uid", MecenatCSVRecord.guidStringToByteArray("801cc908-5c18-11e7-82f8-4a99985b4246"));
 
         results.add(row);
         exchange.getIn().setBody(results);

@@ -77,9 +77,10 @@ public class MainRouteTest extends CamelTestSupport {
         mockStart.sendBody("");
         mockMecenat.expectedMessageCount(1);
 
-        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;"
-                + term
-                +";;\r\n",
+        assertEquals(
+                String.format(
+                        "19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;%s;;;801cc908-5c18-11e7-82f8-4a99985b4246\r\n",
+                        term),
                 mockMecenat.getExchanges().get(0).getIn().getBody(String.class));
 
         mockStuderandeSql.whenAnyExchangeReceived(new FakeEmptySqlResultProcessor());
@@ -87,9 +88,10 @@ public class MainRouteTest extends CamelTestSupport {
         mockStart.sendBody("");
         mockMecenat.expectedMessageCount(2);
 
-        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-01;2018-06-30;"
-                + term
-                +";;\r\n",
+        assertEquals(
+                String.format(
+                        "19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-01;2018-06-30;%s;;;801cc908-5c18-11e7-82f8-4a99985b4246\r\n",
+                       term),
                 mockMecenat.getExchanges().get(1).getIn().getBody(String.class));
 
         assertMockEndpointsSatisfied();

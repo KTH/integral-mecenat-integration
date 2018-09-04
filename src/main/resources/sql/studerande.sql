@@ -16,6 +16,7 @@ select
     ,cast(cast(SUM(tper.OMFATTNINGSVARDE) as decimal(8,2)) / 30 * 100 as decimal(8,2)) as OMFATTNING_PROCENT
     ,min(tper.FORSTA_UNDERVISNINGSDATUM) as STARTDATUM
     ,max(tper.SISTA_UNDERVISNINGSDATUM) as SLUTDATUM
+    ,stud.student_uid
 from
     UPPFOLJNING.BI_FORVANTATTILLFALLESDELTAGANDEN ftf
     inner join UPPFOLJNING.BI_UTBILDNINGSTILLFALLEN utf on utf.UTBILDNINGSTILLFALLE_UID = ftf.UTBILDNINGSTILLFALLE_UID
@@ -55,4 +56,5 @@ group by
     ,stud.postort
     ,stud.land
     ,stud.epostadress
+    ,stud.student_uid
 order by stud.personnummer asc

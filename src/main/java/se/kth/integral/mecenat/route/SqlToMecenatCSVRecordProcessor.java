@@ -54,6 +54,7 @@ public class SqlToMecenatCSVRecordProcessor implements Processor {
         mecenatRecord.setTermin(ExchangeHelper.getMandatoryHeader(exchange, "termin", String.class));
         mecenatRecord.setStudieperiodStart((Date) sqlResult.get("STARTDATUM"));
         mecenatRecord.setStudieperiodSlut((Date) sqlResult.get("SLUTDATUM"));
+        mecenatRecord.setStudentuid((byte [])sqlResult.get("student_uid"));
 
         exchange.getIn().setBody(mecenatRecord);
     }

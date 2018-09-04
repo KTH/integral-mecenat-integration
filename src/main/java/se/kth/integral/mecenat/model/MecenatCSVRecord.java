@@ -24,7 +24,9 @@
 package se.kth.integral.mecenat.model;
 
 import java.math.BigDecimal;
+import java.nio.ByteBuffer;
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
@@ -102,6 +104,9 @@ public class MecenatCSVRecord {
 
     @DataField(pos = 23, trim = true, length = 50, clip = true)
     private String inriktning;
+
+    @DataField(pos = 24, length = 36, required = true)
+    private String studentuid;
 
     @Override
     public int hashCode() {
@@ -334,5 +339,34 @@ public class MecenatCSVRecord {
 
     public void setInriktning(String inriktning) {
         this.inriktning = inriktning;
+    }
+
+    public String getStudentuid() {
+        return studentuid;
+    }
+
+    public void setStudentuid(String studentuid) {
+        this.studentuid = studentuid;
+    }
+
+    public void setStudentuid(byte[] studentuid) {
+        this.studentuid = guidByteArrayToString(studentuid);
+    }
+
+    public static String guidByteArrayToString(byte[] bytes) {
+        ByteBuffer bb = ByteBuffer.wrap(bytes);
+        long high = bb.getLong();
+        long low = bb.getLong();
+        UUID uuid = new UUID(high, low);
+        return uuid.toString();
+    }
+
+    public static byte[] guidStringToByteArray(String str) {
+        UUID uuid = UUID.fromString(str);
+        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+        bb.putLong(uuid.getMostSignificantBits());
+        bb.putLong(uuid.getLeastSignificantBits());
+
+        return bb.array();
     }
 }

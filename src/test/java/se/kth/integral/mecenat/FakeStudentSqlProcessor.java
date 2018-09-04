@@ -32,10 +32,10 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+import se.kth.integral.mecenat.model.MecenatCSVRecord;
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
 
 public class FakeStudentSqlProcessor implements Processor {
-
     @Override
     public void process(Exchange exchange) throws Exception {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
@@ -52,8 +52,12 @@ public class FakeStudentSqlProcessor implements Processor {
         row.put("STARTDATUM", PeriodDatesProcessor.dateFromLadokDatum("2018-01-14"));
         row.put("SLUTDATUM", PeriodDatesProcessor.dateFromLadokDatum("2018-06-26"));
 
+        row.put("student_uid", MecenatCSVRecord.guidStringToByteArray("801cc908-5c18-11e7-82f8-4a99985b4246"));
+
         results.add(row);
         exchange.getIn().setBody(results);
         exchange.getIn().setHeader("CamelSqlRowCount", results.size());
     }
+
+    
 }
