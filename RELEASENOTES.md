@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.2.0
+
+* Adjust total "omfattning" for "anpassad omfattning" in registration.
+
 ## 1.1.15
 
 * Change default schedule to 09.30 all days of the week.
