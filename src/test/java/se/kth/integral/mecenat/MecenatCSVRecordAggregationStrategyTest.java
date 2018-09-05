@@ -3,7 +3,6 @@ package se.kth.integral.mecenat;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
-import java.security.Permissions;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;

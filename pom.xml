@@ -30,14 +30,14 @@
   <groupId>se.kth.integral</groupId>
   <artifactId>integral-mecenat-integration</artifactId>
   <packaging>jar</packaging>
-  <version>1.1.15</version>
+  <version>1.2.0</version>
 
   <name>A Camel Spring Boot Route</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <spring.boot-version>1.5.13.RELEASE</spring.boot-version>
+    <spring.boot-version>1.5.15.RELEASE</spring.boot-version>
     <build>dev</build>
   </properties>
 
@@ -55,7 +55,7 @@
       <dependency>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-spring-boot-dependencies</artifactId>
-        <version>2.21.1</version>
+        <version>2.21.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -71,26 +71,6 @@
   </repositories>
 
   <dependencies>
-
-    <!-- Spring Boot -->
-<!--     <dependency> -->
-<!--       <groupId>org.springframework.boot</groupId> -->
-<!--       <artifactId>spring-boot-starter-web</artifactId> -->
-<!--       <exclusions> -->
-<!--         <exclusion> -->
-<!--           <groupId>org.springframework.boot</groupId> -->
-<!--           <artifactId>spring-boot-starter-tomcat</artifactId> -->
-<!--         </exclusion> -->
-<!--       </exclusions> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.springframework.boot</groupId> -->
-<!--       <artifactId>spring-boot-starter-undertow</artifactId> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.springframework.boot</groupId> -->
-<!--       <artifactId>spring-boot-starter-actuator</artifactId> -->
-<!--     </dependency> -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-bindy</artifactId>
