@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.2.2
+
+* Fix. Faster calculation of registration which considers cancelled registrations.
+
 ## 1.2.1
 
 * Fix for finding too many registrations since 1.2.0 change.
