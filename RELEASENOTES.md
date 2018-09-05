@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.2.1
+
+* Fix for finding too many registrations since 1.2.0 change.
+
 ## 1.2.0
 
 * Adjust total "omfattning" for "anpassad omfattning" in registration.

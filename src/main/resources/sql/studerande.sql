@@ -43,6 +43,9 @@ from
                 inner join UPPFOLJNING.BI_UTBILDNINGSTILLFALLEN_TILLFALLESPERIODER utper on utper.UTBILDNINGSTILLFALLE_UID = utf.UTBILDNINGSTILLFALLE_UID
                 inner join UPPFOLJNING.BI_TILLFALLESPERIODER tper on utper.TILLFALLESPERIOD_UID = tper.TILLFALLESPERIOD_UID
                 left outer join UPPFOLJNING.BI_REGISTRERINGAR reg on reg.FORVANTATTILLFALLESDELTAGANDE_UID = ftf.FORVANTATTILLFALLESDELTAGANDE_UID
+                    and reg.STUDIEPERIOD_STARTDATUM >= :#${header.periodStartDatum}
+                    and reg.STUDIEPERIOD_STARTDATUM < :#${header.periodSlutDatum}
+                    and reg.ATERKALLAD_ORSAK is null
             where
                  utt.GRUNDTYP = 'KURS'
                  -- Vilka kurser är studiemedelsberättigade?
