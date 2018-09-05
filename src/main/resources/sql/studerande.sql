@@ -24,6 +24,7 @@ from
             -- Vy över alla studenter och deras summerade omfattningsvärde.
             UID
             ,cast(cast(SUM(OMFATTNINGSVARDE) as decimal(8,2)) / 30 * 100 as decimal(8,2)) as OMFATTNING_PROCENT
+            ,max(REGISTRERAD) as REGISTRERAD
             ,min(FORSTA_UNDERVISNINGSDATUM) as STARTDATUM
             ,max(SISTA_UNDERVISNINGSDATUM) as SLUTDATUM
         from
@@ -32,6 +33,7 @@ from
                 -- antagna till, där vi också tar hänsyn till anpassad omfattning.
                 ftf.STUDENT_UID as UID
                 ,case when reg.ANPASSAD = 1 then reg.ANPASSATOMFATTNINGSVARDE else tper.OMFATTNINGSVARDE end as OMFATTNINGSVARDE
+                ,case when reg.REGISTRERING_UID is null then 0 else 1 end as REGISTRERAD
                 ,tper.FORSTA_UNDERVISNINGSDATUM as FORSTA_UNDERVISNINGSDATUM
                 ,tper.SISTA_UNDERVISNINGSDATUM as SISTA_UNDERVISNINGSDATUM
             from
@@ -51,21 +53,8 @@ from
                  -- Vilka kurser är studiemedelsberättigade?
                 and (enh.ENHET_KOD = 'HP' or enh.ENHET_KOD = 'HP-K' or enh.ENHET_KOD = 'FUP')
                 and tper.FORSTA_UNDERVISNINGSDATUM >= :#${header.periodStartDatum}
-                and tper.FORSTA_UNDERVISNINGSDATUM < :#${header.periodSlutDatum}
-                and ftf.student_uid in
-                    (select unique regx.student_uid
-                    -- Filtrera på studenter som är registrerade på åtminstone något utbildningstillfälle under perioden.
-                    from
-                        UPPFOLJNING.BI_REGISTRERINGAR regx
-                        inner join UPPFOLJNING.BI_UTBILDNINGSTILLFALLEN utfx on utfx.UTBILDNINGSTILLFALLE_UID = regx.KURSTILLFALLE_UID
-                        inner join UPPFOLJNING.BI_UTBILDNINGSTYPER uttx on uttx.UTBILDNINGSTYP_ID = utfx.UTBILDNINGSTYP_ID
-                        inner join UPPFOLJNING.BI_UTBILDNINGSINSTANSER utix on utix.UTBILDNINGSINSTANS_UID = regx.UTBILDNINGSINSTANS_UID
-                        inner join UPPFOLJNING.BI_ENHETER enhx on enhx.ENHET_ID = utix.ENHET_ID
-                    where
-                        uttx.GRUNDTYP = 'KURS'
-                        and (enhx.ENHET_KOD = 'HP' or enhx.ENHET_KOD = 'HP-K' or enhx.ENHET_KOD = 'FUP')
-                        and regx.STUDIEPERIOD_STARTDATUM >= :#${header.periodStartDatum}
-                        and regx.STUDIEPERIOD_STARTDATUM < :#${header.periodSlutDatum}))
+                and tper.FORSTA_UNDERVISNINGSDATUM < :#${header.periodSlutDatum})
         group by UID)
     on stud.STUDENT_UID = UID
+    where REGISTRERAD = 1
 order by stud.personnummer asc
