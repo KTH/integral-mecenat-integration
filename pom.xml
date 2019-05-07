@@ -37,7 +37,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <spring.boot-version>1.5.15.RELEASE</spring.boot-version>
+    <spring.boot-version>1.5.20.RELEASE</spring.boot-version>
+    <camel-version>2.21.5</camel-version>
+    <bunyan-layout-version>2.5.0</bunyan-layout-version>
     <build>dev</build>
   </properties>
 
@@ -75,7 +77,7 @@
       <dependency>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-spring-boot-dependencies</artifactId>
-        <version>2.21.2</version>
+        <version>${camel-version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -102,7 +104,7 @@
     <dependency>
       <groupId>se.kth.infosys.logback</groupId>
       <artifactId>bunyan-layout</artifactId>
-      <version>2.2.1</version>
+      <version>${bunyan-layout-version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
