@@ -190,6 +190,20 @@ mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file\
 
 Update the version information of the dependency in pom.xml accordingly.
 
+#### UPDATE: Now the IBM DB2 JDBC driver is deployed to Azure Devops Artifacts instead.
+
+```
+mvn deploy:deploy-file 
+    -Durl="https://pkgs.dev.azure.com/kth-integration/_packaging/integration/maven/v1" 
+    -DrepositoryId=dev-azure-com-kth-integration-integration 
+    -Dfile=db2jcc4-11.1.3.3.jar 
+    -DpomFile=db2jcc4-11.1.3.3.pom 
+    -DgroupId=com.ibm.db2.jcc 
+    -DartifactId=db2jcc4 
+    -Dversion=11.1.3.3
+```
+
+
 ### Updating the trust store for the Mecenat FTP server
 
 The Mecenat FTP server uses a self-signed certificate. The public key is kept in a JKS
