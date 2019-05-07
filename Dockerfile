@@ -15,7 +15,7 @@ ENV LADOK3_CERT_KEY=/run/secrets/ladok3-user.key
 
 
 COPY --from=maven_build /tmp/target/integral-mecenat-integration-*.jar /opt/camel/application.jar
-ADD opt /opt
+ADD docker/opt /opt
 RUN chmod +x /opt/camel/run.sh
 
 WORKDIR /opt/camel
