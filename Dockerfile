@@ -13,6 +13,7 @@ FROM openjdk:8-jre-alpine
 ENV LADOK3_CERT=/run/secrets/ladok3-user.crt
 ENV LADOK3_CERT_KEY=/run/secrets/ladok3-user.key
 
+RUN apk --no-cache add stunnel
 
 COPY --from=maven_build /tmp/target/integral-mecenat-integration-*.jar /opt/camel/application.jar
 ADD docker/opt /opt
