@@ -24,14 +24,12 @@
 package se.kth.integral.mecenat.route;
 
 import java.util.ArrayList;
-
 import org.apache.camel.LoggingLevel;
+import org.apache.camel.builder.AggregationStrategies;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.util.toolbox.AggregationStrategies;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
-
 import se.kth.integral.mecenat.model.MecenatCSVRecord;
 
 /**

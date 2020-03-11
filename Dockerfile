@@ -1,5 +1,5 @@
 # Stage 1
-FROM maven:3.6-jdk-8-alpine AS  maven_build
+FROM maven:3.6-jdk-11 AS  maven_build
 COPY src /tmp/src/
 COPY pom.xml /tmp/
 COPY "./dev-azure-com-kth-integration-integration-settings.xml" /tmp/settings.xml
@@ -8,7 +8,7 @@ WORKDIR /tmp/
 RUN mvn -s /tmp/settings.xml --quiet clean package
 
 # Stage 2
-FROM openjdk:8-jre-alpine
+FROM adoptopenjdk/openjdk13:alpine-slim
 
 ENV LADOK3_CERT=/run/secrets/ladok3-user.crt
 ENV LADOK3_CERT_KEY=/run/secrets/ladok3-user.key

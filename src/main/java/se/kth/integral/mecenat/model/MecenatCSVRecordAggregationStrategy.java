@@ -28,12 +28,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import org.apache.camel.AggregationStrategy;
 import org.apache.camel.Exchange;
-import org.apache.camel.InvalidPayloadException;
-import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * AggregationStrategy som aggregerar MecenatCSVRecord.

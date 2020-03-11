@@ -26,11 +26,9 @@ package se.kth.integral.mecenat.route;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.camel.util.ExchangeHelper;
-
+import org.apache.camel.support.ExchangeHelper;
 import se.kth.integral.mecenat.model.MecenatCSVRecord;
 
 public class SqlToMecenatCSVRecordProcessor implements Processor {

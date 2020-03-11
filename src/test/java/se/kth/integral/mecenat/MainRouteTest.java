@@ -23,36 +23,31 @@ package se.kth.integral.mecenat;
  * SOFTWARE.
  */
 
-import java.time.LocalDate;
+import static org.apache.camel.component.mock.MockEndpoint.assertIsSatisfied;
+import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.mock.MockEndpoint;
-import org.apache.camel.test.junit4.CamelTestSupport;
 import org.apache.camel.test.spring.CamelSpringBootRunner;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
 
 @ActiveProfiles("test")
 @RunWith(CamelSpringBootRunner.class)
 @SpringBootTest(classes = MecenatApplication.class)
 @EnableAutoConfiguration
-public class MainRouteTest extends CamelTestSupport {
+public class MainRouteTest {
+
     @Autowired
     private CamelContext camelContext;
-
-    @Override
-    protected CamelContext createCamelContext() throws Exception {
-        return camelContext;
-    }
 
     @EndpointInject(uri = "direct:start")
     protected ProducerTemplate mockStart;
@@ -92,6 +87,6 @@ public class MainRouteTest extends CamelTestSupport {
                 +";;\r\n",
                 mockMecenat.getExchanges().get(1).getIn().getBody(String.class));
 
-        assertMockEndpointsSatisfied();
+        assertIsSatisfied(camelContext);
     }
 }
