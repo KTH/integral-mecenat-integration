@@ -31,6 +31,10 @@
       <id>integration</id>
       <url>https://pkgs.dev.azure.com/kth-integration/_packaging/integration/maven/v1</url>
     </repository>
+    <snapshotRepository>
+      <id>integration</id>
+      <url>https://pkgs.dev.azure.com/kth-integration/_packaging/integration/maven/v1</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <repositories>
