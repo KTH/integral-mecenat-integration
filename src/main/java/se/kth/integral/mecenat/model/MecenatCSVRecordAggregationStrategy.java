@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.camel.AggregationStrategy;
 import org.apache.camel.Exchange;
 import org.slf4j.Logger;
@@ -62,8 +63,8 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
 
         final Map<String, MecenatCSVRecord> uniqueRecords = new HashMap<>();
 
-        long count = oldRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).count();
-        count += newRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).count();
+        long count = oldRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.counting());
+        count += newRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.counting());
 
         log.info("Aggregerade {} rader till {} unika rader", count, uniqueRecords.size());
 
