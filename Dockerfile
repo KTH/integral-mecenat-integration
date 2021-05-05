@@ -1,5 +1,5 @@
 # Stage 1
-FROM maven:3.6-jdk-11 AS  maven_build
+FROM maven:3.8-jdk-11 AS  maven_build
 COPY src /tmp/src/
 COPY pom.xml /tmp/
 COPY "./dev-azure-com-kth-integration-integration-settings.xml" /tmp/settings.xml
