@@ -24,16 +24,15 @@ package se.kth.integral.mecenat;
  */
 
 import static org.apache.camel.component.mock.MockEndpoint.assertIsSatisfied;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.mock.MockEndpoint;
-import org.apache.camel.test.spring.CamelSpringBootRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.apache.camel.test.spring.junit5.CamelSpringBootTest;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +40,7 @@ import org.springframework.test.context.ActiveProfiles;
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
 
 @ActiveProfiles("test")
-@RunWith(CamelSpringBootRunner.class)
+@CamelSpringBootTest
 @SpringBootTest(classes = MecenatApplication.class)
 @EnableAutoConfiguration
 public class MainRouteTest {
@@ -49,16 +48,16 @@ public class MainRouteTest {
     @Autowired
     private CamelContext camelContext;
 
-    @EndpointInject(uri = "direct:start")
+    @EndpointInject("direct:start")
     protected ProducerTemplate mockStart;
 
-    @EndpointInject(uri = "mock:mecenat")
+    @EndpointInject("mock:mecenat")
     protected MockEndpoint mockMecenat;
 
-    @EndpointInject(uri = "mock:studerandesql")
+    @EndpointInject("mock:studerandesql")
     protected MockEndpoint mockStuderandeSql;
 
-    @EndpointInject(uri = "mock:forskarstuderandesql")
+    @EndpointInject("mock:forskarstuderandesql")
     protected MockEndpoint mockForskarstuderandeSql;
 
     @Test

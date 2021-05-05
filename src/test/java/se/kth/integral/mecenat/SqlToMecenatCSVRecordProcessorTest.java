@@ -23,8 +23,6 @@ package se.kth.integral.mecenat;
  * SOFTWARE.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -40,10 +38,13 @@ import org.apache.camel.Processor;
 import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.support.DefaultExchange;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.kth.integral.mecenat.model.MecenatCSVRecord;
 import se.kth.integral.mecenat.route.SqlToMecenatCSVRecordProcessor;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SqlToMecenatCSVRecordProcessorTest {
     private CamelContext context = new DefaultCamelContext();
@@ -51,7 +52,7 @@ public class SqlToMecenatCSVRecordProcessorTest {
     private Processor sqlToMecenatCSVRecordProcessor = new SqlToMecenatCSVRecordProcessor();
     private BindyCsvDataFormat mecenatCsvFormat = new BindyCsvDataFormat(se.kth.integral.mecenat.model.MecenatCSVRecord.class);
 
-    @Before
+    @BeforeEach
     public void initialize() {
         mecenatCsvFormat.setLocale("sv_SE");
     }

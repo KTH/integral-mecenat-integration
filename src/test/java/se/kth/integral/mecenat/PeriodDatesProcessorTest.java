@@ -23,15 +23,17 @@
  */
 package se.kth.integral.mecenat;
 
-import static org.junit.Assert.assertEquals;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.support.DefaultExchange;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PeriodDatesProcessorTest {
     private CamelContext context = new DefaultCamelContext();

@@ -1,6 +1,5 @@
 package se.kth.integral.mecenat;
 
-import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,11 +11,13 @@ import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.support.DefaultExchange;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.kth.integral.mecenat.model.MecenatCSVRecord;
 import se.kth.integral.mecenat.model.MecenatCSVRecordAggregationStrategy;
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
  * MIT License
@@ -51,7 +52,7 @@ public class MecenatCSVRecordAggregationStrategyTest {
     public final List<MecenatCSVRecord> list1 = new ArrayList<>();
     public final List<MecenatCSVRecord> list2 = new ArrayList<>();
 
-    @Before
+    @BeforeEach
     public void initialize() {
         record1.setPersonnummer("19710321xyzu");
         record1.setStudieomfattning(new BigDecimal(25));
