@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.apache.camel.AggregationStrategy;
 import org.apache.camel.Exchange;
 import org.slf4j.Logger;
@@ -55,40 +54,40 @@ public class MecenatCSVRecordAggregationStrategy implements AggregationStrategy 
         ArrayList<MecenatCSVRecord> newRecords = newExchange.getIn().getBody(ArrayList.class);
 
         if (oldRecords == null) {
-            oldRecords = new ArrayList<MecenatCSVRecord>();
+            oldRecords = new ArrayList<>();
         }
         if (newRecords == null) {
-            newRecords = new ArrayList<MecenatCSVRecord>();
+            newRecords = new ArrayList<>();
         }
 
-        final Map<String, MecenatCSVRecord> uniqueRecords = new HashMap<String, MecenatCSVRecord>();
+        final Map<String, MecenatCSVRecord> uniqueRecords = new HashMap<>();
 
-        Long count = oldRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.counting());
-        count += newRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).collect(Collectors.counting());
+        long count = oldRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).count();
+        count += newRecords.stream().map(r -> mergeRecords(uniqueRecords, r)).count();
 
         log.info("Aggregerade {} rader till {} unika rader", count, uniqueRecords.size());
 
-        oldExchange.getIn().setBody(uniqueRecords.values());;
+        oldExchange.getIn().setBody(uniqueRecords.values());
         return oldExchange;
     }
 
-    private static MecenatCSVRecord mergeRecords(final Map<String, MecenatCSVRecord> records, final MecenatCSVRecord record) {
-        MecenatCSVRecord oldRecord = records.get(record.getPersonnummer());
+    private static MecenatCSVRecord mergeRecords(final Map<String, MecenatCSVRecord> records, final MecenatCSVRecord mecenatCSVRecord) {
+        MecenatCSVRecord oldRecord = records.get(mecenatCSVRecord.getPersonnummer());
 
         if (oldRecord == null) {
-            records.put(record.getPersonnummer(), record);
-            return record;
+            records.put(mecenatCSVRecord.getPersonnummer(), mecenatCSVRecord);
+            return mecenatCSVRecord;
         }
 
-        oldRecord.setStudieomfattning(oldRecord.getStudieomfattning().add(record.getStudieomfattning()));
+        oldRecord.setStudieomfattning(oldRecord.getStudieomfattning().add(mecenatCSVRecord.getStudieomfattning()));
 
-        Date studieperiodStart = record.getStudieperiodStart();
+        Date studieperiodStart = mecenatCSVRecord.getStudieperiodStart();
         Date oldStudieperiodStart = oldRecord.getStudieperiodStart();
         if (studieperiodStart.before(oldStudieperiodStart)) {
             oldRecord.setStudieperiodStart(studieperiodStart);
         }
 
-        Date studieperiodSlut = record.getStudieperiodSlut();
+        Date studieperiodSlut = mecenatCSVRecord.getStudieperiodSlut();
         Date oldStudieperiodSlut = oldRecord.getStudieperiodSlut();
         if (studieperiodSlut.after(oldStudieperiodSlut)) {
             oldRecord.setStudieperiodSlut(studieperiodSlut);

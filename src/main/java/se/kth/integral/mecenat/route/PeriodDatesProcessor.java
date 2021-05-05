@@ -37,16 +37,17 @@ import org.apache.camel.support.ExchangeHelper;
 /**
  * Sätter headrar termin, periodStartDatum och periodSlutDatum med utgångspunkt från
  * dagens datum.
- * 
+ *
  * Se "Valda perioder" i doc/Designval.md för detaljer.
  */
 public class PeriodDatesProcessor implements Processor {
-    public final static DateTimeFormatter LADOK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter LADOK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
     public void process(Exchange exchange) throws Exception {
         LocalDate today = LocalDate.parse(ExchangeHelper.getMandatoryHeader(exchange, "today", String.class), LADOK_DATE_FORMAT);
-        LocalDate periodStartDate, periodEndDate;
+        LocalDate periodStartDate;
+        LocalDate periodEndDate;
 
         String term = term(today);
 
