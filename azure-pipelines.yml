@@ -1,0 +1,66 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+
+pr: none
+      
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - checkout: self
+    clean: true
+    path: build
+  
+  - task: ProjectTool@1
+    inputs:
+      generateVariables: true
+      
+  - task: SonarQubePrepare@4
+    inputs:
+      SonarQube: 'integral-sqube'
+      scannerMode: 'Other'
+
+  - task: MavenAuthenticate@0
+    displayName: Authenticate to Artifact feed 
+    inputs:
+      artifactsFeeds: 'integration'
+  
+  - powershell: |
+      $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
+      Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
+  - task: Maven@3
+    name: 'BuildPackage'
+    displayName: Build and deploy artifact
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean package'
+      options: '--no-transfer-progress'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.11'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: true
+  
+  - task: SonarQubePublish@4
+    displayName: Publish SonarQube results
+    inputs:
+      pollingTimeoutSec: '300'
+
+  - task: Docker@2
+    displayName: Build and push the Docker image  
+    inputs:
+      containerRegistry: 'kth-acr'
+      repository: '$(ProjectTool.Project.RepoName)' 
+      command: 'buildAndPush'
+      Dockerfile: '**/AzDockerfile'
+      tags: |
+        $(ProjectTool.Project.DockerImageTag)
