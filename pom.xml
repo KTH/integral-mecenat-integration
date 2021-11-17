@@ -22,7 +22,7 @@
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <camel-version>3.7.4</camel-version>
+    <camel-version>3.7.6</camel-version>
     <build>dev</build>
   </properties>
 
