@@ -23,9 +23,6 @@ package se.kth.integral.mecenat;
  * SOFTWARE.
  */
 
-import static org.apache.camel.component.mock.MockEndpoint.assertIsSatisfied;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.time.LocalDate;
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
@@ -39,11 +36,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
 
+import static org.apache.camel.component.mock.MockEndpoint.assertIsSatisfied;
+
 @ActiveProfiles("test")
 @CamelSpringBootTest
 @SpringBootTest(classes = MecenatApplication.class)
 @EnableAutoConfiguration
-public class MainRouteTest {
+class MainRouteTest {
 
     @Autowired
     private CamelContext camelContext;
@@ -61,7 +60,7 @@ public class MainRouteTest {
     protected MockEndpoint mockForskarstuderandeSql;
 
     @Test
-    public void runTest() throws InterruptedException {
+    void runTest() throws InterruptedException {
         mockStuderandeSql.whenAnyExchangeReceived(new FakeStudentSqlProcessor());
         mockForskarstuderandeSql.whenAnyExchangeReceived(new FakeResarchstudentSqlProcessor());
 
@@ -69,22 +68,17 @@ public class MainRouteTest {
         String term = PeriodDatesProcessor.term(today);
 
         mockStart.sendBody("");
-        mockMecenat.expectedMessageCount(1);
-
-        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;"
-                + term
-                +";;\r\n",
-                mockMecenat.getExchanges().get(0).getIn().getBody(String.class));
-
         mockStuderandeSql.whenAnyExchangeReceived(new FakeEmptySqlResultProcessor());
-
         mockStart.sendBody("");
-        mockMecenat.expectedMessageCount(2);
 
-        assertEquals("19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-01;2018-06-30;"
+        final String body1 = "19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;"
                 + term
-                +";;\r\n",
-                mockMecenat.getExchanges().get(1).getIn().getBody(String.class));
+                +";;\r\n";
+        final String body2 = "19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-01;2018-06-30;"
+                + term
+                +";;\r\n";
+        mockMecenat.expectedMessageCount(2);
+        mockMecenat.expectedBodiesReceived(body1, body2);
 
         assertIsSatisfied(camelContext);
     }
