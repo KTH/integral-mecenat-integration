@@ -24,6 +24,7 @@ package se.kth.integral.mecenat;
  */
 
 import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
@@ -33,10 +34,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
-
-import static org.apache.camel.component.mock.MockEndpoint.assertIsSatisfied;
 
 @ActiveProfiles("test")
 @CamelSpringBootTest
@@ -66,11 +66,6 @@ class MainRouteTest {
 
         LocalDate today = LocalDate.now();
         String term = PeriodDatesProcessor.term(today);
-
-        mockStart.sendBody("");
-        mockStuderandeSql.whenAnyExchangeReceived(new FakeEmptySqlResultProcessor());
-        mockStart.sendBody("");
-
         final String body1 = "19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;"
                 + term
                 +";;\r\n";
@@ -80,6 +75,10 @@ class MainRouteTest {
         mockMecenat.expectedMessageCount(2);
         mockMecenat.expectedBodiesReceived(body1, body2);
 
-        assertIsSatisfied(camelContext);
+        mockStart.sendBody("");
+        mockStuderandeSql.whenAnyExchangeReceived(new FakeEmptySqlResultProcessor());
+        mockStart.sendBody("");
+
+        MockEndpoint.assertIsSatisfied(mockMecenat);
     }
 }
