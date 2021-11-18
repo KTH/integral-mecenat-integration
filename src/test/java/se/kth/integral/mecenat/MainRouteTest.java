@@ -24,7 +24,6 @@ package se.kth.integral.mecenat;
  */
 
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
@@ -34,7 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import se.kth.integral.mecenat.route.PeriodDatesProcessor;
 
@@ -69,14 +67,26 @@ class MainRouteTest {
         final String body1 = "19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;"
                 + term
                 +";;\r\n";
+        mockMecenat.expectedMessageCount(1);
+        mockMecenat.expectedBodiesReceived(body1);
+
+        mockStart.sendBody("");
+
+        MockEndpoint.assertIsSatisfied(mockMecenat);
+    }
+    @Test
+    void emptySqlResultTest() throws InterruptedException {
+        mockStuderandeSql.whenAnyExchangeReceived(new FakeEmptySqlResultProcessor());
+        mockForskarstuderandeSql.whenAnyExchangeReceived(new FakeResarchstudentSqlProcessor());
+
+        LocalDate today = LocalDate.now();
+        String term = PeriodDatesProcessor.term(today);
         final String body2 = "19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;75;0;0;2018-01-01;2018-06-30;"
                 + term
                 +";;\r\n";
-        mockMecenat.expectedMessageCount(2);
-        mockMecenat.expectedBodiesReceived(body1, body2);
+        mockMecenat.expectedMessageCount(1);
+        mockMecenat.expectedBodiesReceived(body2);
 
-        mockStart.sendBody("");
-        mockStuderandeSql.whenAnyExchangeReceived(new FakeEmptySqlResultProcessor());
         mockStart.sendBody("");
 
         MockEndpoint.assertIsSatisfied(mockMecenat);
