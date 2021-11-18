@@ -209,7 +209,11 @@ public class MecenatCSVRecord {
      *  Siffra 0-100, man kan inte ha mer än 100, se setStudieomfattning().
      */
     public void setStudieomfattning(BigDecimal studieomfattning) {
-        this.studieomfattning = BigDecimal.valueOf(Math.min(100, studieomfattning.doubleValue()));
+        if (studieomfattning == null) {
+            this.studieomfattning = BigDecimal.ZERO;
+        } else {
+            this.studieomfattning = BigDecimal.valueOf(Math.min(100, studieomfattning.doubleValue()));
+        }
     }
 
     public int getKarmedlem() {
