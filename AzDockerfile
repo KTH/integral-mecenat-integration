@@ -1,6 +1,6 @@
 FROM adoptopenjdk/openjdk14:latest
 COPY docker/opt /opt
-
+RUN groupadd -r integral && useradd -r -g integral integraluser
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends stunnel
@@ -9,7 +9,9 @@ COPY ./target/integral-*.jar /opt/camel/application.jar
 
 ADD docker/opt /opt
 RUN chmod +x /opt/camel/run.sh
+RUN chown integraluser:integral /var/run/stunnel4 && chmod +x /opt/camel/run.sh && chown integraluser:integral /opt/camel/etc/
 
+USER integraluser
 WORKDIR /opt/camel
 ENTRYPOINT ["/opt/camel/run.sh"]
 CMD ["start"]
