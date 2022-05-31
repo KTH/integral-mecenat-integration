@@ -1,9 +1,8 @@
-FROM adoptopenjdk/openjdk14:latest
+FROM eclipse-temurin:17-alpine
 COPY docker/opt /opt
 
 RUN set -eux; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends stunnel
+	apk add --update stunnel
 
 COPY ./target/integral-*.jar /opt/camel/application.jar
 
