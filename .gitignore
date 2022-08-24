@@ -2,6 +2,7 @@
 /bin
 /.settings
 /.classpath
+/.idea
 /application.properties
 /pom.xml.versionsBackup
 /*.log
