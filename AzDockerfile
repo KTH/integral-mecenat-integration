@@ -1,5 +1,12 @@
+FROM kthregistry.azurecr.io/small-busybox:latest AS site
 FROM eclipse-temurin:17-alpine
+
+ENV TZ=Europe/Stockholm
+
 COPY docker/opt /opt
+COPY --from=site /busybox /busybox
+COPY --from=site /home/static/httpd.conf /home/static/httpd.conf
+EXPOSE 80
 
 RUN set -eux; \
 	apk add --update stunnel
