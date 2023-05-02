@@ -67,7 +67,7 @@ class MainRouteTest {
         final String body1 = "19710321xyzu;Teknolog;Ture;;Forskarbacken 21;11614;Stockholm;;;;;;;;0;100;0;0;2018-01-01;2018-06-30;"
                 + term
                 +";;\r\n";
-        mockMecenat.expectedMessageCount(1);
+        mockMecenat.expectedMessageCount(2);
         mockMecenat.expectedBodiesReceived(body1);
 
         mockStart.sendBody("");
