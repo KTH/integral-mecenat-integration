@@ -7,7 +7,7 @@ echo $MECENAT_INTEGRATION_KEY | awk  '{gsub("\\\\n","\n")};1' | base64 -d > /opt
 stunnel /opt/camel/etc/stunnel.conf 2>&1 &
 
 if [ "$*" = "start" ]; then
-    exec java -jar application.jar
+    exec /busybox httpd -f -v -p 80 -c /home/static/httpd.conf & java -jar application.jar
 fi
 
-exec $*
+exec "$*"
