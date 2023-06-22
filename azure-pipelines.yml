@@ -1,35 +1,47 @@
 trigger:
   branches:
     include:
-    - main
+      - main
   paths:
     exclude:
-    - README.md
+      - README.md
 
 pr: none
-      
+
 pool:
   vmImage: 'ubuntu-latest'
+
+variables:
+  repoName: '$(repoName)'
+  tag: '$(ProjectTool.Project.DockerImageTag)'
+
+parameters:
+  - name: runScan
+    type: boolean
+    default: true
+  - name: updateImageInProd
+    type: boolean
+    default: false
 
 steps:
   - checkout: self
     clean: true
     path: build
-  
+
   - task: ProjectTool@1
     inputs:
       generateVariables: true
-      
+
   - task: SonarQubePrepare@4
     inputs:
       SonarQube: 'integral-sqube'
       scannerMode: 'Other'
 
   - task: MavenAuthenticate@0
-    displayName: Authenticate to Artifact feed 
+    displayName: Authenticate to Artifact feed
     inputs:
       artifactsFeeds: 'integration'
-  
+
   - powershell: |
       $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
       Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
@@ -49,18 +61,40 @@ steps:
       mavenAuthenticateFeed: false
       effectivePomSkip: false
       sonarQubeRunAnalysis: true
-  
+
   - task: SonarQubePublish@4
     displayName: Publish SonarQube results
     inputs:
       pollingTimeoutSec: '300'
 
   - task: Docker@2
-    displayName: Build and push the Docker image  
+    displayName: Build and push the Docker image
     inputs:
       containerRegistry: 'kth-acr'
-      repository: '$(ProjectTool.Project.RepoName)' 
+      repository: '$(repoName)'
       command: 'buildAndPush'
       Dockerfile: '**/AzDockerfile'
       tags: |
-        $(ProjectTool.Project.DockerImageTag)
+        $(tag)
+
+  - task: CmdLine@2
+    displayName: Scanning image with Trivy
+    condition: and(succeeded(), eq('${{ parameters.runScan }}', 'true'))
+    inputs:
+      script: |
+        echo "scanning Image"
+        echo "***** MEDIUM to HIGH warnings *****"
+        docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:latest image --exit-code 1 --severity LOW,MEDIUM --ignore-unfixed kthregistry.azurecr.io/$(repoName):$(tag)
+        echo ""
+        echo "***** CRITICAL Errors *****"
+        docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed --scanners vuln kthregistry.azurecr.io/$(repoName):$(tag)
+
+  - task: AzureCLI@2
+    displayName: Update image in production
+    condition: and(succeeded(), eq('${{ parameters.updateImageInProd }}', 'true'))
+    inputs:
+      azureSubscription: 'GVS-IT-INTEGRATION-IAC'
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        az webapp config container set --name mecenat-integration --resource-group mecenat-integration-prod --docker-custom-image-name kthregistry.azurecr.io/$(repoName):$(tag)
