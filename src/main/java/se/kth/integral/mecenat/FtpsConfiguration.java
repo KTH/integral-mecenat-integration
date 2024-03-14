@@ -37,7 +37,7 @@ import org.springframework.validation.annotation.Validated;
 /**
  * Configuration class to set up an FTPS client with certificate verification.
  */
-@Validated
+/*@Validated
 @Configuration
 @ConfigurationProperties(prefix = "ftps")
 public class FtpsConfiguration {
@@ -72,4 +72,4 @@ public class FtpsConfiguration {
     public void setKeystore(String keystore) {
         this.keystore = keystore;
     }
-}
+}*/
