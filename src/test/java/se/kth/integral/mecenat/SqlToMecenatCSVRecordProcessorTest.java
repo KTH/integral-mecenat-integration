@@ -123,7 +123,7 @@ public class SqlToMecenatCSVRecordProcessorTest {
         sqlResult.put("utdelningsadress", "Forskarbacken 21");
         sqlResult.put("postort", "Stockholm");
         sqlResult.put("postnummer", "11614");
-        sqlResult.put("OMFATTNING_PROCENT", new BigDecimal(75.33));
+        sqlResult.put("OMFATTNING_PROCENT", new BigDecimal(75.49));
         sqlResult.put("STARTDATUM", Date.from(LocalDate.parse("2018-01-14").atStartOfDay(ZoneId.systemDefault()).toInstant()));
         sqlResult.put("SLUTDATUM", Date.from(LocalDate.parse("2018-06-26").atStartOfDay(ZoneId.systemDefault()).toInstant()));
 

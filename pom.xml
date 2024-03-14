@@ -29,18 +29,18 @@
   <distributionManagement>
     <repository>
       <id>integration</id>
-      <url>https://pkgs.dev.azure.com/kth-integration/_packaging/integration/maven/v1</url>
+      <url>https://pkgs.dev.azure.com/kth-integration/_packaging/integration%40Local/maven/v1</url>
     </repository>
     <snapshotRepository>
       <id>integration</id>
-      <url>https://pkgs.dev.azure.com/kth-integration/_packaging/integration/maven/v1</url>
+      <url>https://pkgs.dev.azure.com/kth-integration/_packaging/integration%40Local/maven/v1</url>
     </snapshotRepository>
   </distributionManagement>
 
   <repositories>
     <repository>
       <id>integration</id>
-      <url>https://pkgs.dev.azure.com/kth-integration/_packaging/integration/maven/v1</url>
+      <url>https://pkgs.dev.azure.com/kth-integration/_packaging/integration%40Local/maven/v1</url>
       <releases>
         <enabled>true</enabled>
       </releases>

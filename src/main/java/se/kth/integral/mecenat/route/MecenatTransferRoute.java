@@ -67,7 +67,8 @@ public class MecenatTransferRoute extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Skickar fil till mecenat.")
 
-            .wireTap("{{endpoint.wiretap}}")
-            .to("{{endpoint.mecenat}}");
+            .wireTap("{{endpoint.wiretap}}");
+    // Temporarily disabled for testing purposes
+    //.to("{{endpoint.mecenat}}");
     }
 }

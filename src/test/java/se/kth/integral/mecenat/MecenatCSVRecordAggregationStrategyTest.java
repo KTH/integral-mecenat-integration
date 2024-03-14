@@ -58,11 +58,13 @@ public class MecenatCSVRecordAggregationStrategyTest {
         record1.setStudieomfattning(new BigDecimal(25));
         record1.setStudieperiodStart(PeriodDatesProcessor.dateFromLadokDatum("2018-01-14"));
         record1.setStudieperiodSlut(PeriodDatesProcessor.dateFromLadokDatum("2018-06-26"));
+        record1.setGatuadress("Testgatan 1");
 
         record2.setPersonnummer("19710321xyzu");
         record2.setStudieomfattning(new BigDecimal(50));
         record2.setStudieperiodStart(PeriodDatesProcessor.dateFromLadokDatum("2018-01-01"));
         record2.setStudieperiodSlut(PeriodDatesProcessor.dateFromLadokDatum("2018-06-30"));
+        record2.setGatuadress("Testgatan 2");
 
         record3.setPersonnummer("19930321xyzu");
         record3.setStudieomfattning(new BigDecimal(100));
