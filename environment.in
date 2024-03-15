@@ -22,5 +22,7 @@ MECENAT_PASSWORD=
 # The Mecenat customer number
 MECENAT_CUSTOMERNR=
 
+STORAGE_ACCOUNT_CONNECTION_STRING=
+
 # Optional configuration of where to put copy of latest mecenat file.
 # WIRETAP_OUTPUT_DIR=/opt/data/mecenat
