@@ -14,13 +14,13 @@ LADOK3_PASSWORD=
 #
 
 # The username for the Mecenat SFTP server
-MECENAT_USERNAME=
+# MECENAT_USERNAME=
 
 # The password of the Mecenat user
-MECENAT_PASSWORD=
+# MECENAT_PASSWORD=
 
 # The Mecenat customer number
-MECENAT_CUSTOMERNR=
+# MECENAT_CUSTOMERNR=
 
 STORAGE_ACCOUNT_CONNECTION_STRING=
 
