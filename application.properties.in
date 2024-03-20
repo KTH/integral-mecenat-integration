@@ -27,3 +27,8 @@ mecenat.customernr=
 
 storage.account.connection.string=
 wiretap.connection.string=
+
+mecenat.integration.crt=
+mecenat.integration.key=
+keystore.password=
+udb.url=
