@@ -31,6 +31,7 @@ import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import se.kth.integral.mecenat.BlobStorageBackupUtil;
 import se.kth.integral.mecenat.model.MecenatCSVRecordAggregationStrategy;
 
 /**
@@ -67,7 +68,7 @@ public class MecenatTransferRoute extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Skickar fil till mecenat.")
 
-            .wireTap("{{wiretap.connection.string}}");
+            .bean(BlobStorageBackupUtil.class, "backupData");
     // Temporarily disabled for testing purposes
     //.to("{{endpoint.mecenat}}");
     }
