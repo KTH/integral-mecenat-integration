@@ -26,3 +26,4 @@ mecenat.customernr=
 # wiretap.output.dir=/opt/data/mecenat
 
 storage.account.connection.string=
+wiretap.connection.string=
