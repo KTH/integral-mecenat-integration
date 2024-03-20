@@ -67,7 +67,7 @@ public class MecenatTransferRoute extends RouteBuilder {
 
             .log(LoggingLevel.DEBUG, "Skickar fil till mecenat.")
 
-            .wireTap("azure-blob://mecenatintegrationtmpref/mecenat-integration?blobName=myBlob.txt&operation=uploadBlockBlob&serviceClient=#blobServiceClient");
+            .wireTap("{{storage.account.connection.string}}");
     // Temporarily disabled for testing purposes
     //.to("{{endpoint.mecenat}}");
     }
