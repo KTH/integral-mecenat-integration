@@ -15,6 +15,9 @@ public class BlobStorageBackupUtil {
   @Value("${storage.account.connection.string}")
   private String connectionString;
 
+  @Value("${test.filename}")
+  private String fileName;
+
   public ByteArrayInputStream backupData(InputStream dataStream) throws IOException {
 
     BlobServiceClient blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionString).buildClient();
@@ -33,7 +36,7 @@ public class BlobStorageBackupUtil {
     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
 
     try {
-      BlobClient blobClient = containerClient.getBlobClient("fileName.txt");
+      BlobClient blobClient = containerClient.getBlobClient(fileName);
 
       long length = byteArray.length;
 
