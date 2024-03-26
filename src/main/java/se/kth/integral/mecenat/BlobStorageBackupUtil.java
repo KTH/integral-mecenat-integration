@@ -10,13 +10,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 public class BlobStorageBackupUtil {
 
   @Value("${storage.account.connection.string}")
   private String connectionString;
-
-  @Value("${test.filename}")
-  private String fileName;
 
   public ByteArrayInputStream backupData(InputStream dataStream) throws IOException {
 
@@ -36,7 +38,7 @@ public class BlobStorageBackupUtil {
     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
 
     try {
-      BlobClient blobClient = containerClient.getBlobClient(fileName);
+      BlobClient blobClient = containerClient.getBlobClient(buildFileName());
 
       long length = byteArray.length;
 
@@ -49,5 +51,20 @@ public class BlobStorageBackupUtil {
     byteArrayInputStream.reset();
 
     return byteArrayInputStream;
+  }
+
+  private static String buildFileName() {
+
+    ZoneId timeZone = ZoneId.of("Europe/Stockholm");
+    LocalDateTime now = LocalDateTime.now(timeZone);
+
+    DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyMMdd");
+    String formattedDate = now.format(formatterDate);
+
+    DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HHmmss");
+    String formattedTime = now.format(formatterTime);
+
+    return "000" + "_$" + formattedDate + "_Ladok_$"
+            + formattedTime + "_$" + "20241" + ".txt";
   }
 }
